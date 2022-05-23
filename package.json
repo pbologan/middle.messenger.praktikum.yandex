@@ -1,0 +1,20 @@
+{
+  "name": "middle.messenger.praktikum.yandex",
+  "version": "1.0.0",
+  "description": "Messenger",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pbologan/middle.messenger.praktikum.yandex.git"
+  },
+  "keywords": [],
+  "author": "Pavel Bologan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pbologan/middle.messenger.praktikum.yandex/issues"
+  },
+  "homepage": "https://github.com/pbologan/middle.messenger.praktikum.yandex#readme"
+}
