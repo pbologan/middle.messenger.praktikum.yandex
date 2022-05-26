@@ -1,11 +1,5 @@
-hr {
-    width: 90%;
-    border: 0.5px solid #EAEAEA;
-    margin: 2px 15px;
-}
-
 .chats-layout {
-    width: 310px;
+    min-width: 310px;
     height: 100vh;
     background-color: #FBFBFB;
     border-right: 0.5px solid #EAEAEA;
@@ -18,6 +12,7 @@ hr {
 .chats__search-layout {
     justify-content: space-between;
     align-items: end;
+    border-bottom: 1px solid #EAEAEA;
 }
 
 .chats__search-input {
@@ -60,6 +55,7 @@ hr {
     height: 80px;
     flex-direction: row;
     align-items: center;
+    border-bottom: 1px solid #EAEAEA;
 }
 
 .chats__chat-item__chat-active {
@@ -93,8 +89,8 @@ hr {
 
 .chats__chat-item__username {
     color: black;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 1.1rem;
+    font-weight: 500;
 }
 
 .chats__chat-item__is-your-message {
