@@ -1,0 +1,9 @@
+extends layout/base-layout
+
+block variables
+    - const title = `Chat`;
+    - const cssFile = `chat.css`;
+
+block content
+    include partials/chats/chats
+    include partials/messages/messages
