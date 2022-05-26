@@ -4,16 +4,6 @@ hr {
     margin: 2px 15px;
 }
 
-.chats-column-layout {
-    display: flex;
-    flex-direction: column;
-}
-
-.chats-row-layout {
-    display: flex;
-    flex-direction: row;
-}
-
 .chats-layout {
     width: 310px;
     height: 100vh;

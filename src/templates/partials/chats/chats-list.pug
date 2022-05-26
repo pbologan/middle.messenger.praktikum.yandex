@@ -1,22 +1,22 @@
 mixin chat-item(image, name, message, date, unreadCount, isYourMessage)
-    .chats-row-layout.chats__chat-item__layout&attributes(attributes)
+    .flex-row-layout.chats__chat-item__layout&attributes(attributes)
         if image
             img.chats__chat-item__avatar(src=image)
         else
             .chats__chat-item__avatar-stub
-        .chats-column-layout.chats__chat-item__username-message-layout
+        .flex-column-layout.chats__chat-item__username-message-layout
             span.chats__chat-item__username= name
             .chats-row-layout.chats__chat-item__message-layout
                 if isYourMessage
                     span.chats__chat-item__is-your-message Вы:&nbsp
                 span.chats__chat-item__message= message
-        .chats-column-layout.chats__chat-item__date-count-layout
+        .flex-column-layout.chats__chat-item__date-count-layout
             span.chats__chat-item__message.chats__chat-item__date= date
             if unreadCount > 0
                 .chats__chat-item__unread-count= unreadCount
     hr
 
-.chats-column-layout.chats__chats-list__layout
+.flex-column-layout.chats__chats-list__layout
     +chat-item(``, `Андрей`, `Сообщение 1`, `9:36`, 2, false)
     +chat-item(``, `Киноклуб`, `Сообщение 2`, `10:00`, 4, false)
     +chat-item(``, `Илья`, `Круто!`, `Пн`, 0, true)(class=`chats__chat-item__chat-active`)
