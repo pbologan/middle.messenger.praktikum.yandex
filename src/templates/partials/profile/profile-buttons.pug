@@ -1,0 +1,14 @@
+mixin button(title, link)
+    .flex-row-layout.profile__info__row
+        a.text-decoration-none(href=link)&attributes(attributes)
+            span= title
+
+if editProfile
+    .flex-row-layout.profile__info-save-button-layout
+        a(href=`profile.pug`)
+            button.profile__info__save-button Сохранить
+else
+    .flex-column-layout.profile__info-layout
+        +button(`Изменить данные`, `profile-edit.pug`)(class=`blue cursor-pointer`)
+        +button(`Изменить пароль`, `profile-change-password.pug`)(class=`blue cursor-pointer`)
+        +button(`Выйти`, `login.pug`)(class=`red cursor-pointer`)
