@@ -1,0 +1,10 @@
+extends layout/base-layout
+
+block variables
+    - const title = `Profile Edit`;
+    - const cssPaths = [`profile.css`];
+    - const editProfile = true;
+    - const isPasswordChanging = false;
+
+block content
+    include partials/profile/profile-template
