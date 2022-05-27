@@ -1,0 +1,9 @@
+extends layout/base-layout
+
+block variables
+    - const title = `404`;
+    - const description = `Страница не существует`;
+    - const cssPaths = [`errors.css`];
+
+block content
+    include partials/errors/error-template
