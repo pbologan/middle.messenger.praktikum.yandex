@@ -5,7 +5,7 @@
   "scripts": {
     "start": "rm -rf ./dist ./.parcel-cache && npm run build && npm run start.server",
     "start.server": "node server.js",
-    "dev": "parcel src/**/*.pug --no-cache && parcel watch ./*",
+    "dev": "parcel src/templates/index.pug --no-cache && parcel watch ./*",
     "build": "parcel build src/templates/index.pug",
     "pug": "pug ./src/templates/ --pretty -w -o ./pug-build"
   },
