@@ -2,11 +2,12 @@
   "name": "middle.messenger.praktikum.yandex",
   "version": "1.0.0",
   "description": "Messenger",
-  "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "parcel src/pages/index.pug",
-    "build": "parcel build src/pages/index.pug"
+    "start": "rm -rf ./dist ./.parcel-cache && npm run build && npm run start.server",
+    "start.server": "node server.js",
+    "dev": "parcel src/**/*.pug --no-cache && parcel watch ./*",
+    "build": "parcel build src/**/*.pug --no-cache --public-url ./",
+    "pug": "pug ./src/templates/ --pretty -w -o ./pug-build"
   },
   "repository": {
     "type": "git",
