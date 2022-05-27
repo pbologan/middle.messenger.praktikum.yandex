@@ -16,3 +16,31 @@ body {
     flex-direction: row;
     width: 100%;
 }
+
+.black {
+    color: #1E1E1E;
+}
+
+.red {
+    color: red;
+}
+
+.blue {
+    color: #3369F3;
+}
+
+.light-gray {
+    color: #999999
+}
+
+.justify-right {
+    justify-content: end;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.text-decoration-none {
+    text-decoration: none;
+}
