@@ -2,7 +2,7 @@
 ## Описание
 Проект предназначен для отработки навыков разработки веб приложений с минимальным использованием современных фреймворков в целях повышения квалификации студента.  Вёрстка выполнена по данному [макету](https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0%3A1)
 ## Спринт 1
-[Ссылка на pull request]()
+[Ссылка на pull request](https://github.com/pbologan/middle.messenger.praktikum.yandex/pull/1)
 ## Публикация на Netlify
 Попробовать навигацию по страницам проекта можно по [ссылке](https://deploy--famous-kitten-f69215.netlify.app)
 ## Установка
