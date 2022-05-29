@@ -1,0 +1,9 @@
+extends layout/base-layout
+
+block variables
+    - const title = `500`;
+    - const description = `Что-то пошло не так, уже разбираемся...`;
+    - const cssPaths = [`errors.css`];
+
+block content
+    include partials/errors/error-template

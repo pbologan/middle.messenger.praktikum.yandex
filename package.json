@@ -1,0 +1,37 @@
+{
+  "name": "middle.messenger.praktikum.yandex",
+  "version": "1.0.0",
+  "description": "Messenger",
+  "scripts": {
+    "start": "rm -rf ./dist ./.parcel-cache && npm run build && npm run start.server",
+    "start.server": "node server.js",
+    "dev": "parcel src/templates/index.pug --no-cache && parcel watch ./*",
+    "build": "parcel build src/templates/index.pug",
+    "pug": "pug ./src/templates/ --pretty -w -o ./pug-build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pbologan/middle.messenger.praktikum.yandex.git"
+  },
+  "keywords": [],
+  "author": "Pavel Bologan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pbologan/middle.messenger.praktikum.yandex/issues"
+  },
+  "homepage": "https://github.com/pbologan/middle.messenger.praktikum.yandex#readme",
+  "devDependencies": {
+    "@parcel/transformer-pug": "^2.5.0",
+    "@parcel/transformer-toml": "^2.5.0",
+    "parcel": "^2.5.0",
+    "postcss-nested": "^5.0.6",
+    "pug-cli": "^1.0.0-alpha6"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "pug": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

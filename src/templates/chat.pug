@@ -1,0 +1,10 @@
+extends layout/base-layout
+
+block variables
+    - const title = `Chat`;
+    - const cssPaths = [`chats.css`, `messages.css`];
+
+block content
+    .flex-row-layout
+        include partials/chats/chats
+        include partials/messages/messages

@@ -1,0 +1,46 @@
+* {
+    font-family: Inter, sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+.flex-column-layout {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row-layout {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.black {
+    color: #1E1E1E;
+}
+
+.red {
+    color: red;
+}
+
+.blue {
+    color: #3369F3;
+}
+
+.light-gray {
+    color: #999999
+}
+
+.justify-right {
+    justify-content: end;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.text-decoration-none {
+    text-decoration: none;
+}

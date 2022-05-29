@@ -1,0 +1,20 @@
+extends layout/base-layout
+
+block variables
+    - const title = `Login`;
+    - const cssPaths = [`login-sign-up.css`];
+
+block content
+    main.layout
+        form
+            .form-container
+                h3.header Вход
+                .form__inputs-container
+                    input(type=`text` placeholder=`Логин` name=`login` id=`login` required)
+                    input(type=`password` placeholder=`Пароль` name=`password` id=`password` required)
+                .form__buttons-container
+                    a.link(href=`chat.pug`)
+                        button.form__submit-button(type=`button`) Войти
+                    a.link(href=`sign-up.pug`)
+                        button.form__register-button(type=`button`) Регистрация
+

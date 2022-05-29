@@ -1,0 +1,13 @@
+.flex-column-layout.messages-layout
+    .flex-row-layout.messages__chat-name-layout
+        .messages__avatar-stub
+        span.messages__username Павел
+        a.text-decoration-none(href=`404.pug`)
+            .messages__chat-options-button
+    include messages-list
+    .flex-row-layout.messages__message-layout
+        a(href=`404.pug`)
+            img.messages__message-attachment-button(src=`../../public/images/paper-clip.svg`)
+        input.messages__message-input(placeholder=`Сообщение` id=`message` name=`message`)
+        a.text-decoration-none(href=`500.pug`)
+            button.messages__send-message-button
