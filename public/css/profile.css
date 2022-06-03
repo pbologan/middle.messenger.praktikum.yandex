@@ -8,8 +8,8 @@
   height: 100vh;
   justify-content: center;
   align-items: center;
-  background: #FBFBFB;
-  border-right: 1px solid #EAEAEA;
+  background: var(--main-background-color);
+  border-right: 1px solid var(--border-color);
 }
 
 .profile__back-button {
@@ -20,7 +20,7 @@
   margin: 15px;
   border-radius: 50%;
   border: none;
-  background-color: #3369F3;
+  background: var(--blue-color);
   cursor: pointer;
 }
 
@@ -54,7 +54,7 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background-color: #EAEAEA;
+  background-color: var(--border-color);
 }
 
 .profile__info__photo {
@@ -72,7 +72,7 @@
 .profile__info__row {
   align-items: center;
   height: 40px;
-  border-bottom: 1px solid #EAEAEA;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .profile__info__row-layout {
@@ -90,7 +90,7 @@
   height: 37px;
   color: white;
   font-size: 1rem;
-  background: #3369F3;
+  background: var(--blue-color);
   border-radius: 8px;
   border: none;
   cursor: pointer;
@@ -98,11 +98,10 @@
 
 .profile__editable-row {
   text-align: right;
-  color: #999999;
+  color: var(--dark-gray-color);
   border: none;
   outline: none;
   font-size: 1rem;
   margin: 0;
   padding: 0;
 }
-

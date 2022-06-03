@@ -1,3 +1,15 @@
+:root {
+  --danger-color: red;
+  --black-color: #1e1e1e;
+  --blue-color: #3369f3;
+  --dark-gray-color: #999;
+  --border-color: #eaeaea;
+  --main-background-color: #fbfbfb;
+  --active-chat-color: #e4edfd;
+  --chat-options-background-button-color: #f5f5f5;
+  --input-background-color: #efefef;
+}
+
 * {
   font-family: Inter, sans-serif;
 }
@@ -18,19 +30,19 @@ body {
 }
 
 .black {
-  color: #1E1E1E;
+  color: var(--black-color);
 }
 
 .red {
-  color: red;
+  color: var(--danger-color);
 }
 
 .blue {
-  color: #3369F3;
+  color: var(--blue-color);
 }
 
-.light-gray {
-  color: #999999
+.dark-gray {
+  color: var(--dark-gray-color);
 }
 
 .justify-right {

@@ -15,7 +15,7 @@
   align-items: center;
   padding: 30px;
   background: white;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 0 6px rgba(0 0 0 14%);
   border-radius: 12px;
 }
 
@@ -38,7 +38,7 @@ input {
   margin: 15px 0;
   border: none;
   font-size: 1rem;
-  border-bottom: 1px solid #3369F3;
+  border-bottom: 1px solid var(--blue-color);
   padding: 15px 0 5px 5px;
   outline: none;
 }
@@ -47,7 +47,7 @@ input:focus::placeholder {
   transform: translateY(-170%);
   transition: 400ms;
   font-size: 0.7em;
-  color: black;
+  color: var(--black-color);
 }
 
 .header {
@@ -74,7 +74,7 @@ input:focus::placeholder {
   height: 37px;
   color: white;
   font-size: 1rem;
-  background: #3369F3;
+  background: var(--blue-color);
   border-radius: 8px;
   border: none;
   cursor: pointer;
@@ -82,7 +82,7 @@ input:focus::placeholder {
 
 .form__submit-button:hover {
   transform: translate(0, -1px);
-  box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 -1px 10px rgba(0 0 0 20%);
   transition: all 200ms ease-out;
 }
 
@@ -92,7 +92,7 @@ input:focus::placeholder {
   background: white;
   margin-top: 15px;
   height: 11px;
-  color: #3369F3;
+  color: var(--blue-color);
   font-style: normal;
   font-weight: 500;
   font-size: 0.8rem;
