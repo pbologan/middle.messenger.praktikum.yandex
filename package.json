@@ -23,6 +23,8 @@
   "devDependencies": {
     "@parcel/transformer-pug": "^2.5.0",
     "@parcel/transformer-toml": "^2.5.0",
+    "eslint": "^8.16.0",
+    "eslint-config-airbnb": "^19.0.4",
     "parcel": "^2.5.0",
     "postcss-nested": "^5.0.6",
     "pug-cli": "^1.0.0-alpha6",
