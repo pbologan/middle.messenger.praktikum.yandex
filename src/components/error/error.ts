@@ -11,6 +11,6 @@ export default class Error extends Block {
 
   // eslint-disable-next-line class-methods-use-this
   render(): string {
-    return '<span class="red">{{text}}</span>';
+    return '<div class="input_error_container red">{{text}}</div>';
   }
 }
