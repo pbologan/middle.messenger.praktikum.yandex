@@ -10,14 +10,6 @@
   --input-background-color: #efefef;
 }
 
-* {
-  font-family: Inter, sans-serif;
-}
-
-body {
-  margin: 0;
-}
-
 .flex-column-layout {
   display: flex;
   flex-direction: column;
