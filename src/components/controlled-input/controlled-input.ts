@@ -1,16 +1,32 @@
 import './controlled-input.css';
 import { Block } from '../../core';
 import { InputProps } from '../input/input';
+import { validateInput, ValidationRule } from '../../core/validator';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface ControlledInputProps extends InputProps { }
+interface ControlledInputProps extends InputProps {
+  validationRule: ValidationRule,
+}
 
-// language=hbs
 export default class ControlledInput extends Block {
   public static componentName = 'ControlledInput';
 
+  constructor({ validationRule, ...props }: ControlledInputProps) {
+    super({
+      ...props,
+      onBlur: (e: FocusEvent) => {
+        const { value } = e.target as HTMLInputElement;
+        const validationResult = validateInput({
+          rule: validationRule,
+          value,
+        });
+        this.refs.error.setProps({ text: validationResult });
+      },
+    });
+  }
+
   // eslint-disable-next-line class-methods-use-this
   render(): string {
+    // language=hbs
     return `
       <div class="controlled-input">
         {{{Input
