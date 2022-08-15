@@ -1,4 +1,4 @@
-enum METHOD {
+enum Method {
   GET = 'GET',
   PUT = 'PUT',
   POST = 'POST',
