@@ -25,6 +25,16 @@ export default class ControlledInput extends Block<ControlledInputProps> {
           error.setProps({ text: validationResult });
         }
       },
+      onFocus: () => {
+        const { error } = this.refs;
+        if (error) {
+          error.setProps({ text: '' });
+        }
+      },
+      onInput: (e: InputEvent) => {
+        const { value } = (e.target as HTMLInputElement);
+        console.log(`${this.props.id} input value`, value);
+      },
     });
   }
 

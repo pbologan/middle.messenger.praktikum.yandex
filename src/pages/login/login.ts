@@ -1,5 +1,5 @@
 import { Block } from '../../core';
-import './login-sign-up.css';
+import './login.css';
 import { validateInput, ValidationRule } from '../../core/validator';
 
 interface LoginPageProps {}
@@ -75,22 +75,16 @@ export default class LoginPage extends Block<LoginPageProps> {
               {{{ControlledInput
                   id="login"
                   ref="login"
-                  errorRef="loginError"
                   validationRule="${ValidationRule.LOGIN}"
                   type="text"
                   placeholder="Логин"
-                  onFocus=onLoginFocus
-                  onInput=onLoginInput
               }}}
               {{{ControlledInput
                   id="password"
                   ref="password"
-                  errorRef="passwordError"
                   validationRule="${ValidationRule.PASSWORD}"
                   type="password"
                   placeholder="Пароль"
-                  onFocus=onPasswordFocus
-                  onInput=onPasswordInput
               }}}
             </div>
             <div class="form__buttons-container">
