@@ -17,7 +17,7 @@ export enum ValidationRule {
   MESSAGE = 'message',
 }
 
-const RegularExpressions: Record<ValidationRule | string, RegularExpressionType> = {
+export const RegularExpressions: Record<ValidationRule | string, RegularExpressionType> = {
   name: {
     expression: '(^[A-Z]{1}[a-z\\-]+$)|(^[А-Я]{1}[а-я\\-]+$)',
     error: 'Правило: латиница или кириллица, первая буква заглавная, без пробелов и без цифр, нет спецсимволов (допустим только дефис)',

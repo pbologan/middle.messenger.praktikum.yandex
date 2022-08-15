@@ -1,6 +1,6 @@
 import './sign-up.css';
 import { Block } from '../../core';
-import { validateInput, ValidationRule } from '../../core/validator';
+import { RegularExpressions, validateInput, ValidationRule } from '../../core/validator';
 
 type InputObject = {
   id: string;
@@ -35,21 +35,24 @@ export default class SignupPage extends Block<SignupPageProps> {
 
         Object.keys(this.refs).forEach((key: string) => {
           const component = this.refs[key] as Block<any>;
-          registerObject[key] = (component.getElement() as HTMLInputElement).value;
+          const { input } = component.refs;
+          if (input) {
+            const { value } = input.getElement() as HTMLInputElement;
+            registerObject[key] = value;
+          }
         });
 
         const errors: string[] = [];
 
-        Object.entries(ValidationRule).forEach(([key]) => {
-          const formValue = registerObject[key];
-          if (formValue) {
-            const error = validateInput({
-              rule: key,
-              value: formValue,
-            });
-            if (error) {
-              errors.push(error);
-            }
+        Object.keys(RegularExpressions).forEach((key) => {
+          const value = String(key).toLowerCase();
+          const formValue = registerObject[value];
+          const error = validateInput({
+            rule: key,
+            value: formValue,
+          });
+          if (error) {
+            errors.push(error);
           }
         });
 

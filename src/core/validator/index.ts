@@ -1,3 +1,3 @@
-import { ValidationRule, validateInput } from './validateInput';
+import { ValidationRule, validateInput, RegularExpressions } from './validateInput';
 
-export { ValidationRule, validateInput };
+export { ValidationRule, validateInput, RegularExpressions };
