@@ -38,18 +38,18 @@ export default class Block<P = any> {
     eventBus.emit(Block.EVENTS.INIT, this.props);
   }
 
-  // eslint-disable-next-line class-methods-use-this,@typescript-eslint/no-unused-vars
-  protected getStateFromProps(props: any): void { }
-
-  // eslint-disable-next-line class-methods-use-this,@typescript-eslint/no-unused-vars
-  protected componentDidMount(props: P): void { }
-
-  // eslint-disable-next-line class-methods-use-this,@typescript-eslint/no-unused-vars
-  protected componentDidUpdate(oldProps: P, newProps: P): boolean {
-    return true;
+  protected getStateFromProps(props: any): void {
+    this.state = { ...props };
   }
 
-  // eslint-disable-next-line class-methods-use-this
+  protected componentDidMount(props: P): void {
+    this.state = { ...props };
+  }
+
+  protected componentDidUpdate(oldProps: P, newProps: P): boolean {
+    return JSON.stringify(oldProps) !== JSON.stringify(newProps);
+  }
+
   protected render(): string {
     return '';
   }
@@ -127,7 +127,6 @@ export default class Block<P = any> {
         return typeof value === 'function' ? value.bind(target) : value;
       },
       set(target: Record<string, unknown>, prop: string, value: unknown) {
-        // eslint-disable-next-line no-param-reassign
         target[prop] = value;
 
         self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
@@ -140,7 +139,6 @@ export default class Block<P = any> {
   }
 
   private removeEvents() {
-    // eslint-disable-next-line prefer-destructuring
     const events: Record<string, () => void> = (this.props as any).events;
 
     if (!events || !this.element) {
@@ -153,7 +151,6 @@ export default class Block<P = any> {
   }
 
   private addEvents() {
-    // eslint-disable-next-line prefer-destructuring
     const events: Record<string, () => void> = (this.props as any).events;
 
     if (!events) {

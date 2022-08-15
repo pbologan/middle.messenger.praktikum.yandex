@@ -8,7 +8,7 @@ interface ControlledInputProps extends InputProps {
 }
 
 export default class ControlledInput extends Block {
-  public static componentName = 'ControlledInput';
+  public static override componentName = 'ControlledInput';
 
   constructor({ validationRule, ...props }: ControlledInputProps) {
     super({
@@ -19,13 +19,15 @@ export default class ControlledInput extends Block {
           rule: validationRule,
           value,
         });
-        this.refs.error.setProps({ text: validationResult });
+        const { error } = this.refs;
+        if (error) {
+          error.setProps({ text: validationResult });
+        }
       },
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  render(): string {
+  override render(): string {
     // language=hbs
     return `
       <div class="controlled-input">

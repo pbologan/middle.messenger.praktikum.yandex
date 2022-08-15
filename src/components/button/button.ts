@@ -7,17 +7,15 @@ interface ButtonProps {
   className: string;
 }
 
-// language=hbs
 export default class Button extends Block {
-  public static componentName = 'Button';
+  public static override componentName = 'Button';
 
   constructor({ className, text, onClick }: ButtonProps) {
     super({ className, text, events: { click: onClick } });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  render(): string {
-    // eslint-disable-next-line @typescript-eslint/quotes
+  override render(): string {
+    // language=hbs
     return `<button class="{{className}}" type="button">{{text}}</button>`;
   }
 }

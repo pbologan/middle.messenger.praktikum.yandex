@@ -10,19 +10,29 @@ export default class LoginPage extends Block {
       ...props,
       onLoginInput: (e: InputEvent) => {
         const { value } = (e.target as HTMLInputElement);
-        // eslint-disable-next-line no-console
         console.log('Login Input Value', value);
       },
       onLoginFocus: () => {
-        this.refs.login.refs.error.setProps({ text: '' });
+        const { login } = this.refs;
+        if (login) {
+          const { error } = login.refs;
+          if (error) {
+            error.setProps({ text: '' });
+          }
+        }
       },
       onPasswordInput: (e: InputEvent) => {
         const { value } = (e.target as HTMLInputElement);
-        // eslint-disable-next-line no-console
         console.log('Password Input Value', value);
       },
       onPasswordFocus: () => {
-        this.refs.password.refs.error.setProps({ text: '' });
+        const { password } = this.refs;
+        if (password) {
+          const { error } = password.refs;
+          if (error) {
+            error.setProps({ text: '' });
+          }
+        }
       },
       onLoginButtonClick: () => {
         const loginValue = (this.element?.querySelector('[name=login]') as HTMLInputElement).value;
@@ -39,26 +49,22 @@ export default class LoginPage extends Block {
         });
 
         if (loginError || passwordError) {
-          // eslint-disable-next-line no-console
           console.log('Validation Failed:', loginError, passwordError);
         } else {
           const loginData = {
             login: loginValue,
             password: passwordValue,
           };
-          // eslint-disable-next-line no-console
           console.log('Login Data', loginData);
         }
       },
       onRegisterClick: () => {
-        // eslint-disable-next-line no-console
         console.log('On Register Button Click');
       },
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  render(): string {
+  override render(): string {
     // language=hbs
     return `
       <main class="layout">

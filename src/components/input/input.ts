@@ -12,7 +12,7 @@ export interface InputProps {
 }
 
 export default class Input extends Block {
-  public static componentName = 'Input';
+  public static override componentName = 'Input';
 
   constructor({
     onFocus, onBlur, onInput, ...props
@@ -28,9 +28,7 @@ export default class Input extends Block {
   }
 
   // language=hbs
-  // eslint-disable-next-line class-methods-use-this
-  render(): string {
-    // eslint-disable-next-line @typescript-eslint/quotes
+  override render(): string {
     return `<input class="input" type="{{type}}" placeholder="{{placeholder}}" name="{{id}}" id="{{id}}">`;
   }
 }
