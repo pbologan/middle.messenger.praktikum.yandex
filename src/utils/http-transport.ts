@@ -27,8 +27,8 @@ function queryStringify(data?: DataObject) {
     .join('&')}`;
 }
 
-export default class HTTPTransport {
-  get(url: string, options: Options) {
+export default class HTTPTransport<R> {
+  get(url: string, options: Options): Promise<R> {
     return this.request(
       url + queryStringify(options.data),
       { ...options, method: Method.GET },
@@ -36,15 +36,15 @@ export default class HTTPTransport {
     );
   }
 
-  put(url: string, options: Options) {
+  put(url: string, options: Options): Promise<R> {
     return this.request(url, { ...options, method: Method.PUT }, options.timeout);
   }
 
-  post(url: string, options: Options) {
+  post(url: string, options: Options): Promise<R> {
     return this.request(url, { ...options, method: Method.POST }, options.timeout);
   }
 
-  delete(url: string, options: Options) {
+  delete(url: string, options: Options): Promise<R> {
     return this.request(url, { ...options, method: Method.DELETE }, options.timeout);
   }
 
@@ -56,7 +56,7 @@ export default class HTTPTransport {
     }
   }
 
-  private request(url: string, options: Options, timeout = 5000) {
+  private request(url: string, options: Options, timeout = 5000): Promise<R> {
     return new Promise((resolve, reject) => {
       const {
         headers, retries = 0, method, data,
@@ -82,7 +82,14 @@ export default class HTTPTransport {
         });
       }
 
-      xhr.onload = () => resolve(xhr);
+      xhr.onload = () => {
+        const result: R = JSON.parse(xhr.responseText);
+        if (result) {
+          resolve(result);
+        } else {
+          reject('Wrong type provided');
+        }
+      };
       xhr.onerror = (event) => {
         if (retriesCount > 0) {
           setTimeout(() => {
