@@ -94,6 +94,10 @@ export default class Block<P extends object> {
     Object.assign(this.state, nextState);
   };
 
+  public getElement() {
+    return this.element;
+  }
+
   private innerRender() {
     const fragment = this.compile();
 
