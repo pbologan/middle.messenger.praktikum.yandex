@@ -5,13 +5,8 @@ enum METHOD {
   DELETE = 'DELETE',
 }
 
-type Pair<K, V> = {
-  key: K;
-  value: V;
-};
-
-interface Data {
-  items: Pair<string, string>[]
+interface DataObject {
+  [key: string]: string
 }
 
 interface Options {
