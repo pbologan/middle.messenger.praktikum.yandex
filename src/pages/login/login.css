@@ -21,10 +21,6 @@
   border-radius: 12px;
 }
 
-.sing-up-container {
-  min-height: 650px;
-}
-
 .form__inputs-container {
   display: flex;
   justify-content: center;
@@ -34,18 +30,10 @@
   width: 100%;
 }
 
-.sign-up__inputs-container {
-  margin-top: -20px;
-}
-
 .header {
   margin: 0;
   font-size: 2rem;
   font-weight: normal;
-}
-
-.link {
-  width: 100%;
 }
 
 .form__buttons-container {
