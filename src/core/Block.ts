@@ -4,7 +4,7 @@ import EventBus from './EventBus';
 
 type Events = Values<typeof Block.EVENTS>;
 
-export default class Block<P = any> {
+export default class Block<P extends object> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -20,13 +20,13 @@ export default class Block<P = any> {
 
   protected readonly props: P;
 
-  protected children: { [id : string]: Block } = {};
+  protected children: { [id : string]: Block<object> } = {};
 
   eventBus: () => EventBus<Events>;
 
   protected state: any = {};
 
-  public refs: { [key : string]: Block } = {};
+  public refs: { [key : string]: Block<object> } = {};
 
   public constructor(props?: P) {
     const eventBus = new EventBus<Events>();

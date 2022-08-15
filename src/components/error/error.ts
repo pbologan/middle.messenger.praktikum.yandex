@@ -4,13 +4,10 @@ import './error.css';
 interface ErrorProps {
   text: string;
 }
-// language=hbs
-export default class Error extends Block {
-  public static override componentName = 'Error';
 
-  constructor(props: ErrorProps) {
-    super({ ...props });
-  }
+// language=hbs
+export default class Error extends Block<ErrorProps> {
+  public static override componentName = 'Error';
 
   override render(): string {
     return '<div class="input_error_container red">{{text}}</div>';

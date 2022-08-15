@@ -4,7 +4,7 @@ import { validateInput, ValidationRule } from '../../core/validator';
 
 interface LoginPageProps {}
 
-export default class LoginPage extends Block {
+export default class LoginPage extends Block<LoginPageProps> {
   constructor(props: LoginPageProps) {
     super({
       ...props,

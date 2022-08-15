@@ -4,15 +4,16 @@ import { InputProps } from '../input/input';
 import { validateInput, ValidationRule } from '../../core/validator';
 
 interface ControlledInputProps extends InputProps {
-  validationRule: ValidationRule,
+  validationRule: ValidationRule;
 }
 
-export default class ControlledInput extends Block {
+export default class ControlledInput extends Block<ControlledInputProps> {
   public static override componentName = 'ControlledInput';
 
   constructor({ validationRule, ...props }: ControlledInputProps) {
     super({
       ...props,
+      validationRule,
       onBlur: (e: FocusEvent) => {
         const { value } = e.target as HTMLInputElement;
         const validationResult = validateInput({

@@ -8,10 +8,15 @@ export interface InputProps {
   onFocus?: (e: FocusEvent) => void;
   onBlur?: (e: FocusEvent) => void;
   onInput?: (e: InputEvent) => void;
-  ref?: Block;
+  ref?: Block<object>;
+  events: {
+    input?: ((e: InputEvent) => void) | undefined,
+    blur?: ((e: FocusEvent) => void) | undefined,
+    focus?: ((e: FocusEvent) => void) | undefined,
+  }
 }
 
-export default class Input extends Block {
+export default class Input extends Block<InputProps> {
   public static override componentName = 'Input';
 
   constructor({

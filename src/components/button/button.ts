@@ -5,13 +5,18 @@ interface ButtonProps {
   text: string;
   onClick: () => void;
   className: string;
+  events: {
+    click: () => void,
+  }
 }
 
-export default class Button extends Block {
+export default class Button extends Block<ButtonProps> {
   public static override componentName = 'Button';
 
-  constructor({ className, text, onClick }: ButtonProps) {
-    super({ className, text, events: { click: onClick } });
+  constructor({ className, text, onClick } : ButtonProps) {
+    super({
+      className, text, onClick, events: { click: onClick },
+    });
   }
 
   override render(): string {
