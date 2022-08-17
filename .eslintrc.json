@@ -1,0 +1,19 @@
+{
+  "extends": ["airbnb-base", "airbnb-typescript/base"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules" : {
+    "@typescript-eslint/quotes": "off",
+    "class-methods-use-this": "off",
+    "no-plusplus": "off",
+    "prefer-promise-reject-errors": "off",
+    "prefer-destructuring": "off",
+    "no-param-reassign": "off",
+    "func-names": "off",
+    "no-console": "off",
+    "arrow-body-style": "off"
+  }
+}

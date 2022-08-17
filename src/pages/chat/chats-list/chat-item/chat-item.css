@@ -1,3 +1,5 @@
+@import "../../../../variables.css";
+
 .chats-layout {
   min-width: 310px;
   height: 100vh;
@@ -126,3 +128,4 @@
   align-items: end;
   margin: 0 15px;
 }
+
