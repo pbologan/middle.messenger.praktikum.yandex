@@ -2,6 +2,8 @@ import './input.css';
 import { Block } from '../../core';
 
 export interface InputProps {
+  value?: string;
+  className: string;
   id?: string;
   type?: 'text' | 'password' | 'email';
   placeholder?: string;
@@ -34,6 +36,6 @@ export default class Input extends Block<InputProps> {
 
   // language=hbs
   override render(): string {
-    return `<input class="input" type="{{type}}" placeholder="{{placeholder}}" name="{{id}}" id="{{id}}">`;
+    return `<input class="{{className}}" type="{{type}}" placeholder="{{placeholder}}" name="{{id}}" id="{{id}}" value="{{value}}">`;
   }
 }
