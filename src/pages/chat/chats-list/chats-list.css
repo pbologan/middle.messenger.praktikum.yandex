@@ -1,0 +1,10 @@
+.chats-layout {
+  min-width: 310px;
+  height: 100vh;
+  background-color: var(--main-background-color);
+  border-right: 1px solid var(--border-color);
+}
+
+.chats__chats-list__layout {
+  overflow-y: scroll;
+}
