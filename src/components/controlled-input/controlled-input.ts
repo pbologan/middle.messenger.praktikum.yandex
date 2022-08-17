@@ -43,6 +43,8 @@ export default class ControlledInput extends Block<ControlledInputProps> {
     return `
       <div class="controlled-input">
         {{{Input
+            value=value
+            className=className
             id=id
             name=id
             type=type

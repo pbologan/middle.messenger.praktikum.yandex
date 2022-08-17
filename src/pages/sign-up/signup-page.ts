@@ -73,6 +73,7 @@ export default class SignupPage extends Block<SignupPageProps> {
       // language=hbs
       return `${acc}
         {{{ControlledInput
+            className="input"
             id="${inputElement.id}"
             ref="${inputElement.id}"
             validationRule="${inputElement.validationRule}"

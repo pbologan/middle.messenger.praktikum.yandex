@@ -73,6 +73,7 @@ export default class LoginPage extends Block<LoginPageProps> {
             <h3 class="header">Вход</h3>
             <div class="form__inputs-container">
               {{{ControlledInput
+                  className="input"
                   id="login"
                   ref="login"
                   validationRule="${ValidationRule.LOGIN}"
@@ -80,6 +81,7 @@ export default class LoginPage extends Block<LoginPageProps> {
                   placeholder="Логин"
               }}}
               {{{ControlledInput
+                  className="input"
                   id="password"
                   ref="password"
                   validationRule="${ValidationRule.PASSWORD}"
