@@ -72,7 +72,7 @@ export default class LoginPage extends Block<LoginPageProps> {
       <main class="layout">
         <form>
           <div class="form-container">
-            <h3 class="header">Вход</h3>
+            <span class="header">Вход</span>
             <div class="form__inputs-container">
               {{{ControlledInput
                   className="input"

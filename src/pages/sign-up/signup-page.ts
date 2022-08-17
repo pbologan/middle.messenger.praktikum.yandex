@@ -1,4 +1,3 @@
-import './sign-up.css';
 import { Block } from '../../core';
 import { RegularExpressions, validateInput, ValidationRule } from '../../core/validator';
 import { Link, pushPage } from '../../utils/routing/routing';
@@ -89,9 +88,9 @@ export default class SignupPage extends Block<SignupPageProps> {
     return `
       <main class="layout">
         <form>
-          <div class="form-container sign-up__inputs-container">
-            <h3 class="header">Регистрация</h3>
-            <div class="form__inputs-container sign-up__inputs-container">
+          <div class="form-container">
+            <span class="header">Регистрация</span>
+            <div class="form__inputs-container">
                 ${this.renderInputElements(this.props.inputElements)}
             </div>
             <div class="form__buttons-container">

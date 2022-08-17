@@ -25,18 +25,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -100px;
   flex-direction: column;
   width: 100%;
 }
 
 .header {
-  margin: 0;
   font-size: 2rem;
   font-weight: normal;
 }
 
 .form__buttons-container {
+  margin-top: 30px;
   width: 100%;
   align-self: flex-end;
   display: flex;
