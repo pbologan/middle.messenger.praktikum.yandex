@@ -1,10 +1,21 @@
-import "./messages-header.css";
+import './messages-header.css';
 import { Block } from '../../../../core';
+import { Link, pushPage } from '../../../../utils/routing/routing';
 
-interface MessagesHeaderProps {}
+interface MessagesHeaderProps {
+  onOptionsButtonClick?: () => void;
+}
 
 export default class MessagesHeader extends Block<MessagesHeaderProps> {
   public static override componentName = 'MessagesHeader';
+
+  constructor() {
+    super({
+      onOptionsButtonClick: () => {
+        pushPage(Link.ERROR_404);
+      },
+    });
+  }
 
   override render(): string {
     // language=hbs
@@ -12,7 +23,10 @@ export default class MessagesHeader extends Block<MessagesHeaderProps> {
       <div class="flex-row-layout messages__chat-name-layout">
         <div class="messages__avatar-stub"></div>
         <span class="messages__username">Павел</span>
-        <div class="messages__chat-options-button"></div>
+        {{{Button
+            className="messages__chat-options-button"
+            onClick=onOptionsButtonClick
+        }}}
       </div>
     `;
   }

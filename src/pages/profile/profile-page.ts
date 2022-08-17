@@ -2,6 +2,7 @@ import './profile-page.css';
 import { Block } from '../../core';
 import stubAvatar from '../../../public/images/img-stub.svg';
 import { validateInput, ValidationRule } from '../../core/validator';
+import { Link, pushPage } from '../../utils/routing/routing';
 
 enum ProfilePageMode {
   VIEWING,
@@ -59,7 +60,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
       },
       onBackButtonClick: () => {
-        console.log('On Back Button Click');
+        pushPage(Link.CHAT);
       },
       onSaveButtonClick: () => {
         if (this.props.passwordsError) {
@@ -89,7 +90,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         }
       },
       onLogout: () => {
-        console.log('On Logout Click');
+        pushPage(Link.LOGIN);
       },
       passwordsError: '',
     });

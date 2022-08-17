@@ -2,11 +2,13 @@ import './message-input.css';
 import attachmentIcon from '../../../../../public/images/paper-clip.svg';
 import { Block } from '../../../../core';
 import { validateInput, ValidationRule } from '../../../../core/validator';
+import { Link, pushPage } from '../../../../utils/routing/routing';
 
 interface MessageInputProps {
   onSendMessage?: () => void;
   onInputFocus?: (e: FocusEvent) => void;
   onInputBlur?: (e: FocusEvent) => void;
+  onAttachmentClick?: () => void;
 }
 
 export default class MessageInput extends Block<MessageInputProps> {
@@ -31,6 +33,9 @@ export default class MessageInput extends Block<MessageInputProps> {
           }
         }
       },
+      onAttachmentClick: () => {
+        pushPage(Link.ERROR_500);
+      },
       onInputBlur: () => {},
       onInputFocus: () => {},
     });
@@ -40,10 +45,14 @@ export default class MessageInput extends Block<MessageInputProps> {
     // language=hbs
     return `
       <div class="flex-row-layout messages__message-layout">
-          <img 
-            alt="attachment button icon"
-            class="messages__message-attachment-button" 
-            src="${attachmentIcon}" />
+          <img
+              alt="attachment button icon"
+              class="messages__message-attachment-button"
+              src="${attachmentIcon}" />
+          {{{Button
+              onClick=onAttachmentClick
+              className="messages__message-attachment-button position-absolute invisible cursor-pointer"
+          }}}
           {{{Input
               className="messages__message-input"
               id="message"
