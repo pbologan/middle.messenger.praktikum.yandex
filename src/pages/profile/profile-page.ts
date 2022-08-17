@@ -289,17 +289,17 @@ export default class ProfilePage extends Block<ProfilePageProps> {
       <div class="flex-column-layout profile__info-layout">
         {{{Button
             text="Изменить данные"
-            className="profile__borderless-button blue cursor-pointer"
+            className="profile__button borderless-button blue cursor-pointer"
             onClick=onChangeDataClick
         }}}
         {{{Button
             text="Изменить пароль"
-            className="profile__borderless-button blue cursor-pointer"
+            className="profile__button borderless-button blue cursor-pointer"
             onClick=onChangePasswordClick
         }}}
         {{{Button
             text="Выйти"
-            className="profile__borderless-button red cursor-pointer"
+            className="profile__button borderless-button red cursor-pointer"
             onClick=onLogout
         }}}
       </div>

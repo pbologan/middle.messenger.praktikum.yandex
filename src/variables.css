@@ -48,3 +48,9 @@
 .text-decoration-none {
   text-decoration: none;
 }
+
+.borderless-button {
+  padding: 0;
+  border: none;
+  background: none;
+}
