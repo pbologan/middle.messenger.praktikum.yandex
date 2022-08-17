@@ -1,0 +1,47 @@
+.messages__message-layout {
+
+  width: 100%;
+  height: 80px;
+  border-top: 1px solid var(--border-color);
+}
+
+.messages__message-attachment-button {
+  width: 30px;
+  height: 30px;
+  object-fit: scale-down;
+  margin: 15px;
+  cursor: pointer;
+}
+
+.messages__message-input {
+  margin-top: 15px;
+  width: 100%;
+  height: 32px;
+  background: var(--input-background-color);
+  border-radius: 30px;
+  padding-left: 15px;
+  border: 1px solid var(--input-background-color);
+  outline: none;
+}
+
+.messages__send-message-button {
+  padding: 10px;
+  color: white;
+  width: 35px;
+  height: 35px;
+  margin: 15px;
+  border-radius: 50%;
+  border: none;
+  background: var(--blue-color);
+  cursor: pointer;
+}
+
+.messages__send-message-button::after {
+  content: "\2192";
+}
+
+.messages__message-input::placeholder {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--dark-gray-color);
+}
