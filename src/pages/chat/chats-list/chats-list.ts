@@ -18,7 +18,7 @@ interface ChatsListProps {
 export default class ChatsList extends Block<ChatsListProps> {
   public static override componentName = 'ChatsList';
 
-  constructor({ ...props }) {
+  constructor(props) {
     super({
       ...props,
       chatItems: [
