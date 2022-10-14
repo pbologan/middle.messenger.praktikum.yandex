@@ -1,5 +1,3 @@
-import EventBus from './EventBus';
-import Block from './Block';
-import renderDOM from './renderDOM';
-
-export { EventBus, Block, renderDOM };
+export { EventBus } from './EventBus';
+export { Block, BlockClass } from './Block';
+export { renderDOM } from './renderDOM';
