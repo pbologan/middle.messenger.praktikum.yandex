@@ -17,6 +17,7 @@ import LoginPage from './pages/login';
 import ProfilePage from './pages/profile';
 import PageChanger from './core/PageChanger';
 import { Link } from './utils/routing/routing';
+import { Loader } from './components/loader';
 
 registerComponent(Button);
 registerComponent(Input);
@@ -29,6 +30,7 @@ registerComponent(MessagesList);
 registerComponent(MessagesHeader);
 registerComponent(MessageInput);
 registerComponent(ErrorPage);
+registerComponent(Loader);
 
 document.addEventListener('DOMContentLoaded', () => {
   const loginPage = new LoginPage({});
