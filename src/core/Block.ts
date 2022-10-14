@@ -1,10 +1,15 @@
 import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
-import EventBus from './EventBus';
+import { EventBus } from './EventBus';
 
 type Events = Values<typeof Block.EVENTS>;
 
-export default class Block<P extends object> {
+export interface BlockClass<P extends object> extends Function {
+  new (props: P): Block<P>;
+  componentName?: string;
+}
+
+export class Block<P extends object> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
