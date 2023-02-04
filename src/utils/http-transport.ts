@@ -27,7 +27,7 @@ function queryStringify(data?: DataObject) {
     .join('&')}`;
 }
 
-export default class HTTPTransport<R> {
+class HTTPTransport<R> {
   get(url: string, options: Options): Promise<R> {
     return this.request(
       url + queryStringify(options.data),
@@ -109,3 +109,5 @@ export default class HTTPTransport<R> {
     });
   }
 }
+
+export { HTTPTransport };
