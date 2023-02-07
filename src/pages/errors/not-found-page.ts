@@ -2,19 +2,19 @@ import './styles.css';
 import { Block } from '../../core';
 import { BrowserRouter } from '../../core/router';
 
-interface ErrorPageProps {
+interface NotFoundPageProps {
   code: string;
   description: string;
   onBackButtonClick?: () => void;
 }
 
-export class ErrorPage extends Block<ErrorPageProps> {
-  public static override componentName = 'ErrorPage';
+export class NotFoundPage extends Block<NotFoundPageProps> {
+  public static override componentName = 'NotFoundPage';
 
   constructor() {
     super({
-      code: '500',
-      description: 'Что-то пошло не так, уже разбираемся...',
+      code: '404',
+      description: 'Страница не существует',
       onBackButtonClick: () => {
         BrowserRouter.getInstance().back();
       },
