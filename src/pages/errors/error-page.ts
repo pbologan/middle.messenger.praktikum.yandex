@@ -1,6 +1,6 @@
 import './error-page.css';
 import { Block } from '../../core';
-import { Link, pushPage } from '../../utils/routing/routing';
+import { BrowserRouter } from '../../core/router';
 
 interface ErrorPageProps {
   code: string;
@@ -16,7 +16,7 @@ export default class ErrorPage extends Block<ErrorPageProps> {
       code,
       description,
       onBackButtonClick: () => {
-        pushPage(Link.CHAT);
+        BrowserRouter.getInstance().back();
       },
     });
   }

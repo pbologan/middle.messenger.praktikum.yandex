@@ -1,7 +1,6 @@
 import { Block } from '../../core';
 import './login.css';
 import { validateInput, ValidationRule } from '../../core/validator';
-import { Link, pushPage } from '../../utils/routing/routing';
 
 interface LoginPageProps {}
 
@@ -57,11 +56,10 @@ export default class LoginPage extends Block<LoginPageProps> {
             password: passwordValue,
           };
           console.log('Login Data', loginData);
-          pushPage(Link.CHAT);
         }
       },
       onRegisterClick: () => {
-        pushPage(Link.SIGN_UP);
+
       },
     });
   }
