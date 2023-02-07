@@ -1,8 +1,10 @@
 import './styles.css';
 import { registerComponents } from './utils/registerComponents';
-import { initialState, Store } from './core/store';
-import { BrowserRouter, initRouter } from './core/router';
+import { Store } from './core/store';
+import { BrowserRouter } from './core/router';
 import { AppState } from './core/store/types';
+import { initialState } from './utils/initialState';
+import { initRouter } from './utils/initRouter';
 
 declare global {
   interface Window {
