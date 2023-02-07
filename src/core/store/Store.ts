@@ -1,13 +1,4 @@
 import { EventBus } from '../EventBus';
-import { AppState } from './types';
-import { Page } from '../router';
-
-export const initialState: AppState = {
-  user: null,
-  page: Page.LOGIN,
-  isLoading: false,
-  loginFormError: null,
-};
 
 export type Dispatch<State> = (
   nextStateOrAction: Partial<State> | Action<State>,
