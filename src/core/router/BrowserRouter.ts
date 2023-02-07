@@ -1,14 +1,11 @@
-import { Props, Route } from './Route';
-import { BlockClass } from '../Block';
-
 export class BrowserRouter {
   private static instance: BrowserRouter;
 
-  private routes: Array<Route<any>> = [];
+  private routes: Record<string, Function> = {};
 
   private history: History = window.history;
 
-  private currentRoute: Route<any> | null = null;
+  private isStarted = false;
 
   private constructor() {
     if (BrowserRouter.instance) {
@@ -23,39 +20,40 @@ export class BrowserRouter {
     return BrowserRouter.instance;
   }
 
-  use<P extends object>(pathname: string, block: BlockClass<P>, props: Props = {}) {
-    const route = new Route(pathname, block, props);
-
-    this.routes.push(route);
-
+  use(pathname: string, callback :Function) {
+    this.routes[pathname] = callback;
     return this;
   }
 
   start() {
-    window.onpopstate = (() => {
-      this.onRoute(window.location.pathname);
-    });
+    if (!this.isStarted) {
+      this.isStarted = true;
 
-    this.onRoute(window.location.pathname);
+      window.onpopstate = () => {
+        this.onRouteChange.call(this);
+      };
+
+      this.onRouteChange();
+    }
   }
 
-  private onRoute(pathname: string) {
-    const route = this.getRoute(pathname);
-    if (!route) {
-      return;
-    }
+  private onRouteChange(pathname: string = window.location.pathname) {
+    const found = Object.entries(this.routes).some(([routeHash, callback]) => {
+      if (routeHash === pathname) {
+        callback();
+        return true;
+      }
+      return false;
+    });
 
-    if (this.currentRoute && this.currentRoute !== route) {
-      this.currentRoute.leave();
+    if (!found && this.routes['*']) {
+      this.routes['*']();
     }
-
-    this.currentRoute = route;
-    route.render();
   }
 
   go(pathname: string) {
     this.history.pushState({}, '', pathname);
-    this.onRoute(pathname);
+    this.onRouteChange(pathname);
   }
 
   back() {
@@ -64,10 +62,5 @@ export class BrowserRouter {
 
   forward() {
     this.history.forward();
-  }
-
-  getRoute(pathname: string): Route<any> | undefined {
-    const router = this.routes.find((route: Route<any>) => route.match(pathname));
-    return router || this.routes.find((route: Route<any>) => route.match('*'));
   }
 }
