@@ -1,4 +1,13 @@
-import { EventBus } from './EventBus';
+import { EventBus } from '../EventBus';
+import { AppState } from './types';
+import { Page } from '../router';
+
+export const initialState: AppState = {
+  user: null,
+  page: Page.LOGIN,
+  isLoading: false,
+  loginFormError: null,
+};
 
 export type Dispatch<State> = (
   nextStateOrAction: Partial<State> | Action<State>,
@@ -14,10 +23,10 @@ export type Action<State> = (
 export class Store<State extends Record<string, any>> extends EventBus {
   private state: State = {} as State;
 
-  constructor(defaultState: State) {
+  constructor(state: State) {
     super();
-    this.state = defaultState;
-    this.setState(defaultState);
+    this.state = state;
+    this.setState(state);
   }
 
   public getState() {
