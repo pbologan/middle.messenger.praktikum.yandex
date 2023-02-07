@@ -4,12 +4,12 @@ import { EventBus } from './EventBus';
 
 type Events = Values<typeof Block.EVENTS>;
 
-export interface BlockClass<P extends object> extends Function {
+export interface BlockClass<P extends Props> extends Function {
   new (props: P): Block<P>;
   componentName?: string;
 }
 
-export class Block<P extends object> {
+export class Block<P extends Props> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
