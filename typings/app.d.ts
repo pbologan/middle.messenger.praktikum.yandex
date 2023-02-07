@@ -8,18 +8,6 @@ declare global {
     reason: string;
   };
 
-  export type AppState = {
-    appIsReady: boolean;
-    page: Page | null;
-    isLoading: boolean;
-    loginFormError: string | null;
-    user: User | null;
-  };
-
-  export type Page = {
-
-  };
-
   export type UserDTO = {
     id: number;
     login: string;
