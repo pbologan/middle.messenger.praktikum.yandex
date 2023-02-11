@@ -1,3 +1,5 @@
+import { isFormData } from './isFormData';
+
 enum Method {
   GET = 'GET',
   PUT = 'PUT',
@@ -5,19 +7,21 @@ enum Method {
   DELETE = 'DELETE',
 }
 
-interface DataObject {
-  [key: string]: string
+export enum ContentType {
+  FORM_DATA = 'multipart/form-data',
 }
 
+type Data = Record<string, any> | FormData;
+
 interface Options {
-  data?: DataObject;
+  data?: Data;
   method?: Method,
-  headers?: DataObject,
+  headers?: Record<string, string>,
   retries?: number,
   timeout?: number;
 }
 
-function queryStringify(data?: DataObject) {
+function queryStringify(data?: Record<string, any>) {
   if (!data || Object.keys(data).length === 0) {
     return '';
   }
@@ -34,29 +38,37 @@ class HTTPTransport {
     this.baseUrl = baseUrl;
   }
 
-  get<R>(url: string, options: Options): Promise<R> {
+  get<R extends unknown = any>(url: string, options: Options = {}): Promise<R> {
+    const { data } = options;
+    const queryString = isFormData(data) ? '' : queryStringify(data);
     return this.request<R>(
-      url + queryStringify(options.data),
+      url + queryString,
       { ...options, method: Method.GET },
       options.timeout,
     );
   }
 
-  put<R>(url: string, options: Options): Promise<R> {
+  put<R extends unknown = any>(url: string, options: Options): Promise<R> {
     return this.request<R>(url, { ...options, method: Method.PUT }, options.timeout);
   }
 
-  post<R>(url: string, options: Options): Promise<R> {
+  post<R extends unknown = any>(url: string, options: Options = {}): Promise<R> {
     return this.request<R>(url, { ...options, method: Method.POST }, options.timeout);
   }
 
-  delete<R>(url: string, options: Options): Promise<R> {
+  delete<R extends unknown = any>(url: string, options: Options): Promise<R> {
     return this.request<R>(url, { ...options, method: Method.DELETE }, options.timeout);
   }
 
-  private sendData(xhr: XMLHttpRequest, method: Method, data?: DataObject) {
+  private sendData(
+    xhr: XMLHttpRequest,
+    method: Method,
+    data?: Data,
+  ) {
     if (!data || method === Method.GET) {
       xhr.send();
+    } else if (isFormData(data)) {
+      xhr.send(data);
     } else {
       xhr.send(JSON.stringify(data));
     }
