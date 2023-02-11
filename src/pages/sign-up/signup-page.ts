@@ -1,6 +1,5 @@
 import { Block } from '../../core';
 import { RegularExpressions, validateInput, ValidationRule } from '../../core/validator';
-import { Link, pushPage } from '../../utils/routing/routing';
 
 type InputObject = {
   id: string;
@@ -28,7 +27,7 @@ export default class SignupPage extends Block<SignupPageProps> {
         { id: 'repeat_password', placeholder: 'Пароль (ещё раз)', validationRule: ValidationRule.PASSWORD },
       ],
       onLoginButtonClick: () => {
-        pushPage(Link.LOGIN);
+        // TODO: handle login
       },
       onRegisterClick: () => {
         const registerObject = {} as any;

@@ -2,7 +2,7 @@ import './profile-page.css';
 import { Block } from '../../core';
 import stubAvatar from '../../../public/images/img-stub.svg';
 import { validateInput, ValidationRule } from '../../core/validator';
-import { Link, pushPage } from '../../utils/routing/routing';
+import { BrowserRouter } from '../../core/router';
 
 enum ProfilePageMode {
   VIEWING,
@@ -60,7 +60,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
       },
       onBackButtonClick: () => {
-        pushPage(Link.CHAT);
+        BrowserRouter.getInstance().go('/chat');
       },
       onSaveButtonClick: () => {
         if (this.props.passwordsError) {
@@ -90,7 +90,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         }
       },
       onLogout: () => {
-        pushPage(Link.LOGIN);
+        // TODO: handle logout
       },
       passwordsError: '',
     });

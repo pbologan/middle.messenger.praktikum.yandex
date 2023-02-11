@@ -2,7 +2,6 @@ import './message-input.css';
 import attachmentIcon from '../../../../../public/images/paper-clip.svg';
 import { Block } from '../../../../core';
 import { validateInput, ValidationRule } from '../../../../core/validator';
-import { Link, pushPage } from '../../../../utils/routing/routing';
 
 interface MessageInputProps {
   onSendMessage?: () => void;
@@ -34,7 +33,7 @@ export default class MessageInput extends Block<MessageInputProps> {
         }
       },
       onAttachmentClick: () => {
-        pushPage(Link.ERROR_500);
+        // TODO: handle attachments click
       },
       onInputBlur: () => {},
       onInputFocus: () => {},

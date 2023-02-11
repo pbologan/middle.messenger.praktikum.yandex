@@ -1,6 +1,5 @@
 import './messages-header.css';
 import { Block } from '../../../../core';
-import { Link, pushPage } from '../../../../utils/routing/routing';
 
 interface MessagesHeaderProps {
   onOptionsButtonClick?: () => void;
@@ -12,7 +11,7 @@ export default class MessagesHeader extends Block<MessagesHeaderProps> {
   constructor() {
     super({
       onOptionsButtonClick: () => {
-        pushPage(Link.ERROR_404);
+        // TODO: handle options click
       },
     });
   }
