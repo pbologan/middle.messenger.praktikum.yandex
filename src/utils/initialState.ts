@@ -1,5 +1,4 @@
-import { AppState } from '../core/store/types';
-import { Page } from './router-util';
+import { AppState, Page } from '../models/app';
 
 export const initialState: AppState = {
   user: null,

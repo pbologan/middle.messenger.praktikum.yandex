@@ -4,15 +4,7 @@ import SignupPage from '../pages/sign-up';
 import ChatPage from '../pages/chat';
 import ProfilePage from '../pages/profile';
 import { ErrorPage, NotFoundPage } from '../pages/errors';
-
-export enum Page {
-  LOGIN = 'login',
-  SIGN_UP = 'singUp',
-  CHAT = 'chat',
-  PROFILE = 'profile',
-  ERROR = 'error',
-  NOT_FOUND = 'notFound',
-}
+import { Page } from '../models/app';
 
 const pageMap: Record<Page, BlockClass<any>> = {
   [Page.LOGIN]: LoginPage,

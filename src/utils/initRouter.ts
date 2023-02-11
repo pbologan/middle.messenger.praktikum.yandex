@@ -1,7 +1,6 @@
 import { BrowserRouter } from '../core/router';
-import { Store } from '../core/store';
-import { AppState } from '../core/store/types';
-import { Page } from './router-util';
+import { AppState, Page } from '../models/app';
+import { Store } from '../core/Store';
 
 type Route = {
   path: string,
