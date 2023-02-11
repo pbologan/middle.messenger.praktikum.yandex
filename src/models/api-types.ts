@@ -62,3 +62,21 @@ export type ChatUsersRequest = {
   users: Array<number>,
   chatId: number,
 };
+
+export type UserRequest = {
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  email: string;
+  phone: string;
+};
+
+export type ChangeUserPasswordRequest = {
+  oldPassword: string;
+  newPassword: string;
+};
+
+export type UserSearchRequest = {
+  login: string;
+};
