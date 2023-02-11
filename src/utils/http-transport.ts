@@ -27,25 +27,31 @@ function queryStringify(data?: DataObject) {
     .join('&')}`;
 }
 
-class HTTPTransport<R> {
-  get(url: string, options: Options): Promise<R> {
-    return this.request(
+class HTTPTransport {
+  private readonly baseUrl: string;
+
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
+
+  get<R>(url: string, options: Options): Promise<R> {
+    return this.request<R>(
       url + queryStringify(options.data),
       { ...options, method: Method.GET },
       options.timeout,
     );
   }
 
-  put(url: string, options: Options): Promise<R> {
-    return this.request(url, { ...options, method: Method.PUT }, options.timeout);
+  put<R>(url: string, options: Options): Promise<R> {
+    return this.request<R>(url, { ...options, method: Method.PUT }, options.timeout);
   }
 
-  post(url: string, options: Options): Promise<R> {
-    return this.request(url, { ...options, method: Method.POST }, options.timeout);
+  post<R>(url: string, options: Options): Promise<R> {
+    return this.request<R>(url, { ...options, method: Method.POST }, options.timeout);
   }
 
-  delete(url: string, options: Options): Promise<R> {
-    return this.request(url, { ...options, method: Method.DELETE }, options.timeout);
+  delete<R>(url: string, options: Options): Promise<R> {
+    return this.request<R>(url, { ...options, method: Method.DELETE }, options.timeout);
   }
 
   private sendData(xhr: XMLHttpRequest, method: Method, data?: DataObject) {
@@ -56,7 +62,9 @@ class HTTPTransport<R> {
     }
   }
 
-  private request(url: string, options: Options, timeout = 5000): Promise<R> {
+  private request<R>(url: string, options: Options, timeout = 5000): Promise<R> {
+    const fullUrl = this.baseUrl + url;
+
     return new Promise((resolve, reject) => {
       const {
         headers, retries = 0, method, data,
@@ -70,7 +78,7 @@ class HTTPTransport<R> {
       }
 
       const xhr = new XMLHttpRequest();
-      xhr.open(method, url);
+      xhr.open(method, fullUrl);
       xhr.timeout = timeout;
 
       if (headers) {
@@ -93,7 +101,7 @@ class HTTPTransport<R> {
       xhr.onerror = (event) => {
         if (retriesCount > 0) {
           setTimeout(() => {
-            xhr.open(method, url);
+            xhr.open(method, fullUrl);
             this.sendData(xhr, method, data);
             retriesCount--;
           }, 100);
