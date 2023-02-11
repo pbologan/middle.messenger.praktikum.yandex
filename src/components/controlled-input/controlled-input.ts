@@ -21,7 +21,7 @@ export default class ControlledInput extends Block<ControlledInputProps> {
           value,
         });
         const { error } = this.refs;
-  error?.setProps({ text: validationResult });
+        error?.setProps({ text: validationResult });
       },
       onFocus: () => {
         const { error } = this.refs;
