@@ -22,7 +22,7 @@ export class ChatsApi {
 
   private readonly httpClient: HTTPTransport;
 
-  constructor() {
+  private constructor() {
     this.httpClient = new HTTPTransport(BASE_URL);
   }
 
