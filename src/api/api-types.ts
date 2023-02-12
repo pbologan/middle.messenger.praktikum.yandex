@@ -1,5 +1,5 @@
-import { ChatDTO } from './chats';
-import { UserDTO } from './user';
+import { ChatDTO } from '../models/chats';
+import { UserDTO } from '../models/user';
 
 export type SignUpRequest = {
   first_name: string;

@@ -3,7 +3,7 @@ import {
   BASE_URL, GET_USER_INFO, LOGOUT, SIGN_IN, SIGN_UP,
 } from './urls';
 import { APIError } from '../models/error';
-import { SignInRequest, SignUpRequest, SignUpResponse } from '../models/api-types';
+import { SignInRequest, SignUpRequest, SignUpResponse } from './api-types';
 import { UserDTO } from '../models/user';
 
 export class AuthApi {

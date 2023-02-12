@@ -8,7 +8,7 @@ import {
 } from './urls';
 import { UserDTO } from '../models/user';
 import { APIError } from '../models/error';
-import { ChangeUserPasswordRequest, UserRequest, UserSearchRequest } from '../models/api-types';
+import { ChangeUserPasswordRequest, UserRequest, UserSearchRequest } from './api-types';
 
 export class UsersApi {
   private static instance: UsersApi | null = null;

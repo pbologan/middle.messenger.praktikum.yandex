@@ -13,7 +13,7 @@ import {
   CreateChatRequest,
   DeleteChatRequest,
   DeleteChatResponse, GetChatUsersRequest, GetChatUsersResponse, UploadChatAvatarRequest,
-} from '../models/api-types';
+} from './api-types';
 import { APIError } from '../models/error';
 import { ChatDTO } from '../models/chats';
 
