@@ -1,6 +1,8 @@
 import { BrowserRouter } from '../core/router';
 import { AppState, Page } from '../models/app';
 import { Store } from '../core/Store';
+import { getPageComponent } from './router-util';
+import { renderDOM } from '../core';
 
 type Route = {
   path: string,
@@ -41,7 +43,7 @@ const routes: Array<Route> = [
   },
 ];
 
-export function initRouter(router: BrowserRouter, store: Store<AppState>) {
+export function initRouter(router: BrowserRouter, store: Store) {
   routes.forEach((route: Route) => {
     router.use(route.path, () => {
       const isAuthorized = Boolean(store.getState().user);
@@ -55,5 +57,16 @@ export function initRouter(router: BrowserRouter, store: Store<AppState>) {
         store.dispatch({ page: Page.LOGIN });
       }
     });
+  });
+
+  router.start();
+
+  store.on(Store.STATE_CHANGED, (prevState: AppState, nextState: AppState) => {
+    const nextPage = nextState.page;
+    if (nextPage && nextPage !== prevState.page) {
+      const CurrentPage = getPageComponent(nextPage);
+      renderDOM(new CurrentPage({}));
+      document.title = `ChatApp / ${CurrentPage.componentName}`;
+    }
   });
 }
