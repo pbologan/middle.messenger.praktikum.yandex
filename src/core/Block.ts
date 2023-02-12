@@ -14,6 +14,7 @@ export class Block<P extends Props> {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_CDU: 'flow:component-did-update',
+    FLOW_CWU: 'flow:component-will-unmount',
     FLOW_RENDER: 'flow:render',
   } as const;
 
@@ -55,6 +56,8 @@ export class Block<P extends Props> {
     return JSON.stringify(oldProps) !== JSON.stringify(newProps);
   }
 
+  protected componentWillUnmount() { }
+
   protected render(): string {
     return '';
   }
@@ -63,6 +66,7 @@ export class Block<P extends Props> {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this.didMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this.didUpdate.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CWU, this.willUnmount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this.innerRender.bind(this));
   }
 
@@ -81,6 +85,11 @@ export class Block<P extends Props> {
       return;
     }
     this.innerRender();
+  }
+
+  private willUnmount() {
+    this.eventBus().clear();
+    this.componentWillUnmount();
   }
 
   public setProps = (nextProps: P) => {
