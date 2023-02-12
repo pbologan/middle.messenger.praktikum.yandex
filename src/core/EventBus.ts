@@ -31,4 +31,8 @@ export class EventBus
       listener(...args);
     });
   }
+
+  clear() {
+    this.listeners = {};
+  }
 }
