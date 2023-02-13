@@ -1,11 +1,11 @@
 import { Block, Store } from '../core';
 
-type WithStateProps = { store: Store };
+export interface WithStoreProps {
+  store: Store;
+}
 
-export function withStore<P extends WithStateProps>(WrappedBlock: typeof Block) {
-  return class extends WrappedBlock<P> {
-    public static override componentName = WrappedBlock.componentName;
-
+export function withStore<P extends WithStoreProps = any>(WrappedBlock: typeof Block<P>) {
+  return class extends WrappedBlock {
     constructor(props: P) {
       super({
         ...props,
@@ -22,12 +22,14 @@ export function withStore<P extends WithStateProps>(WrappedBlock: typeof Block) 
 
     override componentDidMount(props: P) {
       super.componentDidMount(props);
-      Store.getInstance().on(Store.STATE_CHANGED, this.onChangeStateCallback);
+      Store.getInstance()
+        .on(Store.STATE_CHANGED, this.onChangeStateCallback);
     }
 
     override componentWillUnmount() {
       super.componentWillUnmount();
-      Store.getInstance().off(Store.STATE_CHANGED, this.onChangeStateCallback);
+      Store.getInstance()
+        .off(Store.STATE_CHANGED, this.onChangeStateCallback);
     }
   };
 }
