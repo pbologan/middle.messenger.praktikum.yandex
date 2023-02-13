@@ -1,8 +1,7 @@
-import { BrowserRouter } from '../core/router';
+import { BrowserRouter, renderDOM, Store } from '../core';
 import { AppState, Page } from '../models/app';
-import { Store } from '../core/Store';
 import { getPageComponent } from './router-util';
-import { renderDOM } from '../core';
+import { localStorageUtils } from './localStorageUtils';
 
 type Route = {
   path: string,
@@ -12,33 +11,33 @@ type Route = {
 
 const routes: Array<Route> = [
   {
-    path: '/login',
+    path: Page.LOGIN,
     page: Page.LOGIN,
     isPrivate: false,
   },
   {
-    path: '/signup',
+    path: Page.SIGN_UP,
     page: Page.SIGN_UP,
     isPrivate: true,
   },
   {
-    path: '/chat',
+    path: Page.CHAT,
     page: Page.CHAT,
     isPrivate: true,
   },
   {
-    path: '/profile',
+    path: Page.PROFILE,
     page: Page.PROFILE,
     isPrivate: true,
   },
   {
-    path: '/error',
+    path: Page.ERROR,
     page: Page.ERROR,
     isPrivate: false,
   },
   {
     path: '*',
-    page: Page.NOT_FOUND,
+    page: Page.LOGIN,
     isPrivate: false,
   },
 ];
@@ -49,22 +48,22 @@ export function initRouter(router: BrowserRouter, store: Store) {
       const isAuthorized = Boolean(store.getState().user);
       const currentPage = Boolean(store.getState().page);
 
-      if (isAuthorized || !route.isPrivate) {
-        store.dispatch({ page: route.page });
-      }
-
-      if (!isAuthorized || !currentPage) {
+      localStorageUtils.storeCurrentPage(route.page);
+      if (!currentPage || (!isAuthorized && route.page === Page.ANY_PATH)) {
         store.dispatch({ page: Page.LOGIN });
+      } else if (isAuthorized && route.page === Page.ANY_PATH) {
+        store.dispatch({ page: Page.CHAT });
+      } else {
+        console.log('page', route.page);
+        store.dispatch({ page: route.page });
       }
     });
   });
 
-  router.start();
-
   store.on(Store.STATE_CHANGED, (prevState: AppState, nextState: AppState) => {
-    const nextPage = nextState.page;
-    if (nextPage && nextPage !== prevState.page) {
-      const CurrentPage = getPageComponent(nextPage);
+    if (nextState.page && prevState) {
+      const CurrentPage = getPageComponent(nextState.page);
+      console.log(CurrentPage.componentName);
       renderDOM(new CurrentPage({}));
       document.title = `ChatApp / ${CurrentPage.componentName}`;
     }

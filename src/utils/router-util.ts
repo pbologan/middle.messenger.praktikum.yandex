@@ -1,6 +1,6 @@
 import { BlockClass } from '../core';
-import LoginPage from '../pages/login';
-import SignupPage from '../pages/sign-up';
+import { LoginPage } from '../pages/login';
+import { SignupPage } from '../pages/sign-up';
 import ChatPage from '../pages/chat';
 import ProfilePage from '../pages/profile';
 import { ErrorPage, NotFoundPage } from '../pages/errors';
@@ -13,6 +13,7 @@ const pageMap: Record<Page, BlockClass<any>> = {
   [Page.PROFILE]: ProfilePage,
   [Page.ERROR]: ErrorPage,
   [Page.NOT_FOUND]: NotFoundPage,
+  [Page.ANY_PATH]: LoginPage,
 };
 
 export function getPageComponent(page: Page): BlockClass<any> {
