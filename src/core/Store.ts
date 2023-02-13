@@ -12,7 +12,6 @@ export class Store extends EventBus {
   private constructor(state: AppState) {
     super();
     this.state = state;
-    this.setState(state);
   }
 
   public static getInstance() {
@@ -37,7 +36,7 @@ export class Store extends EventBus {
     payload?: any,
   ) {
     if (typeof nextStateOrAction === 'function') {
-      nextStateOrAction(this.dispatch.bind(this), this.state, payload);
+      nextStateOrAction(this.dispatch.bind(this), payload);
     } else {
       this.setState({ ...this.state, ...nextStateOrAction });
     }
