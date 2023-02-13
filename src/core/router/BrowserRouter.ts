@@ -29,17 +29,17 @@ export class BrowserRouter {
     if (!this.isStarted) {
       this.isStarted = true;
 
-      window.onpopstate = () => {
+      window.addEventListener('popstate', () => {
         this.onRouteChange.call(this);
-      };
+      });
 
       this.onRouteChange();
     }
   }
 
   private onRouteChange(pathname: string = window.location.pathname) {
-    const found = Object.entries(this.routes).some(([routeHash, callback]) => {
-      if (routeHash === pathname) {
+    const found = Object.entries(this.routes).some(([routePath, callback]) => {
+      if (routePath === pathname) {
         callback();
         return true;
       }
