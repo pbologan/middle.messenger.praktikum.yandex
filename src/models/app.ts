@@ -7,18 +7,22 @@ export type Dispatch<State> = (
 
 export type Action<State> = (
   dispatch: Dispatch<State>,
-  state: State,
-  payload: any,
+  payload?: any,
 ) => void;
 
 export enum Page {
-  LOGIN = 'login',
-  SIGN_UP = 'singUp',
-  CHAT = 'chat',
-  PROFILE = 'profile',
-  ERROR = 'error',
-  NOT_FOUND = 'notFound',
+  ANY_PATH = '*',
+  LOGIN = '/login',
+  SIGN_UP = '/singup',
+  CHAT = '/chat',
+  PROFILE = '/profile',
+  ERROR = '/error',
+  NOT_FOUND = '/notfound',
 }
+
+export type CurrentPage = {
+  currentPage: Page;
+};
 
 export type AppState = {
   page: Page | null;
