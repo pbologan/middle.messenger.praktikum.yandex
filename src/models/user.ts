@@ -20,6 +20,10 @@ export type User = {
   email: string;
 };
 
+export type UserId = {
+  id: number,
+};
+
 export function transformUserDTO(userDTO: UserDTO): User {
   return {
     id: userDTO.id,
@@ -30,5 +34,25 @@ export function transformUserDTO(userDTO: UserDTO): User {
     avatar: userDTO.avatar,
     phone: userDTO.phone,
     email: userDTO.email,
+  };
+}
+
+export type UserFormData = {
+  login: string;
+  firstName: string;
+  secondName: string;
+  displayName: string;
+  phone: string;
+  email: string;
+};
+
+export function transformUserToUserData(user: User): UserFormData {
+  return {
+    login: user.login,
+    firstName: user.firstName,
+    secondName: user.secondName,
+    displayName: user.displayName || '',
+    phone: user.phone,
+    email: user.email,
   };
 }
