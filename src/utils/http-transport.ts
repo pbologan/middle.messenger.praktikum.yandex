@@ -7,8 +7,13 @@ enum Method {
   DELETE = 'DELETE',
 }
 
+export enum Header {
+  CONTENT_TYPE = 'Content-Type',
+}
+
 export enum ContentType {
   FORM_DATA = 'multipart/form-data',
+  APPLICATION_JSON = 'application/json',
 }
 
 type Data = Record<string, any> | FormData;
