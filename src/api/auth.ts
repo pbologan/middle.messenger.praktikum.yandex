@@ -1,4 +1,4 @@
-import { HTTPTransport } from '../utils/http-transport';
+import { ContentType, HTTPTransport, Header } from '../utils/http-transport';
 import {
   BASE_URL, GET_USER_INFO, LOGOUT, SIGN_IN, SIGN_UP,
 } from './urls';
@@ -23,7 +23,12 @@ export class AuthApi {
   }
 
   public signUp(userData: SignUpRequest) {
-    return this.httpClient.post<SignUpResponse | APIError>(SIGN_UP, { data: userData });
+    return this.httpClient.post<SignUpResponse | APIError>(SIGN_UP, {
+      data: userData,
+      headers: {
+        [Header.CONTENT_TYPE]: ContentType.APPLICATION_JSON,
+      },
+    });
   }
 
   public signIn(userData: SignInRequest) {
