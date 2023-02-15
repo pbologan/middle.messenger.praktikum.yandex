@@ -20,10 +20,6 @@ export enum Page {
   NOT_FOUND = '/not-found',
 }
 
-export type CurrentPage = {
-  currentPage: Page;
-};
-
 export type AppState = {
   page: Page | null;
   isLoading: boolean;
