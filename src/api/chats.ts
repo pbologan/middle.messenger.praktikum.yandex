@@ -39,11 +39,21 @@ export class ChatsApi {
   }
 
   public createChat(chatData: CreateChatRequest) {
-    return this.httpClient.post<APIError>(CHATS, { data: chatData });
+    return this.httpClient.post<string | APIError>(CHATS, {
+      data: chatData,
+      headers: {
+        [Header.CONTENT_TYPE]: ContentType.APPLICATION_JSON,
+      },
+    });
   }
 
   public deleteChat(chatData: DeleteChatRequest) {
-    return this.httpClient.delete<DeleteChatResponse | APIError>(CHATS, { data: chatData });
+    return this.httpClient.delete<DeleteChatResponse | APIError>(CHATS, {
+      data: chatData,
+      headers: {
+        [Header.CONTENT_TYPE]: ContentType.APPLICATION_JSON,
+      },
+    });
   }
 
   public getChatUsers(chatData: GetChatUsersRequest) {
@@ -75,10 +85,20 @@ export class ChatsApi {
   }
 
   public addUsersToChat(data: ChatUsersRequest) {
-    return this.httpClient.put<APIError>(CHATS_USERS, { data });
+    return this.httpClient.put<string | APIError>(CHATS_USERS, {
+      data,
+      headers: {
+        [Header.CONTENT_TYPE]: ContentType.APPLICATION_JSON,
+      },
+    });
   }
 
   public deleteUsersFromChat(data: ChatUsersRequest) {
-    return this.httpClient.delete<APIError>(CHATS_USERS, { data });
+    return this.httpClient.delete<string | APIError>(CHATS_USERS, {
+      data,
+      headers: {
+        [Header.CONTENT_TYPE]: ContentType.APPLICATION_JSON,
+      },
+    });
   }
 }
