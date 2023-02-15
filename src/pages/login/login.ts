@@ -2,10 +2,12 @@ import { Block, BrowserRouter } from '../../core';
 import './login.css';
 import { validateInput, ValidationRule } from '../../core/validator';
 import { Page } from '../../models/app';
-import { withStore, WithStoreProps } from '../../hoc/withStore';
+import {
+  withStore, WithStoreProps, withLoading, WithLoadingProps,
+} from '../../hoc';
 import { AuthService } from '../../service';
 
-interface LoginPageProps extends WithStoreProps {
+interface LoginPageProps extends WithStoreProps, WithLoadingProps {
   onLoginInput: (e: InputEvent) => void;
   onLoginFocus: () => void;
   onPasswordInput: (e: InputEvent) => void;
@@ -72,6 +74,16 @@ class LoginPage extends Block<LoginPageProps> {
     });
   }
 
+  private renderLoader() {
+    if (this.props.isLoading()) {
+      // language=hbs
+      return `
+        {{{Loader}}}
+      `;
+    }
+    return '';
+  }
+
   override render(): string {
     const loginError = this.props.store.getState().loginFormError || '';
     // language=hbs
@@ -115,9 +127,10 @@ class LoginPage extends Block<LoginPageProps> {
             </div>
           </div>
         </form>
+          ${this.renderLoader()}
       </main>
     `;
   }
 }
 
-export default withStore(LoginPage);
+export default withStore(withLoading(LoginPage));

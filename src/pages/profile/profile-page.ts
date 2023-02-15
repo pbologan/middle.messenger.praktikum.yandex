@@ -3,10 +3,15 @@ import { Block, BrowserRouter } from '../../core';
 import stubAvatar from '../../../public/images/img-stub.svg';
 import { validateInput, ValidationRule } from '../../core/validator';
 import { AuthService, UsersService } from '../../service';
-import { withStore, WithStoreProps } from '../../hoc/withStore';
+import {
+  withStore,
+  WithStoreProps,
+  withLoading,
+  WithLoadingProps,
+  withUser,
+  WithUserProps,
+} from '../../hoc';
 import { transformUserToUserData, UserFormData } from '../../models/user';
-import { withUser } from '../../hoc';
-import { WithUserProps } from '../../hoc/withUser';
 import { Page } from '../../models/app';
 
 enum ProfilePageMode {
@@ -24,7 +29,7 @@ const ProfileValidationRules: Record<string, ValidationRule> = {
   email: ValidationRule.EMAIL,
 };
 
-interface ProfilePageProps extends WithStoreProps, WithUserProps {
+interface ProfilePageProps extends WithStoreProps, WithUserProps, WithLoadingProps {
   mode?: ProfilePageMode;
   onChangeDataClick?: () => void;
   onChangePasswordClick?: () => void;
@@ -32,6 +37,10 @@ interface ProfilePageProps extends WithStoreProps, WithUserProps {
   onSaveButtonClick?: () => void;
   onLogout?: () => void;
   passwordsError: string;
+  showChangeAvatarDialog: boolean;
+  onCloseModal: () => void;
+  onUploadAvatar: () => void;
+  onAvatarClick: () => void;
 }
 
 class ProfilePage extends Block<ProfilePageProps> {
@@ -96,7 +105,26 @@ class ProfilePage extends Block<ProfilePageProps> {
       onLogout: () => {
         this.props.store.dispatch(AuthService.getInstance().logout);
       },
+      onAvatarClick: () => {
+        this.setProps({
+          ...this.props,
+          showChangeAvatarDialog: true,
+        });
+      },
+      onUploadAvatar: () => {
+        this.setProps({
+          ...this.props,
+          showChangeAvatarDialog: false,
+        });
+      },
+      onCloseModal: () => {
+        this.setProps({
+          ...this.props,
+          showChangeAvatarDialog: false,
+        });
+      },
       passwordsError: '',
+      showChangeAvatarDialog: false,
     });
   }
 
@@ -198,11 +226,21 @@ class ProfilePage extends Block<ProfilePageProps> {
 
   private renderAvatar(): string {
     const userName = this.props.mode === ProfilePageMode.VIEWING ? this.props.user?.firstName : '';
+    const avatar = this.props.user?.avatar || stubAvatar;
     // language=hbs
     return `
       <div class="flex-column-layout profile__info__photo-name-layout">
         <div class="profile__info__photo-container">
-          <img alt="user avatar" class="profile__info__photo" src="${stubAvatar}" />
+          <img alt="user avatar" class="profile__info__photo" src="${avatar}" />
+            <div class="overlay">
+                Поменять
+                аватар
+            </div>
+            {{{Button
+                text="Поменять аватар"
+                className="profile__change-avatar-button invisible"
+                onClick=onAvatarClick
+            }}}
         </div>
         <span class="profile__info__name">${userName}</span>
       </div>
@@ -349,6 +387,22 @@ class ProfilePage extends Block<ProfilePageProps> {
     `;
   }
 
+  private renderDialog() {
+    if (this.props.showChangeAvatarDialog) {
+      // TODO: render modal with dialog
+      return '';
+    }
+    return '';
+  }
+
+  private renderLoader() {
+    if (this.props.isLoading()) {
+    // language=hbs
+      return `{{{Loader}}}`;
+    }
+    return '';
+  }
+
   override render(): string {
     // language=hbs
     return `
@@ -365,9 +419,11 @@ class ProfilePage extends Block<ProfilePageProps> {
             </div>
             ${this.renderButtons()}
         </div>
+        ${this.renderDialog()}
+        ${this.renderLoader()}
       </div>
     `;
   }
 }
 
-export default withStore(withUser(ProfilePage));
+export default withStore(withUser(withLoading(ProfilePage)));

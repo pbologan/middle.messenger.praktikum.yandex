@@ -1,7 +1,7 @@
 import { Block, Store } from '../core';
 
 export interface WithLoadingProps {
-  isLoading: boolean;
+  isLoading: () => boolean;
 }
 
 export function withLoading<P extends WithLoadingProps>(WrappedBlock: typeof Block<P>) {

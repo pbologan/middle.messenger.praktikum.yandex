@@ -1,4 +1,4 @@
-export { withStore } from './withStore';
-export { withRouter } from './withRouter';
-export { withUser } from './withUser';
-export { withLoading } from './withLoading';
+export { withStore, WithStoreProps } from './withStore';
+export { withRouter, WithRouterProps } from './withRouter';
+export { withUser, WithUserProps } from './withUser';
+export { withLoading, WithLoadingProps } from './withLoading';

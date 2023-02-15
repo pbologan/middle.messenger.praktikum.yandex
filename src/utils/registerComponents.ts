@@ -1,4 +1,4 @@
-import { registerComponent } from '../core/registerComponent';
+import { registerComponent } from '../core';
 import Button from '../components/button';
 import Input from '../components/input';
 import Error from '../components/error';

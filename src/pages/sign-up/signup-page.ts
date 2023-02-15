@@ -1,7 +1,9 @@
 import { Block, BrowserRouter } from '../../core';
 import { RegularExpressions, validateInput, ValidationRule } from '../../core/validator';
 import { Page } from '../../models/app';
-import { withStore, WithStoreProps } from '../../hoc/withStore';
+import {
+  withStore, WithStoreProps, withLoading, WithLoadingProps,
+} from '../../hoc';
 import { AuthService } from '../../service';
 
 type InputObject = {
@@ -11,7 +13,7 @@ type InputObject = {
   validationRule: string;
 };
 
-interface SignupPageProps extends WithStoreProps {
+interface SignupPageProps extends WithStoreProps, WithLoadingProps {
   inputElements?: InputObject[];
   onLoginButtonClick?: () => void;
   onRegisterClick?: () => void;
@@ -106,6 +108,16 @@ class SignupPage extends Block<SignupPageProps> {
     }, '');
   }
 
+  private renderLoader() {
+    if (this.props.isLoading()) {
+      // language=hbs
+      return `
+        {{{Loader}}}
+      `;
+    }
+    return '';
+  }
+
   override render(): string {
     // language=hbs
     return `
@@ -130,9 +142,10 @@ class SignupPage extends Block<SignupPageProps> {
             </div>
           </div>
         </form>
+        ${this.renderLoader()}
       </main>
     `;
   }
 }
 
-export default withStore(SignupPage);
+export default withStore(withLoading(SignupPage));
