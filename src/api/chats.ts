@@ -1,4 +1,4 @@
-import { ContentType, HTTPTransport } from '../utils/http-transport';
+import { ContentType, Header, HTTPTransport } from '../utils/http-transport';
 import {
   BASE_URL,
   CHATS, CHATS_USERS,
@@ -70,7 +70,7 @@ export class ChatsApi {
     formData.append('avatar', data.avatar);
     return this.httpClient.put<ChatDTO | APIError>(UPLOAD_CHAT_AVATAR, {
       data: formData,
-      headers: { 'Content-Type': ContentType.FORM_DATA },
+      headers: { [Header.CONTENT_TYPE]: ContentType.FORM_DATA },
     });
   }
 
