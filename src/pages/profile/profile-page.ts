@@ -1,8 +1,13 @@
 import './profile-page.css';
-import { Block } from '../../core';
+import { Block, BrowserRouter } from '../../core';
 import stubAvatar from '../../../public/images/img-stub.svg';
 import { validateInput, ValidationRule } from '../../core/validator';
-import { BrowserRouter } from '../../core/router';
+import { AuthService, UsersService } from '../../service';
+import { withStore, WithStoreProps } from '../../hoc/withStore';
+import { transformUserToUserData, UserFormData } from '../../models/user';
+import { withUser } from '../../hoc';
+import { WithUserProps } from '../../hoc/withUser';
+import { Page } from '../../models/app';
 
 enum ProfilePageMode {
   VIEWING,
@@ -10,18 +15,16 @@ enum ProfilePageMode {
   PASSWORD_EDITING,
 }
 
-interface UserData {
-  avatar: string;
-  email: string;
-  login: string;
-  firstName: string;
-  secondName: string;
-  nickname: string;
-  phone: string;
-}
+const ProfileValidationRules: Record<string, ValidationRule> = {
+  login: ValidationRule.LOGIN,
+  first_name: ValidationRule.NAME,
+  second_name: ValidationRule.NAME,
+  display_name: ValidationRule.NAME,
+  phone: ValidationRule.PHONE,
+  email: ValidationRule.EMAIL,
+};
 
-interface ProfilePageProps {
-  userData?: UserData;
+interface ProfilePageProps extends WithStoreProps, WithUserProps {
   mode?: ProfilePageMode;
   onChangeDataClick?: () => void;
   onChangePasswordClick?: () => void;
@@ -31,21 +34,12 @@ interface ProfilePageProps {
   passwordsError: string;
 }
 
-export default class ProfilePage extends Block<ProfilePageProps> {
-  public static override componentName = 'ProfilePage';
+class ProfilePage extends Block<ProfilePageProps> {
+  public static override componentName = 'Profile Page';
 
-  constructor({ ...props }) {
+  constructor(props: ProfilePageProps) {
     super({
       ...props,
-      userData: {
-        avatar: '',
-        email: 'p.bologan@gmail.com',
-        login: 'p.bologan',
-        firstName: 'Павел',
-        secondName: 'Бологан',
-        nickname: 'Павел',
-        phone: '+79999999999',
-      },
       mode: ProfilePageMode.VIEWING,
       onChangeDataClick: () => {
         this.setProps({
@@ -60,28 +54,38 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
       },
       onBackButtonClick: () => {
-        BrowserRouter.getInstance().go('/chat');
+        if (this.props.mode === ProfilePageMode.VIEWING) {
+          BrowserRouter.getInstance().go(Page.CHAT);
+        } else {
+          this.setProps({
+            ...this.props,
+            mode: ProfilePageMode.VIEWING,
+          });
+        }
       },
       onSaveButtonClick: () => {
         if (this.props.passwordsError) {
-          this.setProps({ passwordsError: '' });
+          this.setProps({
+            ...this.props,
+            passwordsError: '',
+          });
         }
-        const userData = this.getUserData();
+        const userData = this.getUserFormData();
 
         if (this.props.mode === ProfilePageMode.DATA_EDITING) {
           const errors = this.checkInputErrors(userData);
-          if (errors) {
-            console.log(errors);
-          } else {
+          if (!errors) {
+            this.props.store.dispatch(UsersService.getInstance().editUserProfile, userData);
             this.setProps({
               ...this.props,
-              userData,
               mode: ProfilePageMode.VIEWING,
             });
           }
         } else {
-          this.setProps({ passwordsError: this.checkRepeatPassword() });
-          if (!this.checkRepeatPassword()) {
+          this.setProps({ ...this.props, passwordsError: this.checkRepeatPassword() });
+          const passwords = this.getOldAndNewPasswords();
+          if (passwords && !this.checkRepeatPassword()) {
+            this.props.store.dispatch(UsersService.getInstance().changeUserPassword, passwords);
             this.setProps({
               ...this.props,
               mode: ProfilePageMode.VIEWING,
@@ -90,45 +94,75 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         }
       },
       onLogout: () => {
-        // TODO: handle logout
+        this.props.store.dispatch(AuthService.getInstance().logout);
       },
       passwordsError: '',
     });
   }
 
-  private getUserData(): UserData {
-    const userData = this.props.userData;
-    const newUserData: UserData = { ...userData } as UserData;
+  private getUserFormData(): UserFormData | null {
+    const userData = this.props.user;
 
     if (userData) {
-      Object.keys(this.refs).forEach((key) => {
+      const refsData = {} as any;
+      Object.keys(this.refs).forEach((key: string) => {
         const item = this.refs[key];
         if (item) {
           const { input } = item.refs;
           if (input) {
             const { value } = input.getElement() as HTMLInputElement;
             if (value) {
-              newUserData[key as keyof UserData] = value;
+              refsData[key] = value;
             }
           }
         }
       });
+      delete refsData.passwordsError;
+      return transformUserToUserData(refsData);
     }
-    return newUserData;
+    return null;
   }
 
-  private checkInputErrors(userData: UserData): string {
+  private checkInputErrors(userData: UserFormData | null): string {
+    if (!userData) {
+      return '';
+    }
+
     const errors: string[] = [];
     Object.keys(userData).forEach((key: string) => {
-      const error = validateInput({
-        rule: String(key),
-        value: userData[key as keyof UserData],
-      });
-      if (error) {
-        errors.push(error);
+      if (key !== 'display_name') {
+        const value = String(userData[key as keyof UserFormData]);
+        const rule = ProfileValidationRules[key];
+        if (rule) {
+          const error = validateInput({ rule, value });
+          if (error) {
+            errors.push(error);
+          }
+        }
       }
     });
     return errors.join('\n');
+  }
+
+  private getOldAndNewPasswords() {
+    const {
+      oldPassword,
+      newPassword,
+    } = this.refs;
+
+    if (newPassword && oldPassword) {
+      const newPassInput = newPassword.refs['input'];
+      const oldPasswordInput = oldPassword.refs['input'];
+      if (newPassInput && oldPasswordInput) {
+        const newPassValue = (newPassInput.getElement() as HTMLInputElement).value;
+        const oldPassValue = (oldPasswordInput.getElement() as HTMLInputElement).value;
+        return {
+          oldPassword: oldPassValue,
+          newPassword: newPassValue,
+        };
+      }
+    }
+    return null;
   }
 
   private checkRepeatPassword(): string {
@@ -163,7 +197,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
   }
 
   private renderAvatar(): string {
-    const userName = this.props.mode === ProfilePageMode.VIEWING ? this.props.userData?.firstName : '';
+    const userName = this.props.mode === ProfilePageMode.VIEWING ? this.props.user?.firstName : '';
     // language=hbs
     return `
       <div class="flex-column-layout profile__info__photo-name-layout">
@@ -223,17 +257,17 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     let login = '';
     let firstName = '';
     let secondName = '';
-    let nickname = '';
+    let displayName = '';
     let phone = '';
 
-    const userData = this.props.userData;
+    const userData = this.props.user;
 
     if (userData) {
       email = userData.email;
       login = userData.login;
       firstName = userData.firstName;
       secondName = userData.secondName;
-      nickname = userData.nickname;
+      displayName = userData.displayName || '';
       phone = userData.phone;
     }
 
@@ -244,10 +278,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
       ${this.getInfoInput(login, 'text', 'login', ValidationRule.LOGIN)}
       ${this.getInfoInput(firstName, 'text', 'firstName', ValidationRule.NAME)}
       ${this.getInfoInput(secondName, 'text', 'secondName', ValidationRule.NAME)}
-      ${this.getInfoInput(nickname, 'text', 'nickname', ValidationRule.NAME)}
+      ${this.getInfoInput(displayName, 'text', 'displayName', ValidationRule.NAME)}
       ${this.getInfoInput(phone, 'text', 'phone', ValidationRule.PHONE)}
     ` : `
-      ${this.getTitles([email, login, firstName, secondName, nickname, phone], 'justify-right dark-gray')}
+      ${this.getTitles([email, login, firstName, secondName, displayName, phone], 'justify-right dark-gray')}
     `;
 
     const passwordInfoContent = `
@@ -335,3 +369,5 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     `;
   }
 }
+
+export default withStore(withUser(ProfilePage));
