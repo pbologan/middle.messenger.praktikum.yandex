@@ -54,7 +54,6 @@ export function initRouter(router: BrowserRouter, store: Store) {
       } else if (isAuthorized && route.page === Page.ANY_PATH) {
         store.dispatch({ page: Page.CHAT });
       } else {
-        console.log('page', route.page);
         store.dispatch({ page: route.page });
       }
     });
@@ -63,7 +62,6 @@ export function initRouter(router: BrowserRouter, store: Store) {
   store.on(Store.STATE_CHANGED, (prevState: AppState, nextState: AppState) => {
     if (nextState.page && prevState) {
       const CurrentPage = getPageComponent(nextState.page);
-      console.log(CurrentPage.componentName);
       renderDOM(new CurrentPage({}));
       document.title = `ChatApp / ${CurrentPage.componentName}`;
     }
