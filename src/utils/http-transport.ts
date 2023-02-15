@@ -97,6 +97,7 @@ class HTTPTransport {
       const xhr = new XMLHttpRequest();
       xhr.open(method, fullUrl);
       xhr.timeout = timeout;
+      xhr.withCredentials = true;
 
       if (headers) {
         Object.keys(headers).forEach((key: string) => {
@@ -108,7 +109,13 @@ class HTTPTransport {
       }
 
       xhr.onload = () => {
-        const result: R = JSON.parse(xhr.responseText);
+        let result;
+        try {
+          result = JSON.parse(xhr.responseText);
+        } catch (e) {
+          result = xhr.responseText;
+        }
+
         if (result) {
           resolve(result);
         } else {
