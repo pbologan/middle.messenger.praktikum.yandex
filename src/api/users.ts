@@ -1,4 +1,4 @@
-import { HTTPTransport } from '../utils/http-transport';
+import { ContentType, Header, HTTPTransport } from '../utils/http-transport';
 import {
   BASE_URL,
   USER_PASSWORD,
@@ -31,20 +31,38 @@ export class UsersApi {
   }
 
   public editUser(data: UserRequest) {
-    return this.httpClient.put<UserDTO | APIError>(USER_PROFILE, { data });
+    return this.httpClient.put<UserDTO | APIError>(USER_PROFILE, {
+      data,
+      headers: {
+        [Header.CONTENT_TYPE]: ContentType.APPLICATION_JSON,
+      },
+    });
   }
 
   public uploadUserAvatar(avatar: File) {
     const data = new FormData();
     data.append('avatar', avatar);
-    return this.httpClient.put<UserDTO | APIError>(USER_PROFILE_AVATAR, { data });
+    return this.httpClient.put<UserDTO | APIError>(USER_PROFILE_AVATAR, {
+      data,
+      headers: { [Header.CONTENT_TYPE]: ContentType.FORM_DATA },
+    });
   }
 
   public changeUserPassword(data: ChangeUserPasswordRequest) {
-    return this.httpClient.put<APIError>(USER_PASSWORD, { data });
+    return this.httpClient.put<APIError>(USER_PASSWORD, {
+      data,
+      headers: {
+        [Header.CONTENT_TYPE]: ContentType.APPLICATION_JSON,
+      },
+    });
   }
 
   public searchUserByLogin(data: UserSearchRequest) {
-    return this.httpClient.post<UserDTO | APIError>(USER_SEARCH, { data });
+    return this.httpClient.post<UserDTO | APIError>(USER_SEARCH, {
+      data,
+      headers: {
+        [Header.CONTENT_TYPE]: ContentType.APPLICATION_JSON,
+      },
+    });
   }
 }
