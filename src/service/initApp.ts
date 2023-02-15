@@ -7,6 +7,9 @@ import { transformUserDTO } from '../models/user';
 
 export async function initApp(dispatch: Dispatch<AppState>) {
   const storedPage = localStorageUtils.getCurrentPage();
+  if (storedPage) {
+    dispatch({ page: storedPage });
+  }
   const router = BrowserRouter.getInstance();
   const response = await AuthApi.getInstance().getUserInfo();
 
