@@ -1,6 +1,6 @@
 import './chats-list-header.css';
-import { Block } from '../../../../core';
-import { BrowserRouter } from '../../../../core/router';
+import { Block, BrowserRouter } from '../../../../core';
+import { Page } from '../../../../models/app';
 
 interface ChatsListHeaderProps {
   onProfileButtonClick?: () => void;
@@ -12,7 +12,7 @@ export default class ChatsListHeader extends Block<ChatsListHeaderProps> {
   constructor() {
     super({
       onProfileButtonClick: () => {
-        BrowserRouter.getInstance().go('/profile');
+        BrowserRouter.getInstance().go(Page.PROFILE);
       },
     });
   }

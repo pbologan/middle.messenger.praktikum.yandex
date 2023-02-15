@@ -3,8 +3,8 @@ import { Block } from '../../core';
 
 interface ChatPageProps { }
 
-export default class ChatPage extends Block<ChatPageProps> {
-  public static override componentName = 'ChatPage';
+export class ChatPage extends Block<ChatPageProps> {
+  public static override componentName = 'Chat Page';
 
   override render() {
     // language=hbs
