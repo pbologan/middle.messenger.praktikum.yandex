@@ -1,8 +1,8 @@
 import { BlockClass } from '../core';
 import { LoginPage } from '../pages/login';
 import { SignupPage } from '../pages/sign-up';
-import ChatPage from '../pages/chat';
-import ProfilePage from '../pages/profile';
+import { ChatPage } from '../pages/chat';
+import { ProfilePage } from '../pages/profile';
 import { ErrorPage, NotFoundPage } from '../pages/errors';
 import { Page } from '../models/app';
 
