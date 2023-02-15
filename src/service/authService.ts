@@ -35,6 +35,8 @@ export class AuthService {
         if (!apiHasError(userInfoResponse)) {
           dispatch({ user: transformUserDTO(userInfoResponse) });
         }
+      } else {
+        dispatch({ loginFormError: 'Неверное имя пользователя или пароль' });
       }
     } catch (e) {
       console.log('login error', e);

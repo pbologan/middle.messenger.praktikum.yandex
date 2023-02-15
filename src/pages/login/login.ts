@@ -39,6 +39,7 @@ class LoginPage extends Block<LoginPageProps> {
         }
       },
       onLoginButtonClick: () => {
+        this.props.store.dispatch({ loginFormError: null });
         const login = (this.element?.querySelector('[name=login]') as HTMLInputElement).value;
         const password = (this.element?.querySelector('[name=password]') as HTMLInputElement).value;
 
@@ -72,6 +73,7 @@ class LoginPage extends Block<LoginPageProps> {
   }
 
   override render(): string {
+    const loginError = this.props.store.getState().loginFormError || '';
     // language=hbs
     return `
       <main class="layout">
@@ -95,6 +97,9 @@ class LoginPage extends Block<LoginPageProps> {
                   type="password"
                   placeholder="Пароль"
               }}}
+            </div>
+            <div>
+                <span class="form__login-error">${loginError}</span>
             </div>
             <div class="form__buttons-container">
               {{{Button
