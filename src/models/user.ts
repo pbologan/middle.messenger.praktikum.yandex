@@ -39,9 +39,9 @@ export function transformUserDTO(userDTO: UserDTO): User {
 
 export type UserFormData = {
   login: string;
-  firstName: string;
-  secondName: string;
-  displayName: string;
+  first_name: string;
+  second_name: string;
+  display_name: string;
   phone: string;
   email: string;
 };
@@ -49,9 +49,9 @@ export type UserFormData = {
 export function transformUserToUserData(user: User): UserFormData {
   return {
     login: user.login,
-    firstName: user.firstName,
-    secondName: user.secondName,
-    displayName: user.displayName || '',
+    first_name: user.firstName,
+    second_name: user.secondName,
+    display_name: user.displayName || '',
     phone: user.phone,
     email: user.email,
   };
