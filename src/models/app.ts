@@ -12,12 +12,12 @@ export type Action<State> = (
 
 export enum Page {
   ANY_PATH = '*',
-  LOGIN = '/login',
-  SIGN_UP = '/singup',
-  CHAT = '/chat',
-  PROFILE = '/profile',
+  LOGIN = '/',
+  SIGN_UP = '/sing-up',
+  CHAT = '/messenger',
+  PROFILE = '/settings',
   ERROR = '/error',
-  NOT_FOUND = '/notfound',
+  NOT_FOUND = '/not-found',
 }
 
 export type CurrentPage = {
