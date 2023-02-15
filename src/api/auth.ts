@@ -32,11 +32,16 @@ export class AuthApi {
   }
 
   public signIn(userData: SignInRequest) {
-    return this.httpClient.post<APIError>(SIGN_IN, { data: userData });
+    return this.httpClient.post<string | APIError>(SIGN_IN, {
+      data: userData,
+      headers: {
+        [Header.CONTENT_TYPE]: ContentType.APPLICATION_JSON,
+      },
+    });
   }
 
   public logout() {
-    return this.httpClient.post(LOGOUT);
+    return this.httpClient.post<string | APIError>(LOGOUT);
   }
 
   public getUserInfo() {
