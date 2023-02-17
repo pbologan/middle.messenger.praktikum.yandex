@@ -19,6 +19,6 @@ export const CHATS_USERS = `${CHATS}/users`;
 
 export const USER = '/user';
 export const USER_PROFILE = `${USER}/profile`;
-export const USER_PROFILE_AVATAR = `${USER}${USER_PROFILE}/avatar`;
+export const USER_PROFILE_AVATAR = `${USER_PROFILE}/avatar`;
 export const USER_PASSWORD = `${USER}/password`;
 export const USER_SEARCH = `${USER}/search`;
