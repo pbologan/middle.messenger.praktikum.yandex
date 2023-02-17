@@ -25,4 +25,5 @@ export type AppState = {
   isLoading: boolean;
   loginFormError: string | null;
   user: User | null;
+  dialogContent: string | null;
 };

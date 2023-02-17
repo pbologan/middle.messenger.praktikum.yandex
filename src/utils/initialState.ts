@@ -5,4 +5,5 @@ export const initialState: AppState = {
   page: Page.LOGIN,
   isLoading: false,
   loginFormError: null,
+  dialogContent: null,
 };
