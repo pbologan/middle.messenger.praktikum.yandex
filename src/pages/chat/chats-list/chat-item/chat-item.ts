@@ -11,7 +11,7 @@ interface ChatItemProps {
   unreadCount: number;
 }
 
-export default class ChatItem extends Block<ChatItemProps> {
+export class ChatItem extends Block<ChatItemProps> {
   public static override componentName = 'ChatItem';
 
   private renderAvatar(avatar: string) {

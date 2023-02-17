@@ -3,7 +3,7 @@ import { Block } from '../../../core';
 
 interface MessagesListProps { }
 
-export default class MessagesList extends Block<MessagesListProps> {
+export class MessagesList extends Block<MessagesListProps> {
   public static override componentName = 'MessagesList';
 
   override render(): string {

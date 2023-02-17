@@ -10,7 +10,7 @@ interface MessageInputProps {
   onAttachmentClick?: () => void;
 }
 
-export default class MessageInput extends Block<MessageInputProps> {
+export class MessageInput extends Block<MessageInputProps> {
   public static override componentName = 'MessageInput';
 
   constructor({ ...props }) {
@@ -50,7 +50,7 @@ export default class MessageInput extends Block<MessageInputProps> {
               src="${attachmentIcon}" />
           {{{Button
               onClick=onAttachmentClick
-              className="messages__message-attachment-button position-absolute invisible cursor-pointer"
+              className="messages__message-attachment-button"
           }}}
           {{{Input
               className="messages__message-input"

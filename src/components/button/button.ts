@@ -10,7 +10,7 @@ interface ButtonProps {
   }
 }
 
-export default class Button extends Block<ButtonProps> {
+export class Button extends Block<ButtonProps> {
   public static override componentName = 'Button';
 
   constructor({ className, text, onClick } : ButtonProps) {

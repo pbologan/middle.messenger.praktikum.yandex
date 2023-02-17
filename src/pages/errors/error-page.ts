@@ -1,6 +1,5 @@
 import './styles.css';
-import { Block } from '../../core';
-import { BrowserRouter } from '../../core/router';
+import { Block, BrowserRouter } from '../../core';
 
 interface ErrorPageProps {
   code: string;
@@ -30,7 +29,7 @@ export class ErrorPage extends Block<ErrorPageProps> {
         {{{Button
             text="Назад"
             onClick=onBackButtonClick
-            className="borderless-button blue cursor-pointer"
+            className="text-button"
         }}}
       </main>
     `;

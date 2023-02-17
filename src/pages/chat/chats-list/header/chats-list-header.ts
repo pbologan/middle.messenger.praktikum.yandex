@@ -6,7 +6,7 @@ interface ChatsListHeaderProps {
   onProfileButtonClick?: () => void;
 }
 
-export default class ChatsListHeader extends Block<ChatsListHeaderProps> {
+export class ChatsListHeader extends Block<ChatsListHeaderProps> {
   public static override componentName = 'ChatsListHeader';
 
   constructor() {

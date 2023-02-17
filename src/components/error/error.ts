@@ -6,7 +6,7 @@ interface ErrorProps {
 }
 
 // language=hbs
-export default class Error extends Block<ErrorProps> {
+export class Error extends Block<ErrorProps> {
   public static override componentName = 'Error';
 
   override render(): string {

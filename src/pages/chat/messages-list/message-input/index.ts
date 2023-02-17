@@ -1,3 +1,1 @@
-import MessageInput from './message-input';
-
-export default MessageInput;
+export { MessageInput } from './message-input';

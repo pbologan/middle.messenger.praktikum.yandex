@@ -1,6 +1,5 @@
 import './styles.css';
-import { Block } from '../../core';
-import { BrowserRouter } from '../../core/router';
+import { Block, BrowserRouter } from '../../core';
 
 interface NotFoundPageProps {
   code: string;
@@ -30,7 +29,7 @@ export class NotFoundPage extends Block<NotFoundPageProps> {
         {{{Button
             text="Назад"
             onClick=onBackButtonClick
-            className="borderless-button blue cursor-pointer"
+            className="text-button"
         }}}
       </main>
     `;

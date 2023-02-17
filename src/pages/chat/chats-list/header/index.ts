@@ -1,3 +1,1 @@
-import ChatsListHeader from './chats-list-header';
-
-export default ChatsListHeader;
+export { ChatsListHeader } from './chats-list-header';

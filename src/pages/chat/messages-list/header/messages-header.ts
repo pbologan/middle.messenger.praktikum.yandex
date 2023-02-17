@@ -5,7 +5,7 @@ interface MessagesHeaderProps {
   onOptionsButtonClick?: () => void;
 }
 
-export default class MessagesHeader extends Block<MessagesHeaderProps> {
+export class MessagesHeader extends Block<MessagesHeaderProps> {
   public static override componentName = 'MessagesHeader';
 
   constructor() {
