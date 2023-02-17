@@ -1,4 +1,5 @@
 import { User } from './user';
+import { Chat } from './chats';
 
 export type Dispatch<State> = (
   nextStateOrAction: Partial<State> | Action<State>,
@@ -25,5 +26,8 @@ export type AppState = {
   isLoading: boolean;
   loginFormError: string | null;
   user: User | null;
+  currentChatId: number | null;
+  chatsList: Array<Chat>;
+  chatUsers: Array<User>;
   dialogContent: string | null;
 };

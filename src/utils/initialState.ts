@@ -5,5 +5,8 @@ export const initialState: AppState = {
   page: Page.LOGIN,
   isLoading: false,
   loginFormError: null,
+  currentChatId: null,
+  chatsList: [],
+  chatUsers: [],
   dialogContent: null,
 };
