@@ -36,7 +36,7 @@ function queryStringify(data?: Record<string, any>) {
     .join('&')}`;
 }
 
-class HTTPTransport {
+export class HTTPTransport {
   private readonly baseUrl: string;
 
   constructor(baseUrl: string) {
@@ -141,5 +141,3 @@ class HTTPTransport {
     });
   }
 }
-
-export { HTTPTransport };
