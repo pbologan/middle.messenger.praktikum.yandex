@@ -44,7 +44,7 @@ export class UsersApi {
     data.append('avatar', avatar);
     return this.httpClient.put<UserDTO | APIError>(USER_PROFILE_AVATAR, {
       data,
-      headers: { [Header.CONTENT_TYPE]: ContentType.FORM_DATA },
+      headers: {},
     });
   }
 
