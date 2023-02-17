@@ -98,6 +98,7 @@ class SignupPage extends Block<SignupPageProps> {
       // language=hbs
       return `${acc}
         {{{ControlledInput
+            fullWidth=true
             className="input"
             id="${inputElement.id}"
             ref="${inputElement.id}"
@@ -130,12 +131,12 @@ class SignupPage extends Block<SignupPageProps> {
             </div>
             <div class="form__buttons-container">
               {{{Button
-                  className="form__submit-button"
+                  className="contained-button full-width"
                   text="Зарегистрироваться"
                   onClick=onRegisterClick
               }}}
               {{{Button
-                  className="form__register-button"
+                  className="text-button full-width"
                   text="Войти"
                   onClick=onLoginButtonClick
               }}}

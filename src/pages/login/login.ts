@@ -94,6 +94,7 @@ class LoginPage extends Block<LoginPageProps> {
             <span class="header">Вход</span>
             <div class="form__inputs-container">
               {{{ControlledInput
+                  fullWidth=true
                   className="input"
                   id="login"
                   ref="login"
@@ -102,6 +103,7 @@ class LoginPage extends Block<LoginPageProps> {
                   placeholder="Логин"
               }}}
               {{{ControlledInput
+                  fullWidth=true
                   className="input"
                   id="password"
                   ref="password"
@@ -115,19 +117,19 @@ class LoginPage extends Block<LoginPageProps> {
             </div>
             <div class="form__buttons-container">
               {{{Button
-                  className="form__submit-button"
+                  className="contained-button full-width"
                   text="Войти"
                   onClick=onLoginButtonClick
               }}}
               {{{Button 
-                  className="form__register-button" 
+                  className="text-button full-width" 
                   text="Регистрация" 
                   onClick=onRegisterClick
               }}}
             </div>
           </div>
         </form>
-          ${this.renderLoader()}
+        ${this.renderLoader()}
       </main>
     `;
   }
