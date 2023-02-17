@@ -46,7 +46,7 @@ export class MessageInput extends Block<MessageInputProps> {
       <div class="flex-row-layout messages__message-layout">
           <img
               alt="attachment button icon"
-              class="messages__message-attachment-button"
+              class="messages__message-attachment-button-icon"
               src="${attachmentIcon}" />
           {{{Button
               onClick=onAttachmentClick
