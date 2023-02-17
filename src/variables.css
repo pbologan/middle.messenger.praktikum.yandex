@@ -3,6 +3,7 @@
   --black-color: #1e1e1e;
   --blue-color: #3369f3;
   --dark-gray-color: #999;
+  --dialog-background: rgba(0,0,0,0.5);
   --border-color: #eaeaea;
   --main-background-color: #fbfbfb;
   --active-chat-color: #e4edfd;
@@ -41,24 +42,10 @@
   justify-content: end;
 }
 
-.cursor-pointer {
-  cursor: pointer;
+.full-width {
+  width: 100%;
 }
 
-.text-decoration-none {
-  text-decoration: none;
-}
-
-.borderless-button {
-  padding: 0;
-  border: none;
-  background: none;
-}
-
-.invisible {
-  opacity: 0;
-}
-
-.position-absolute {
-  position: absolute;
+.width-120px {
+  width: 120px;
 }
