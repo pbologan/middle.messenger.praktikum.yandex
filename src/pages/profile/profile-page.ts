@@ -13,6 +13,7 @@ import {
 } from '../../hoc';
 import { transformUserToUserData, UserFormData } from '../../models/user';
 import { Page } from '../../models/app';
+import { BASE_URL } from '../../api/urls';
 
 enum ProfilePageMode {
   VIEWING,
@@ -37,9 +38,6 @@ interface ProfilePageProps extends WithStoreProps, WithUserProps, WithLoadingPro
   onSaveButtonClick?: () => void;
   onLogout?: () => void;
   passwordsError: string;
-  showChangeAvatarDialog: boolean;
-  onCloseModal: () => void;
-  onUploadAvatar: () => void;
   onAvatarClick: () => void;
 }
 
@@ -105,26 +103,13 @@ class ProfilePage extends Block<ProfilePageProps> {
       onLogout: () => {
         this.props.store.dispatch(AuthService.getInstance().logout);
       },
+      // language=hbs
       onAvatarClick: () => {
-        this.setProps({
-          ...this.props,
-          showChangeAvatarDialog: true,
-        });
-      },
-      onUploadAvatar: () => {
-        this.setProps({
-          ...this.props,
-          showChangeAvatarDialog: false,
-        });
-      },
-      onCloseModal: () => {
-        this.setProps({
-          ...this.props,
-          showChangeAvatarDialog: false,
+        this.props.store.dispatch({
+          dialogContent: `{{{UploadAvatarDialog}}}`,
         });
       },
       passwordsError: '',
-      showChangeAvatarDialog: false,
     });
   }
 
@@ -226,7 +211,9 @@ class ProfilePage extends Block<ProfilePageProps> {
 
   private renderAvatar(): string {
     const userName = this.props.mode === ProfilePageMode.VIEWING ? this.props.user?.firstName : '';
-    const avatar = this.props.user?.avatar || stubAvatar;
+    const avatar = this.props.user?.avatar
+      ? `${BASE_URL}/resources${this.props.user?.avatar}`
+      : stubAvatar;
     // language=hbs
     return `
       <div class="flex-column-layout profile__info__photo-name-layout">
@@ -362,17 +349,17 @@ class ProfilePage extends Block<ProfilePageProps> {
       <div class="flex-column-layout profile__info-layout">
         {{{Button
             text="Изменить данные"
-            className="profile__button borderless-button blue cursor-pointer"
+            className="text-button profile__button"
             onClick=onChangeDataClick
         }}}
         {{{Button
             text="Изменить пароль"
-            className="profile__button borderless-button blue cursor-pointer"
+            className="text-button profile__button"
             onClick=onChangePasswordClick
         }}}
         {{{Button
             text="Выйти"
-            className="profile__button borderless-button red cursor-pointer"
+            className="text-button profile__button red"
             onClick=onLogout
         }}}
       </div>
@@ -388,16 +375,17 @@ class ProfilePage extends Block<ProfilePageProps> {
   }
 
   private renderDialog() {
-    if (this.props.showChangeAvatarDialog) {
-      // TODO: render modal with dialog
-      return '';
+    const dialogContent = this.props.store.getState().dialogContent;
+    if (dialogContent) {
+      // language=hbs
+      return `{{{Modal}}}`;
     }
     return '';
   }
 
   private renderLoader() {
-    if (this.props.isLoading()) {
-    // language=hbs
+    if (this.props.store.getState().isLoading) {
+      // language=hbs
       return `{{{Loader}}}`;
     }
     return '';
@@ -408,7 +396,7 @@ class ProfilePage extends Block<ProfilePageProps> {
     return `
       <div class="flex-row-layout profile-layout">
         ${this.renderBackButton()}
-        <div class="flex-column-layout align-center profile__main-layout">
+        <div class="flex-column-layout profile__main-layout">
             ${this.renderAvatar()}
             ${this.renderInfoBlock()}
             <div class="profile__error-container">
