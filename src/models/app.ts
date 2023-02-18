@@ -30,4 +30,5 @@ export type AppState = {
   chatsList: Array<Chat>;
   chatUsers: Array<User>;
   dialogContent: string | null;
+  isChatMenuShown: boolean;
 };

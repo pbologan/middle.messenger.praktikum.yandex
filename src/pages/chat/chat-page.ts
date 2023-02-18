@@ -28,6 +28,14 @@ class ChatPage extends Block<ChatPageProps> {
     return '';
   }
 
+  private renderChatMenu() {
+    if (this.props.store.getState().isChatMenuShown) {
+      // language=hbs
+      return `{{{ChatMenu}}}`;
+    }
+    return '';
+  }
+
   override render() {
     // language=hbs
     return `
@@ -41,6 +49,7 @@ class ChatPage extends Block<ChatPageProps> {
             {{{MessageInput}}}
           </div>
           ${this.renderDialog()}
+          ${this.renderChatMenu()}
           ${this.renderLoader()}
       </div>
     `;

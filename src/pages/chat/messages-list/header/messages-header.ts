@@ -16,7 +16,7 @@ class MessagesHeader extends Block<MessagesHeaderProps> {
     super({
       ...props,
       onOptionsButtonClick: () => {
-        // TODO: handle options click
+        this.props.store.dispatch({ isChatMenuShown: true });
       },
       // language=hbs
       onAvatarClick: () => {

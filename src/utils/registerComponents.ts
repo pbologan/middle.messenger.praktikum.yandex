@@ -15,6 +15,7 @@ import { Loader } from '../components/loader';
 import { UploadAvatarDialog } from '../pages/profile';
 import { ChatDialog } from '../pages/chat/chats-list/dialog';
 import { EditableAvatar } from '../components/editable-avatar';
+import { ChatMenu } from '../pages/chat/messages-list/chat-menu';
 
 export function registerComponents() {
   registerComponent(Button);
@@ -34,4 +35,5 @@ export function registerComponents() {
   registerComponent(UploadAvatarDialog);
   registerComponent(ChatDialog);
   registerComponent(EditableAvatar);
+  registerComponent(ChatMenu);
 }

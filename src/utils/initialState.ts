@@ -9,4 +9,5 @@ export const initialState: AppState = {
   chatsList: [],
   chatUsers: [],
   dialogContent: null,
+  isChatMenuShown: false,
 };
