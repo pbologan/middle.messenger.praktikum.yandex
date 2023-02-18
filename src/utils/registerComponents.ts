@@ -14,6 +14,7 @@ import { ErrorPage, NotFoundPage } from '../pages/errors';
 import { Loader } from '../components/loader';
 import { UploadAvatarDialog } from '../pages/profile';
 import { ChatDialog } from '../pages/chat/chats-list/dialog';
+import { EditableAvatar } from '../components/editable-avatar';
 
 export function registerComponents() {
   registerComponent(Button);
@@ -32,4 +33,5 @@ export function registerComponents() {
   registerComponent(Modal);
   registerComponent(UploadAvatarDialog);
   registerComponent(ChatDialog);
+  registerComponent(EditableAvatar);
 }
