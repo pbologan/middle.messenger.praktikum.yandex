@@ -1,7 +1,12 @@
 import './upload-avatar-dialog.css';
 import { Block } from '../../../core';
 import { withStore, WithStoreProps } from '../../../hoc';
-import { UsersService } from '../../../service';
+import { ChatsService, UsersService } from '../../../service';
+
+export enum AvatarType {
+  USER = 'user',
+  CHAT = 'chat',
+}
 
 interface UploadAvatarDialogProps extends WithStoreProps {
   onUploadClick: () => void;
@@ -10,6 +15,7 @@ interface UploadAvatarDialogProps extends WithStoreProps {
   onFileChosen: () => void;
   uploadedFile: File | null;
   error: string | null;
+  avatarType: AvatarType;
 }
 
 class UploadAvatarDialog extends Block<UploadAvatarDialogProps> {
@@ -19,16 +25,23 @@ class UploadAvatarDialog extends Block<UploadAvatarDialogProps> {
     super({
       ...props,
       onUploadClick: () => {
-        if (!this.props.uploadedFile) {
+        const file = this.props.uploadedFile;
+        if (!file) {
           this.setError('Нужно выбрать файл');
         } else {
           if (this.props.error) {
             this.setError('');
           }
-          this.props.store.dispatch(
-            UsersService.getInstance().changeUserAvatar,
-            this.props.uploadedFile,
-          );
+          const action = this.props.avatarType === AvatarType.USER
+            ? UsersService.getInstance().changeUserAvatar
+            : ChatsService.getInstance().changeChatAvatar;
+          const payload = this.props.avatarType === AvatarType.USER
+            ? this.props.uploadedFile
+            : {
+              chatId: this.props.store.getState().currentChat?.id,
+              avatar: this.props.uploadedFile,
+            };
+          this.props.store.dispatch(action, payload);
           this.props.store.dispatch({ dialogContent: null });
         }
       },
@@ -46,7 +59,6 @@ class UploadAvatarDialog extends Block<UploadAvatarDialogProps> {
         if (fileInput) {
           const files = (fileInput.getElement() as HTMLInputElement).files;
           if (files && files[0]) {
-            console.log(files[0]);
             this.setProps({
               ...this.props,
               uploadedFile: files[0],
@@ -55,12 +67,12 @@ class UploadAvatarDialog extends Block<UploadAvatarDialogProps> {
         }
       },
     });
+    console.log(props.avatarType);
   }
 
   private setError(text: string) {
     const { error } = this.refs;
     if (error) {
-      console.log(text, error);
       error.setProps({ text });
     }
   }

@@ -14,6 +14,7 @@ import {
 import { transformUserToUserData, UserFormData } from '../../models/user';
 import { Page } from '../../models/app';
 import { BASE_URL } from '../../api/urls';
+import { AvatarType } from './upload-avatar-dialog/upload-avatar-dialog';
 
 enum ProfilePageMode {
   VIEWING,
@@ -39,6 +40,7 @@ interface ProfilePageProps extends WithStoreProps, WithUserProps, WithLoadingPro
   onLogout?: () => void;
   passwordsError: string;
   onAvatarClick: () => void;
+  onAvatarUpload: (file: File) => void;
 }
 
 class ProfilePage extends Block<ProfilePageProps> {
@@ -106,8 +108,11 @@ class ProfilePage extends Block<ProfilePageProps> {
       // language=hbs
       onAvatarClick: () => {
         this.props.store.dispatch({
-          dialogContent: `{{{UploadAvatarDialog}}}`,
+          dialogContent: `{{{UploadAvatarDialog avatarType="${AvatarType.USER}"}}}`,
         });
+      },
+      onAvatarUpload: (file: File) => {
+        this.props.store.dispatch(UsersService.getInstance().changeUserAvatar, file);
       },
       passwordsError: '',
     });
@@ -217,18 +222,11 @@ class ProfilePage extends Block<ProfilePageProps> {
     // language=hbs
     return `
       <div class="flex-column-layout profile__info__photo-name-layout">
-        <div class="profile__info__photo-container">
-          <img alt="user avatar" class="profile__info__photo" src="${avatar}" />
-            <div class="overlay">
-                Поменять
-                аватар
-            </div>
-            {{{Button
-                text="Поменять аватар"
-                className="profile__change-avatar-button invisible"
-                onClick=onAvatarClick
-            }}}
-        </div>
+        {{{EditableAvatar
+            isStub=false
+            avatar="${avatar}"
+            onClick=onAvatarClick
+        }}}
         <span class="profile__info__name">${userName}</span>
       </div>
     `;

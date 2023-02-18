@@ -30,12 +30,13 @@ class ChatsList extends Block<ChatsListProps> {
   private renderChatItems(): string {
     const { chatsList, currentChat, user } = this.props.store.getState();
     return chatsList.reduce((acc: string, chat: Chat) => {
+      const avatar = chat.avatar || '';
       // language=hbs
       return `${acc}
         {{{ChatItem
             id=${chat.id}
             active=${chat.id === currentChat?.id}
-            avatar=${chat.avatar}
+            avatar="${avatar}"
             name="${chat.title}"
             message="${chat.lastMessage?.content || ''}"
             date="${chat.lastMessage?.time || ''}"

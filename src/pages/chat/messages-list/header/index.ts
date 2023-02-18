@@ -1,1 +1,1 @@
-export { MessagesHeader } from './messages-header';
+export { default as MessagesHeader } from './messages-header';

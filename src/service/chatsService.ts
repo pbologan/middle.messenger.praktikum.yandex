@@ -63,7 +63,7 @@ export class ChatsService {
     }
   }
 
-  public async uploadChatAvatar(
+  public async changeChatAvatar(
     dispatch: Dispatch<AppState>,
     data: UploadChatAvatarRequest,
   ) {
