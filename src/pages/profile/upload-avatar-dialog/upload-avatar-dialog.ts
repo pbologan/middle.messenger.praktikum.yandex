@@ -2,6 +2,7 @@ import './upload-avatar-dialog.css';
 import { Block } from '../../../core';
 import { withStore, WithStoreProps } from '../../../hoc';
 import { ChatsService, UsersService } from '../../../service';
+import { ChangeChatAvatarData } from '../../../api/api-types';
 
 export enum AvatarType {
   USER = 'user',
@@ -38,9 +39,12 @@ class UploadAvatarDialog extends Block<UploadAvatarDialogProps> {
           const payload = this.props.avatarType === AvatarType.USER
             ? this.props.uploadedFile
             : {
-              chatId: this.props.store.getState().currentChat?.id,
-              avatar: this.props.uploadedFile,
-            };
+              data: {
+                chatId: this.props.store.getState().currentChat?.id,
+                avatar: this.props.uploadedFile,
+              },
+              chatsList: this.props.store.getState().chatsList,
+            } as ChangeChatAvatarData;
           this.props.store.dispatch(action, payload);
           this.props.store.dispatch({ dialogContent: null });
         }
@@ -67,7 +71,6 @@ class UploadAvatarDialog extends Block<UploadAvatarDialogProps> {
         }
       },
     });
-    console.log(props.avatarType);
   }
 
   private setError(text: string) {

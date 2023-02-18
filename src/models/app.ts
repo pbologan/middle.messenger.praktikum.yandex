@@ -28,7 +28,7 @@ export type AppState = {
   user: User | null;
   currentChat: Chat | null;
   chatsList: Array<Chat>;
-  chatUsers: Array<User>;
+  currentChatUsers: Array<User>;
   dialogContent: string | null;
   isChatMenuShown: boolean;
 };

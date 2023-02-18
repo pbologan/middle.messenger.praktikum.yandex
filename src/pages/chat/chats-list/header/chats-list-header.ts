@@ -2,6 +2,7 @@ import './chats-list-header.css';
 import { Block, BrowserRouter } from '../../../../core';
 import { Page } from '../../../../models/app';
 import { withStore, WithStoreProps } from '../../../../hoc';
+import { ChatDialogItem } from '../dialog/chat-dialog';
 
 interface ChatsListHeaderProps extends WithStoreProps {
   onProfileButtonClick: () => void;
@@ -20,10 +21,22 @@ class ChatsListHeader extends Block<ChatsListHeaderProps> {
         BrowserRouter.getInstance().go(Page.PROFILE);
       },
       onAddChatButtonClick: () => {
-        this.props.store.dispatch({ dialogContent: `{{{ChatDialog isDelete=false}}}` });
+        this.props.store.dispatch({
+          dialogContent: `{{{ChatDialog
+                              isDelete=false
+                              withInput=true
+                              item="${ChatDialogItem.CHAT}"
+                          }}}`,
+        });
       },
       onDeleteChatButtonClick: () => {
-        this.props.store.dispatch({ dialogContent: `{{{ChatDialog isDelete=true}}}` });
+        this.props.store.dispatch({
+          dialogContent: `{{{ChatDialog
+                              isDelete=true
+                              withInput=false
+                              item="${ChatDialogItem.CHAT}"
+                          }}}`,
+        });
       },
     });
   }

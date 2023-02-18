@@ -1,5 +1,5 @@
-import { ChatDTO } from '../models/chats';
-import { UserDTO } from '../models/user';
+import { Chat, ChatDTO } from '../models/chats';
+import { User, UserDTO } from '../models/user';
 
 export type SignUpRequest = {
   first_name: string;
@@ -79,4 +79,15 @@ export type ChangeUserPasswordRequest = {
 
 export type UserSearchRequest = {
   login: string;
+};
+
+export type ChatUserActionData = {
+  userLogin: UserSearchRequest,
+  chatId: number,
+  currentChatUsers: Array<User>
+};
+
+export type ChangeChatAvatarData = {
+  data: UploadChatAvatarRequest,
+  chatsList: Array<Chat>,
 };

@@ -1,6 +1,7 @@
 import './chat-menu.css';
 import { Block } from '../../../../core';
 import { withStore, WithStoreProps } from '../../../../hoc';
+import { ChatDialogItem } from '../../chats-list/dialog/chat-dialog';
 
 interface ChatMenuProps extends WithStoreProps {
   onAddUserClick: () => void;
@@ -17,10 +18,24 @@ class ChatMenu extends Block<ChatMenuProps> {
     super({
       ...props,
       onAddUserClick: () => {
-        console.log('add user click');
+        // language=hbs
+        this.props.store.dispatch({
+          dialogContent: `{{{ChatDialog
+                              isDelete=false
+                              withInput=true
+                              item="${ChatDialogItem.USER}"
+                          }}}`,
+        });
       },
       onRemoveUserClick: () => {
-        console.log('remove user click');
+        // language=hbs
+        this.props.store.dispatch({
+          dialogContent: `{{{ChatDialog
+                              isDelete=true
+                              withInput=true
+                              item="${ChatDialogItem.USER}"
+                          }}}`,
+        });
       },
       events: {
         click: () => this.props.store.dispatch({ isChatMenuShown: false }),

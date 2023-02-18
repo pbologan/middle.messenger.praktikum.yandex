@@ -1,8 +1,15 @@
 import { AppState, Dispatch } from '../models/app';
-import { ChatsApi } from '../api';
-import { CreateChatRequest, DeleteChatRequest, UploadChatAvatarRequest } from '../api/api-types';
+import { ChatsApi, UsersApi } from '../api';
+import {
+  ChangeChatAvatarData,
+  ChatUserActionData,
+  ChatUsersRequest,
+  CreateChatRequest,
+  DeleteChatRequest,
+} from '../api/api-types';
 import { apiHasError } from '../utils';
 import { transformChatDTO } from '../models/chats';
+import { transformUserDTO } from '../models/user';
 
 export class ChatsService {
   private static instance: ChatsService | null = null;
@@ -65,13 +72,69 @@ export class ChatsService {
 
   public async changeChatAvatar(
     dispatch: Dispatch<AppState>,
-    data: UploadChatAvatarRequest,
+    data: ChangeChatAvatarData,
   ) {
     dispatch({ isLoading: true });
     try {
-      const response = await ChatsApi.getInstance().uploadChatAvatar(data);
+      const response = await ChatsApi.getInstance().uploadChatAvatar(data.data);
       if (!apiHasError(response)) {
         dispatch({ currentChat: transformChatDTO(response) });
+        const foundChat = data.chatsList.find((chat) => chat.id === data.data.chatId);
+        if (foundChat) {
+          foundChat.avatar = response.avatar;
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      dispatch({ isLoading: false });
+    }
+  }
+
+  public async addUserToChat(
+    dispatch: Dispatch<AppState>,
+    data: ChatUserActionData,
+  ) {
+    dispatch({ isLoading: true });
+    try {
+      const userResponse = await UsersApi.getInstance().searchUserByLogin(data.userLogin);
+      if (!apiHasError(userResponse)) {
+        const chatUsers: ChatUsersRequest = {
+          users: [userResponse.id],
+          chatId: data.chatId,
+        };
+        const addUserToChatResponse = await ChatsApi.getInstance().addUsersToChat(chatUsers);
+        if (!apiHasError(addUserToChatResponse)) {
+          dispatch({
+            currentChatUsers: [transformUserDTO(userResponse), ...data.currentChatUsers],
+          });
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      dispatch({ isLoading: false });
+    }
+  }
+
+  public async removeUserFromChat(
+    dispatch: Dispatch<AppState>,
+    data: ChatUserActionData,
+  ) {
+    dispatch({ isLoading: true });
+    try {
+      const userResponse = await UsersApi.getInstance().searchUserByLogin(data.userLogin);
+      if (!apiHasError(userResponse)) {
+        const chatUsers: ChatUsersRequest = {
+          users: [userResponse.id],
+          chatId: data.chatId,
+        };
+        const removeUserFromChatResp = await ChatsApi.getInstance().deleteUsersFromChat(chatUsers);
+        if (!apiHasError(removeUserFromChatResp)) {
+          dispatch({
+            currentChatUsers: data.currentChatUsers.filter((user) => user.id !== userResponse.id),
+          });
+        }
       }
     } catch (e) {
       console.log(e);
