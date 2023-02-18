@@ -1,6 +1,6 @@
 import { AppState, Dispatch } from '../models/app';
 import { ChatsApi } from '../api';
-import { CreateChatRequest, DeleteChatRequest } from '../api/api-types';
+import { CreateChatRequest, DeleteChatRequest, UploadChatAvatarRequest } from '../api/api-types';
 import { apiHasError } from '../utils';
 import { transformChatDTO } from '../models/chats';
 
@@ -55,6 +55,23 @@ export class ChatsService {
           const chats = getChatsResponse.map((chat) => transformChatDTO(chat));
           dispatch({ chatsList: chats });
         }
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      dispatch({ isLoading: false });
+    }
+  }
+
+  public async uploadChatAvatar(
+    dispatch: Dispatch<AppState>,
+    data: UploadChatAvatarRequest,
+  ) {
+    dispatch({ isLoading: true });
+    try {
+      const response = await ChatsApi.getInstance().uploadChatAvatar(data);
+      if (!apiHasError(response)) {
+        dispatch({ currentChat: transformChatDTO(response) });
       }
     } catch (e) {
       console.log(e);
