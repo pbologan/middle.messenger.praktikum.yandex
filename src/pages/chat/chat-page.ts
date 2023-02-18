@@ -1,10 +1,32 @@
 import "./chat-page.css";
 import { Block } from '../../core';
+import {
+  withLoading, WithLoadingProps, withStore, WithStoreProps,
+} from '../../hoc';
 
-interface ChatPageProps { }
+interface ChatPageProps extends WithStoreProps, WithLoadingProps { }
 
-export class ChatPage extends Block<ChatPageProps> {
+class ChatPage extends Block<ChatPageProps> {
   public static override componentName = 'Chat Page';
+
+  private renderDialog() {
+    const dialogContent = this.props.store.getState().dialogContent;
+    if (dialogContent) {
+      // language=hbs
+      return `{{{Modal}}}`;
+    }
+    return '';
+  }
+
+  private renderLoader() {
+    if (this.props.isLoading()) {
+      // language=hbs
+      return `
+        {{{Loader}}}
+      `;
+    }
+    return '';
+  }
 
   override render() {
     // language=hbs
@@ -18,7 +40,11 @@ export class ChatPage extends Block<ChatPageProps> {
             {{{MessagesList}}}
             {{{MessageInput}}}
           </div>
+          ${this.renderDialog()}
+          ${this.renderLoader()}
       </div>
     `;
   }
 }
+
+export default withStore(withLoading(ChatPage));

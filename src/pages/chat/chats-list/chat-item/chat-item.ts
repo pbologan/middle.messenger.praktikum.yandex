@@ -1,22 +1,38 @@
 import './chat-item.css';
 import { Block } from '../../../../core';
+import { BASE_URL } from '../../../../api/urls';
 
 interface ChatItemProps {
+  id: number;
   active: boolean;
-  avatar: string;
+  avatar: string | null;
   name: string;
   isYourMessage: boolean;
-  message: string;
+  message: string | null;
   date: string;
   unreadCount: number;
+  onClick: (chatId: number) => void;
+  events: {
+    click?: () => void;
+  }
 }
 
 export class ChatItem extends Block<ChatItemProps> {
   public static override componentName = 'ChatItem';
 
-  private renderAvatar(avatar: string) {
-    // language=hbs
-    return avatar ? `<img alt="user avatar" src="{{avatar}}" class="chats__chat-item__avatar"/>`
+  constructor(props: ChatItemProps) {
+    super({
+      ...props,
+      events: {
+        click: () => props.onClick(props.id),
+      },
+    });
+  }
+
+  // language=hbs
+  private renderAvatar(avatar: string | null) {
+    return avatar
+      ? `<img alt="chat avatar" src=${BASE_URL}/resources/${avatar} class="chats__chat-item__avatar"/>`
       : '<div class="chats__chat-item__avatar-stub"></div>';
   }
 
@@ -33,22 +49,29 @@ export class ChatItem extends Block<ChatItemProps> {
     return count > 0 ? `<div class="chats__chat-item__unread-count">{{unreadCount}}</div>` : '';
   }
 
+  // language=hbs
+  private renderDate(date?: string) {
+    return date
+      ? `<span class="chats__chat-item__message chats__chat-item__date">${date}</span>`
+      : '';
+  }
+
   override render(): string {
     const {
-      active, avatar, isYourMessage, unreadCount,
+      active, isYourMessage, unreadCount, avatar, date,
     } = this.props;
     // language=hbs
     return `
       <div class="flex-row-layout chats__chat-item__layout ${active ? "chats__chat-item__chat-active" : ""}">
         ${this.renderAvatar(avatar)}
         <div class="flex-column-layout chats__chat-item__username-message-layout">
-          <span class="chats__chat-item__username">{{name}}</span>
+          <span class="chats__chat-item__chatname">{{name}}</span>
           <div class="chats-row-layout chats__chat-item__message-layout">
               ${this.renderMessage(isYourMessage)}
           </div>
         </div>
         <div class="flex-column-layout chats__chat-item__date-count-layout">
-            <span class="chats__chat-item__message chats__chat-item__date">{{date}}</span>
+            ${this.renderDate(date)}
             ${this.renderUnreadCount(unreadCount)}
         </div>
       </div>

@@ -89,7 +89,7 @@
   margin-top: 5px;
 }
 
-.chats__chat-item__username {
+.chats__chat-item__chatname {
   color: var(--black-color);
   font-size: 1.1rem;
   font-weight: 500;

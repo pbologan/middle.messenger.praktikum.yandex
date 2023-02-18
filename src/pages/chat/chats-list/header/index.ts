@@ -1,1 +1,1 @@
-export { ChatsListHeader } from './chats-list-header';
+export { default as ChatsListHeader } from './chats-list-header';

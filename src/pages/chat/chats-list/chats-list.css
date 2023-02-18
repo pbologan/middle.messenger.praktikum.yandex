@@ -1,5 +1,7 @@
 .chats-layout {
+  width: 100%;
   min-width: 310px;
+  max-width: 320px;
   height: 100vh;
   background-color: var(--main-background-color);
   border-right: 1px solid var(--border-color);

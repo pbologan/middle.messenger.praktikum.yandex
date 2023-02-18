@@ -9,9 +9,10 @@ export type MessageDTO = {
 export type ChatDTO = {
   id: number;
   title: string;
-  avatar: string;
+  avatar: string | null;
   unread_count: number;
-  last_message: MessageDTO;
+  created_by: number;
+  last_message: MessageDTO | null;
 };
 
 export type Message = {
@@ -23,9 +24,10 @@ export type Message = {
 export type Chat = {
   id: number;
   title: string;
-  avatar: string;
+  avatar: string | null;
   unreadCount: number;
-  lastMessage: Message;
+  createdBy: number;
+  lastMessage: Message | null;
 };
 
 export function transformMessageDTO(messageDTO: MessageDTO): Message {
@@ -42,6 +44,7 @@ export function transformChatDTO(chatDTO: ChatDTO): Chat {
     title: chatDTO.title,
     avatar: chatDTO.avatar,
     unreadCount: chatDTO.unread_count,
-    lastMessage: transformMessageDTO(chatDTO.last_message),
+    lastMessage: chatDTO.last_message ? transformMessageDTO(chatDTO.last_message) : null,
+    createdBy: chatDTO.created_by,
   };
 }

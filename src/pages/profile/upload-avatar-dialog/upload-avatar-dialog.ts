@@ -19,7 +19,6 @@ class UploadAvatarDialog extends Block<UploadAvatarDialogProps> {
     super({
       ...props,
       onUploadClick: () => {
-        console.log(this.refs);
         if (!this.props.uploadedFile) {
           this.setError('Нужно выбрать файл');
         } else {

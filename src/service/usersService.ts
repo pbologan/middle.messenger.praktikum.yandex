@@ -1,6 +1,6 @@
 import { UsersApi } from '../api';
 import { ChangeUserPasswordRequest, UserRequest } from '../api/api-types';
-import { apiHasError } from '../utils/apiHasError';
+import { apiHasError } from '../utils';
 import { AppState, Dispatch } from '../models/app';
 import { transformUserDTO } from '../models/user';
 

@@ -2,7 +2,7 @@ import { AuthApi } from '../api';
 import { SignInRequest, SignUpRequest } from '../api/api-types';
 import { AppState, Dispatch, Page } from '../models/app';
 import { BrowserRouter } from '../core';
-import { apiHasError } from '../utils/apiHasError';
+import { apiHasError } from '../utils';
 import { transformUserDTO } from '../models/user';
 
 export class AuthService {
@@ -28,7 +28,6 @@ export class AuthService {
     try {
       dispatch({ isLoading: true });
       const signInResponse = await AuthApi.getInstance().signIn(userData);
-      console.log('resp sign in', signInResponse);
       if (!apiHasError(signInResponse)) {
         BrowserRouter.getInstance().go(Page.CHAT);
         const userInfoResponse = await AuthApi.getInstance().getUserInfo();

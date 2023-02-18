@@ -1,20 +1,54 @@
 import './chats-list-header.css';
 import { Block, BrowserRouter } from '../../../../core';
 import { Page } from '../../../../models/app';
+import { withStore, WithStoreProps } from '../../../../hoc';
 
-interface ChatsListHeaderProps {
-  onProfileButtonClick?: () => void;
+interface ChatsListHeaderProps extends WithStoreProps {
+  onProfileButtonClick: () => void;
+  onAddChatButtonClick: () => void;
+  onDeleteChatButtonClick: () => void;
 }
 
-export class ChatsListHeader extends Block<ChatsListHeaderProps> {
+class ChatsListHeader extends Block<ChatsListHeaderProps> {
   public static override componentName = 'ChatsListHeader';
 
-  constructor() {
+  constructor(props: ChatsListHeaderProps) {
+    // language=hbs
     super({
+      ...props,
       onProfileButtonClick: () => {
         BrowserRouter.getInstance().go(Page.PROFILE);
       },
+      onAddChatButtonClick: () => {
+        this.props.store.dispatch({ dialogContent: `{{{ChatDialog isDelete=false}}}` });
+      },
+      onDeleteChatButtonClick: () => {
+        this.props.store.dispatch({ dialogContent: `{{{ChatDialog isDelete=true}}}` });
+      },
     });
+  }
+
+  // language=hbs
+  private renderChatOptionsButtons() {
+    const deleteButton = this.props.store.getState().currentChatId
+      ? `
+        {{{Button
+          text="Удалить чат"
+          className="outlined-button-danger width-150px"
+          onClick=onDeleteChatButtonClick
+        }}}
+      `
+      : '';
+    return `
+      <section class="chats__buttons-container">
+        {{{Button
+            text="Добавить чат"
+            className="contained-button width-150px"
+            onClick=onAddChatButtonClick
+        }}}
+        ${deleteButton}
+      </section>
+    `;
   }
 
   override render(): string {
@@ -27,7 +61,10 @@ export class ChatsListHeader extends Block<ChatsListHeaderProps> {
             onClick=onProfileButtonClick
         }}}
         <input class="chats__search-input" placeholder="Поиск">
+        ${this.renderChatOptionsButtons()}
       </div>
     `;
   }
 }
+
+export default withStore(ChatsListHeader);
