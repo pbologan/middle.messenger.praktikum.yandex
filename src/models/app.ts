@@ -26,7 +26,7 @@ export type AppState = {
   isLoading: boolean;
   loginFormError: string | null;
   user: User | null;
-  currentChatId: number | null;
+  currentChat: Chat | null;
   chatsList: Array<Chat>;
   chatUsers: Array<User>;
   dialogContent: string | null;

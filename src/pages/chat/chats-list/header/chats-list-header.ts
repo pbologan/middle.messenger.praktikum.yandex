@@ -30,7 +30,7 @@ class ChatsListHeader extends Block<ChatsListHeaderProps> {
 
   // language=hbs
   private renderChatOptionsButtons() {
-    const deleteButton = this.props.store.getState().currentChatId
+    const deleteButton = this.props.store.getState().currentChat
       ? `
         {{{Button
           text="Удалить чат"

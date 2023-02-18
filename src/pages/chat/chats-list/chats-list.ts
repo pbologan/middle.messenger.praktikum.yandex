@@ -16,22 +16,25 @@ class ChatsList extends Block<ChatsListProps> {
     super({
       ...props,
       onChatItemClick: (chatId: number) => {
-        const { currentChatId } = this.props.store.getState();
-        if (currentChatId !== chatId) {
-          this.props.store.dispatch({ currentChatId: chatId });
+        const { currentChat, chatsList } = this.props.store.getState();
+        if (currentChat?.id !== chatId) {
+          const foundChat = chatsList.find((chat) => chat.id === chatId);
+          if (foundChat) {
+            this.props.store.dispatch({ currentChat: foundChat });
+          }
         }
       },
     });
   }
 
   private renderChatItems(): string {
-    const { chatsList, currentChatId, user } = this.props.store.getState();
+    const { chatsList, currentChat, user } = this.props.store.getState();
     return chatsList.reduce((acc: string, chat: Chat) => {
       // language=hbs
       return `${acc}
         {{{ChatItem
             id=${chat.id}
-            active=${chat.id === currentChatId}
+            active=${chat.id === currentChat?.id}
             avatar=${chat.avatar}
             name="${chat.title}"
             message="${chat.lastMessage?.content || ''}"

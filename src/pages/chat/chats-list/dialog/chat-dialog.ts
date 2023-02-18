@@ -36,9 +36,11 @@ class ChatDialog extends Block<ChatDialogProps> {
         this.props.store.dispatch({ dialogContent: null });
       },
       onDeleteButtonClick: () => {
-        const chatId = this.props.store.getState().currentChatId;
-        this.props.store.dispatch(ChatsService.getInstance().deleteChat, { chatId });
-        this.props.store.dispatch({ dialogContent: null });
+        const chatId = this.props.store.getState().currentChat?.id;
+        if (chatId) {
+          this.props.store.dispatch(ChatsService.getInstance().deleteChat, { chatId });
+          this.props.store.dispatch({ dialogContent: null });
+        }
       },
     });
   }
@@ -47,10 +49,7 @@ class ChatDialog extends Block<ChatDialogProps> {
     let title = '';
     const isDelete = this.props.isDelete;
     if (isDelete) {
-      const currentChatId = this.props.store.getState().currentChatId;
-      const currentChat = this.props.store.getState().chatsList.find((chat) => {
-        return chat.id === currentChatId;
-      });
+      const currentChat = this.props.store.getState().currentChat;
       if (currentChat) {
         title = `Удалить чат ${currentChat.title}?`;
       }

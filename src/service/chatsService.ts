@@ -49,7 +49,7 @@ export class ChatsService {
     try {
       const deleteChatResponse = await ChatsApi.getInstance().deleteChat(data);
       if (!apiHasError(deleteChatResponse)) {
-        dispatch({ currentChatId: null });
+        dispatch({ currentChat: null });
         const getChatsResponse = await ChatsApi.getInstance().getChats();
         if (!apiHasError(getChatsResponse)) {
           const chats = getChatsResponse.map((chat) => transformChatDTO(chat));
