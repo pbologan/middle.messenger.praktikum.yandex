@@ -1,5 +1,6 @@
 import { User } from './user';
 import { Chat } from './chats';
+import { Message } from '../api/websocket-types';
 
 export type Dispatch<State> = (
   nextStateOrAction: Partial<State> | Action<State>,
@@ -27,8 +28,10 @@ export type AppState = {
   loginFormError: string | null;
   user: User | null;
   currentChat: Chat | null;
+  currentChatMessages: Array<Message>;
   chatsList: Array<Chat>;
   currentChatUsers: Array<User>;
+  currentChatToken: string | null;
   dialogContent: string | null;
   isChatMenuShown: boolean;
 };

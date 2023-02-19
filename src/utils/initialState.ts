@@ -6,8 +6,10 @@ export const initialState: AppState = {
   isLoading: false,
   loginFormError: null,
   currentChat: null,
+  currentChatMessages: [],
   chatsList: [],
   currentChatUsers: [],
   dialogContent: null,
   isChatMenuShown: false,
+  currentChatToken: null,
 };
