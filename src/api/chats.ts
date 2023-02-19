@@ -1,9 +1,9 @@
 import { ContentType, Header, HTTPTransport } from '../utils';
 import {
   BASE_URL,
-  CHATS, CHATS_USERS,
+  CHATS, CHATS_TOKEN, CHATS_USERS,
   getChatUsersUrl,
-  getNewMessagesCountUrl,
+  getNewMessagesCountUrl, RESOURCES,
   UPLOAD_CHAT_AVATAR,
 } from './urls';
 import {
@@ -12,10 +12,13 @@ import {
   ChatsResponse,
   CreateChatRequest,
   DeleteChatRequest,
-  DeleteChatResponse, GetChatUsersRequest, GetChatUsersResponse, UploadChatAvatarRequest,
+  DeleteChatResponse,
+  GetChatUsersRequest,
+  GetChatUsersResponse,
+  UploadChatAvatarRequest, ResourceResponse,
 } from './api-types';
 import { APIError } from '../models/error';
-import { ChatDTO } from '../models/chats';
+import { ChatDTO, ChatToken } from '../models/chats';
 
 export class ChatsApi {
   private static instance: ChatsApi | null = null;
@@ -99,6 +102,19 @@ export class ChatsApi {
       headers: {
         [Header.CONTENT_TYPE]: ContentType.APPLICATION_JSON,
       },
+    });
+  }
+
+  public getChatToken(chatId: number) {
+    return this.httpClient.post<ChatToken | APIError>(`${CHATS_TOKEN}/${chatId}`);
+  }
+
+  public sendFile(file: File) {
+    const formData = new FormData();
+    formData.append('resource', file);
+    return this.httpClient.post<ResourceResponse | APIError>(RESOURCES, {
+      data: formData,
+      headers: {},
     });
   }
 }
