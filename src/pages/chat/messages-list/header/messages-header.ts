@@ -27,10 +27,21 @@ class MessagesHeader extends Block<MessagesHeaderProps> {
     });
   }
 
+  // language=hbs
   private renderContent() {
     const currentChat = this.props.store.getState().currentChat;
     if (currentChat) {
-      // language=hbs
+      const currentUser = this.props.store.getState().user;
+      const needOptionsButton = currentChat && (currentChat.createdBy === currentUser?.id);
+      const optionsButton = needOptionsButton
+        ? `
+          {{{Button
+            className="messages__chat-options-button"
+            onClick=onOptionsButtonClick
+          }}}
+        `
+        : '';
+
       return `
         {{{EditableAvatar
             smallFontSize=true
@@ -40,10 +51,7 @@ class MessagesHeader extends Block<MessagesHeaderProps> {
             onClick=onAvatarClick
         }}}
         <span class="messages__chat-name">${currentChat.title}</span>
-        {{{Button
-            className="messages__chat-options-button"
-            onClick=onOptionsButtonClick
-        }}}
+        ${optionsButton}
       `;
     }
     return ``;
