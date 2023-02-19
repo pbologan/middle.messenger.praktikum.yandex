@@ -16,12 +16,10 @@ export async function initApp(dispatch: Dispatch<AppState>) {
   if (!apiHasError(response)) {
     dispatch({ user: transformUserDTO(response) });
     router.go(storedPage || Page.CHAT);
-    if (storedPage && storedPage === Page.CHAT) {
-      const chatsResponse = await ChatsApi.getInstance().getChats();
-      if (!apiHasError(chatsResponse)) {
-        const chats = chatsResponse.map((chatDTO) => transformChatDTO(chatDTO));
-        dispatch({ chatsList: chats });
-      }
+    const chatsResponse = await ChatsApi.getInstance().getChats();
+    if (!apiHasError(chatsResponse)) {
+      const chats = chatsResponse.map((chatDTO) => transformChatDTO(chatDTO));
+      dispatch({ chatsList: chats });
     }
   } else {
     router.go(storedPage || Page.LOGIN);
