@@ -1,12 +1,12 @@
 import {
   Message,
-  WebSocketCloseCode,
+  transformMessageDTO,
+  WebSocketCloseCode, WebSocketCloseReason,
   WebSocketCloseType,
   WebSocketEvent,
-  WebSocketMessage,
-  WebSocketMessageType,
 } from './websocket-types';
 import { Store } from '../core';
+import { MessagesService } from '../service/messagesService';
 
 export class WebSocketApi {
   private static instance: WebSocketApi | null = null;
@@ -28,7 +28,10 @@ export class WebSocketApi {
 
   public connect(url: string) {
     if (this.webSocket) {
-      this.webSocket = null;
+      this.close({
+        code: WebSocketCloseCode.NORMAL,
+        reason: WebSocketCloseReason[WebSocketCloseCode.NORMAL],
+      });
     }
     this.webSocket = new WebSocket(url);
     this.addEventListeners();
@@ -43,7 +46,7 @@ export class WebSocketApi {
   }
 
   public sendMessage(message: string | Blob) {
-    if (this.webSocket) {
+    if (this.webSocket && this.webSocket.readyState === WebSocket.OPEN) {
       this.webSocket.send(message);
     }
   }
@@ -62,32 +65,33 @@ export class WebSocketApi {
     this.webSocket?.removeEventListener(WebSocketEvent.MESSAGE, this.onMessage.bind(this));
   }
 
-  private onMessage(event: MessageEvent<Message | Array<Message>>) {
+  private onMessage(event: MessageEvent) {
     const store = Store.getInstance();
     let messages = [...store.getState().currentChatMessages];
     const { data } = event;
-    if (Array.isArray(data)) {
+    const parsedData = JSON.parse(data);
+    if (Array.isArray(parsedData)) {
       const currentMessagesSet = new Set(messages);
-      const difference = new Set(data);
+      const receivedMessages: Array<Message> = parsedData.map((messageDTO) => {
+        return transformMessageDTO(messageDTO);
+      });
+      const difference = new Set(receivedMessages);
       currentMessagesSet.forEach((el) => {
         difference.delete(el);
       });
       messages = [...messages, ...difference];
     } else {
-      const found = messages.find((message) => message.content === data.content);
+      const found = messages.find((message) => message.content === parsedData.content);
       if (!found) {
-        messages.push(data);
+        const transformed = transformMessageDTO(parsedData);
+        messages.push(transformed);
       }
     }
     store.dispatch({ currentChatMessages: messages });
   }
 
   private onOpen() {
-    const onOpenMessage = {
-      content: String(Store.getInstance().getState().user?.id),
-      type: WebSocketMessageType.USER_CONNECTED,
-    } as WebSocketMessage;
-    this.sendMessage(JSON.stringify(onOpenMessage));
+    Store.getInstance().dispatch(MessagesService.getInstance().getMessages);
   }
 
   private onClose(event: CloseEvent) {

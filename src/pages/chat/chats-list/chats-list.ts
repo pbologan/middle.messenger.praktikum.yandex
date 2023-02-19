@@ -4,6 +4,8 @@ import {
   withLoading, WithLoadingProps, withStore, WithStoreProps,
 } from '../../../hoc';
 import { Chat } from '../../../models/chats';
+import { ChatsService } from '../../../service';
+import { MessagesService } from '../../../service/messagesService';
 
 interface ChatsListProps extends WithStoreProps, WithLoadingProps {
   onChatItemClick: (chatId: number) => void;
@@ -21,6 +23,15 @@ class ChatsList extends Block<ChatsListProps> {
           const foundChat = chatsList.find((chat) => chat.id === chatId);
           if (foundChat) {
             this.props.store.dispatch({ currentChat: foundChat });
+            this.props.store.dispatch(MessagesService.getInstance().openConnection, {
+              userId: this.props.store.getState().user?.id,
+              chatId,
+            });
+            this.props.store.dispatch(
+              ChatsService.getInstance().getCurrentChatUsers,
+              { id: chatId },
+            );
+            this.props.store.dispatch(MessagesService.getInstance().getMessages, chatId);
           }
         }
       },

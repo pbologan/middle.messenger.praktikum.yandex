@@ -4,12 +4,12 @@ import { ChatsApi, WebSocketApi } from '../api';
 import { AppState, Dispatch } from '../models/app';
 import { apiHasError } from '../utils';
 import {
+  OpenConnectionData,
   WebSocketCloseCode,
   WebSocketCloseReason,
   WebSocketMessage,
   WebSocketMessageType,
 } from '../api/websocket-types';
-import { Store } from '../core';
 
 export class MessagesService {
   private static instance: MessagesService | null = null;
@@ -27,14 +27,29 @@ export class MessagesService {
     return MessagesService.instance;
   }
 
-  public openConnection(
+  public async openConnection(
     dispatch: Dispatch<AppState>,
-    data: WebSocketUrlData,
+    data: OpenConnectionData,
   ) {
     dispatch({ isLoading: true });
-    const url = getWebSocketUrl(data);
-    WebSocketApi.getInstance().connect(url);
-    dispatch({ isLoading: false });
+    try {
+      const tokenResponse = await ChatsApi.getInstance().getChatToken(data.chatId);
+      if (!apiHasError(tokenResponse)) {
+        dispatch({ currentChatToken: tokenResponse.token });
+        const { userId, chatId } = data;
+        const urlData = {
+          userId,
+          chatId,
+          token: tokenResponse.token,
+        } as WebSocketUrlData;
+        const url = getWebSocketUrl(urlData);
+        WebSocketApi.getInstance().connect(url);
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      dispatch({ isLoading: false });
+    }
   }
 
   public closeConnection(dispatch: Dispatch<AppState>) {
@@ -48,26 +63,15 @@ export class MessagesService {
 
   public async getMessages(
     dispatch: Dispatch<AppState>,
-    chatId: number,
   ) {
     dispatch({ isLoading: true });
     try {
       dispatch({ currentChatMessages: [] });
-      const messagesCountResponse = await ChatsApi.getInstance().getChatNewMessagesCount(chatId);
-      if (!apiHasError(messagesCountResponse)) {
-        const count = messagesCountResponse.unread_count;
-        let offset = 0;
-        while (Store.getInstance().getState().currentChatMessages.length < count) {
-          const sendMessageObject = {
-            content: String(offset),
-            type: WebSocketMessageType.GET_OLD,
-          } as WebSocketMessage;
-          WebSocketApi.getInstance().sendMessage(JSON.stringify(sendMessageObject));
-          if (offset !== Store.getInstance().getState().currentChatMessages.length) {
-            offset = Store.getInstance().getState().currentChatMessages.length;
-          }
-        }
-      }
+      const sendMessageObject = {
+        content: '0',
+        type: WebSocketMessageType.GET_OLD,
+      } as WebSocketMessage;
+      WebSocketApi.getInstance().sendMessage(JSON.stringify(sendMessageObject));
     } catch (e) {
       console.log(e);
     } finally {
