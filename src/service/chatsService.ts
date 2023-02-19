@@ -5,7 +5,7 @@ import {
   ChatUserActionData,
   ChatUsersRequest,
   CreateChatRequest,
-  DeleteChatRequest,
+  DeleteChatRequest, GetChatUsersRequest,
 } from '../api/api-types';
 import { apiHasError } from '../utils';
 import { transformChatDTO } from '../models/chats';
@@ -57,6 +57,8 @@ export class ChatsService {
       const deleteChatResponse = await ChatsApi.getInstance().deleteChat(data);
       if (!apiHasError(deleteChatResponse)) {
         dispatch({ currentChat: null });
+        dispatch({ currentChatUsers: [] });
+        dispatch({ currentChatToken: null });
         const getChatsResponse = await ChatsApi.getInstance().getChats();
         if (!apiHasError(getChatsResponse)) {
           const chats = getChatsResponse.map((chat) => transformChatDTO(chat));
@@ -135,6 +137,42 @@ export class ChatsService {
             currentChatUsers: data.currentChatUsers.filter((user) => user.id !== userResponse.id),
           });
         }
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      dispatch({ isLoading: false });
+    }
+  }
+
+  public async getChatToken(
+    dispatch: Dispatch<AppState>,
+    chatId: number,
+  ) {
+    dispatch({ isLoading: true });
+    try {
+      const response = await ChatsApi.getInstance().getChatToken(chatId);
+      if (!apiHasError(response)) {
+        dispatch({ currentChatToken: response.token });
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      dispatch({ isLoading: false });
+    }
+  }
+
+  public async getCurrentChatUsers(
+    dispatch: Dispatch<AppState>,
+    data: GetChatUsersRequest,
+  ) {
+    dispatch({ isLoading: true });
+    try {
+      const chatUsersResponse = await ChatsApi.getInstance().getChatUsers(data);
+      if (!apiHasError(chatUsersResponse)) {
+        console.log('chat users', chatUsersResponse);
+        const chatUsers = chatUsersResponse.map((userDTO) => transformUserDTO(userDTO));
+        dispatch({ currentChatUsers: chatUsers });
       }
     } catch (e) {
       console.log(e);
