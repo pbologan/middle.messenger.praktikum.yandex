@@ -45,7 +45,7 @@ type FileMessageDTO = {
 export type MessageType = 'message' | 'file';
 
 export type MessageDTO = {
-  chat_id: number,
+  id: number,
   time: string,
   type: MessageType,
   user_id: string,
@@ -63,12 +63,18 @@ export type FileMessage = {
 };
 
 export type Message = {
-  chat_id: number,
+  id: number,
+  chatId: number,
   time: string,
   type: MessageType,
-  user_id: string,
+  userId: string,
   content: string,
-  file?: FileMessage,
+  file?: FileMessage | null,
+};
+
+export type OpenConnectionData = {
+  userId: number,
+  chatId: number,
 };
 
 function transformFileMessageDTO(fileMessageDTO: FileMessageDTO): FileMessage {
@@ -82,13 +88,13 @@ function transformFileMessageDTO(fileMessageDTO: FileMessageDTO): FileMessage {
   };
 }
 
-export function transformMessageDTO(messageDTO: MessageDTO) {
+export function transformMessageDTO(messageDTO: MessageDTO): Message {
   return {
-    chatId: messageDTO.chat_id,
+    id: messageDTO.id,
     time: messageDTO.time,
     type: messageDTO.type,
     userId: messageDTO.user_id,
     content: messageDTO.content,
     file: messageDTO.file ? transformFileMessageDTO(messageDTO.file) : null,
-  };
+  } as Message;
 }
