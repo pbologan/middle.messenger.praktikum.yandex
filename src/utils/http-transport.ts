@@ -32,7 +32,13 @@ function queryStringify(data?: Record<string, any>) {
   }
 
   return `?${Object.keys(data)
-    .map((key: string) => `${key}=${data[key]}`)
+    .map((key: string) => {
+      const value = data[key];
+      if (value !== undefined) {
+        return `${key}=${value}`;
+      }
+      return '';
+    })
     .join('&')}`;
 }
 
