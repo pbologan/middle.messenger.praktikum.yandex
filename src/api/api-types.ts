@@ -91,3 +91,19 @@ export type ChangeChatAvatarData = {
   data: UploadChatAvatarRequest,
   chatsList: Array<Chat>,
 };
+
+export type WebSocketUrlData = {
+  userId: number,
+  chatId: number,
+  token: string,
+};
+
+export type ResourceResponse = {
+  id: number,
+  user_id: number,
+  path: string,
+  filename: string,
+  content_type: string,
+  content_size: number,
+  upload_date: string,
+};
