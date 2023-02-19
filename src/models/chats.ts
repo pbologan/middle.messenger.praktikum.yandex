@@ -1,6 +1,6 @@
 import { transformUserDTO, User, UserDTO } from './user';
 
-export type MessageDTO = {
+export type LastChatMessageDTO = {
   user: UserDTO;
   time: string;
   content: string;
@@ -12,10 +12,10 @@ export type ChatDTO = {
   avatar: string | null;
   unread_count: number;
   created_by: number;
-  last_message: MessageDTO | null;
+  last_message: LastChatMessageDTO | null;
 };
 
-export type Message = {
+export type LastChatMessage = {
   user: User;
   time: string;
   content: string;
@@ -27,10 +27,14 @@ export type Chat = {
   avatar: string | null;
   unreadCount: number;
   createdBy: number;
-  lastMessage: Message | null;
+  lastMessage: LastChatMessage | null;
 };
 
-export function transformMessageDTO(messageDTO: MessageDTO): Message {
+export type ChatToken = {
+  token: string;
+};
+
+function transformLastChatMessageDTO(messageDTO: LastChatMessageDTO): LastChatMessage {
   return {
     user: transformUserDTO(messageDTO.user),
     time: messageDTO.time,
@@ -44,7 +48,7 @@ export function transformChatDTO(chatDTO: ChatDTO): Chat {
     title: chatDTO.title,
     avatar: chatDTO.avatar,
     unreadCount: chatDTO.unread_count,
-    lastMessage: chatDTO.last_message ? transformMessageDTO(chatDTO.last_message) : null,
+    lastMessage: chatDTO.last_message ? transformLastChatMessageDTO(chatDTO.last_message) : null,
     createdBy: chatDTO.created_by,
   };
 }
