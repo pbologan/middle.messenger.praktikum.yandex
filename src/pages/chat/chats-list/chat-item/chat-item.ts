@@ -1,6 +1,7 @@
 import './chat-item.css';
 import { Block } from '../../../../core';
 import { BASE_URL } from '../../../../api/urls';
+import { getFormattedTime } from '../../../../utils';
 
 interface ChatItemProps {
   id: number;
@@ -51,9 +52,11 @@ export class ChatItem extends Block<ChatItemProps> {
 
   // language=hbs
   private renderDate(date?: string) {
-    return date
-      ? `<span class="chats__chat-item__message chats__chat-item__date">${date}</span>`
-      : '';
+    if (date) {
+      const time = getFormattedTime(new Date(date));
+      return `<span class="chats__chat-item__message chats__chat-item__date">${time}</span>`;
+    }
+    return '';
   }
 
   override render(): string {

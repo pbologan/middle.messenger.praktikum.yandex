@@ -6,9 +6,9 @@
   --dialog-background: rgba(0,0,0,0.5);
   --border-color: #eaeaea;
   --main-background-color: #fbfbfb;
-  --active-chat-color: #e4edfd;
+  --active-item-color: #e4edfd;
   --chat-options-background-button-color: #f5f5f5;
-  --input-background-color: #efefef;
+  --light-gray-color: #efefef;
 }
 
 .flex-column-layout {
@@ -40,6 +40,10 @@
 
 .justify-right {
   justify-content: end;
+}
+
+.justify-left {
+  justify-content: start;
 }
 
 .full-width {

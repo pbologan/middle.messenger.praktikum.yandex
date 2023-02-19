@@ -20,7 +20,7 @@
 .chats__search-input {
   width: 90%;
   height: 30px;
-  background: var(--input-background-color);
+  background: var(--light-gray-color);
   outline: none;
   border: none;
   border-radius: 5px;
@@ -61,7 +61,7 @@
 }
 
 .chats__chat-item__chat-active {
-  background-color: var(--active-chat-color);
+  background-color: var(--active-item-color);
 }
 
 .chats__chat-item__avatar {

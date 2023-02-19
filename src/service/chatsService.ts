@@ -170,7 +170,6 @@ export class ChatsService {
     try {
       const chatUsersResponse = await ChatsApi.getInstance().getChatUsers(data);
       if (!apiHasError(chatUsersResponse)) {
-        console.log('chat users', chatUsersResponse);
         const chatUsers = chatUsersResponse.map((userDTO) => transformUserDTO(userDTO));
         dispatch({ currentChatUsers: chatUsers });
       }
