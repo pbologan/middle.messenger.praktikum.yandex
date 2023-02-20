@@ -1,9 +1,10 @@
-import { AuthApi } from '../api';
+import { AuthApi, ChatsApi } from '../api';
 import { SignInRequest, SignUpRequest } from '../api/api-types';
 import { AppState, Dispatch, Page } from '../models/app';
 import { BrowserRouter } from '../core';
 import { apiHasError } from '../utils';
 import { transformUserDTO } from '../models/user';
+import { transformChatDTO } from '../models/chats';
 
 export class AuthService {
   private static instance: AuthService | null = null;
@@ -34,6 +35,11 @@ export class AuthService {
         if (!apiHasError(userInfoResponse)) {
           dispatch({ user: transformUserDTO(userInfoResponse) });
         }
+        const chatsResponse = await ChatsApi.getInstance().getChats();
+        if (!apiHasError(chatsResponse)) {
+          const chats = chatsResponse.map((chatDTO) => transformChatDTO(chatDTO));
+          dispatch({ chatsList: chats });
+        }
       } else {
         dispatch({ loginFormError: 'Неверное имя пользователя или пароль' });
       }
@@ -60,6 +66,11 @@ export class AuthService {
           const getCurrentUserResponse = await AuthApi.getInstance().getUserInfo();
           if (!apiHasError(getCurrentUserResponse)) {
             dispatch({ user: transformUserDTO(getCurrentUserResponse) });
+          }
+          const chatsResponse = await ChatsApi.getInstance().getChats();
+          if (!apiHasError(chatsResponse)) {
+            const chats = chatsResponse.map((chatDTO) => transformChatDTO(chatDTO));
+            dispatch({ chatsList: chats });
           }
           BrowserRouter.getInstance().go(Page.CHAT);
         }
