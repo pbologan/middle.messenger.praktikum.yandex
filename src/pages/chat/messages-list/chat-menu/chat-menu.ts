@@ -26,6 +26,7 @@ class ChatMenu extends Block<ChatMenuProps> {
                               item="${ChatDialogItem.USER}"
                           }}}`,
         });
+        this.props.store.dispatch({ isChatMenuShown: false });
       },
       onRemoveUserClick: () => {
         // language=hbs
@@ -36,6 +37,7 @@ class ChatMenu extends Block<ChatMenuProps> {
                               item="${ChatDialogItem.USER}"
                           }}}`,
         });
+        this.props.store.dispatch({ isChatMenuShown: false });
       },
       events: {
         click: () => this.props.store.dispatch({ isChatMenuShown: false }),
