@@ -51,7 +51,7 @@ class ChatsList extends Block<ChatsListProps> {
             name="${chat.title}"
             message="${chat.lastMessage?.content || ''}"
             date="${chat.lastMessage?.time || ''}"
-            isYourMessage=${chat.lastMessage?.user.id === user?.id}
+            isYourMessage=${chat.createdBy === user?.id}
             unreadCount="${chat.unreadCount}"
             onClick=onChatItemClick
         }}}

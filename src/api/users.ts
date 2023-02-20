@@ -1,4 +1,4 @@
-import { ContentType, Header, HTTPTransport } from '../utils/http-transport';
+import { ContentType, Header, HTTPTransport } from '../utils';
 import {
   BASE_URL,
   USER_PASSWORD,
@@ -58,7 +58,7 @@ export class UsersApi {
   }
 
   public searchUserByLogin(data: UserSearchRequest) {
-    return this.httpClient.post<UserDTO | APIError>(USER_SEARCH, {
+    return this.httpClient.post<Array<UserDTO> | APIError>(USER_SEARCH, {
       data,
       headers: {
         [Header.CONTENT_TYPE]: ContentType.APPLICATION_JSON,

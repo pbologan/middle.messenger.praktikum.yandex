@@ -1,6 +1,6 @@
 .messages__messages-list-layout {
   padding: 20px;
-  flex-direction: column;
+  flex-direction: column-reverse;
   flex-wrap: wrap;
   width: 100%;
   height: 100vh;

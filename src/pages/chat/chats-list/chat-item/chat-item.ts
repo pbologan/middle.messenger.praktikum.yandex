@@ -37,11 +37,16 @@ export class ChatItem extends Block<ChatItemProps> {
       : '<div class="chats__chat-item__avatar-stub"></div>';
   }
 
-  private renderMessage(isYourMessage: boolean): string {
-    const yourMessage = isYourMessage ? '<span class="chats__chat-item__is-your-message">Вы:&nbsp</span>' : '';
+  private renderMessage(): string {
+    let message = this.props.message || '';
+    if (message && message.length > 30) {
+      message = `${this.props.message?.substring(0, 30)}...`;
+    }
+    const yourMessage = this.props.isYourMessage
+      ? '<span class="chats__chat-item__is-your-message">Вы:&nbsp</span>' : '';
     // language=hbs
     return `${yourMessage}
-      <span class="chats__chat-item__message">{{message}}</span>
+      <span class="chats__chat-item__message">${message}</span>
     `;
   }
 
@@ -61,7 +66,7 @@ export class ChatItem extends Block<ChatItemProps> {
 
   override render(): string {
     const {
-      active, isYourMessage, unreadCount, avatar, date,
+      active, unreadCount, avatar, date,
     } = this.props;
     // language=hbs
     return `
@@ -70,7 +75,7 @@ export class ChatItem extends Block<ChatItemProps> {
         <div class="flex-column-layout chats__chat-item__username-message-layout">
           <span class="chats__chat-item__chatname">{{name}}</span>
           <div class="chats-row-layout chats__chat-item__message-layout">
-              ${this.renderMessage(isYourMessage)}
+              ${this.renderMessage()}
           </div>
         </div>
         <div class="flex-column-layout chats__chat-item__date-count-layout">

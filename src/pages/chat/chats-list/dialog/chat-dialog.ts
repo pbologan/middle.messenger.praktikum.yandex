@@ -96,16 +96,19 @@ class ChatDialog extends Block<ChatDialogProps> {
   }
 
   private renderTitle() {
-    const itemName = this.props.item === ChatDialogItem.CHAT ? 'чат' : 'пользователя';
+    const item = this.props.item === ChatDialogItem.CHAT ? 'чат' : 'пользователя';
     let title = '';
     const isDelete = this.props.isDelete;
     if (isDelete) {
       const currentChat = this.props.store.getState().currentChat;
       if (currentChat) {
-        title = `Удалить ${itemName} ${currentChat.title}?`;
+        const name = this.props.item === ChatDialogItem.CHAT
+          ? `${currentChat.title}?`
+          : '';
+        title = `Удалить ${item} ${name}`;
       }
     } else {
-      title = `Добавить ${itemName}`;
+      title = `Добавить ${item}`;
     }
     // language=hbs
     return `<span class="chat-dialog__title">${title}</span>`;
