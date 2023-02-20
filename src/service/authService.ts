@@ -57,6 +57,10 @@ export class AuthService {
           password: userData.password,
         });
         if (!apiHasError(loginResponse)) {
+          const getCurrentUserResponse = await AuthApi.getInstance().getUserInfo();
+          if (!apiHasError(getCurrentUserResponse)) {
+            dispatch({ user: transformUserDTO(getCurrentUserResponse) });
+          }
           BrowserRouter.getInstance().go(Page.CHAT);
         }
       }
