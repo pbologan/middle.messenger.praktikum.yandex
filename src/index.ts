@@ -1,8 +1,7 @@
 import './styles.css';
-import { registerComponents } from './utils/registerComponents';
-import { BrowserRouter } from './core/router';
-import { initRouter } from './utils/initRouter';
-import { Store } from './core/Store';
+import { registerComponents, initRouter } from './utils';
+import { BrowserRouter, Store } from './core';
+import { initApp } from './service';
 
 registerComponents();
 
@@ -11,4 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const router = BrowserRouter.getInstance();
 
   initRouter(router, store);
+
+  store.dispatch(initApp);
+
+  router.start();
 });
