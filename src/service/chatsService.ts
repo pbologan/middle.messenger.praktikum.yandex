@@ -101,15 +101,19 @@ export class ChatsService {
     try {
       const userResponse = await UsersApi.getInstance().searchUserByLogin(data.userLogin);
       if (!apiHasError(userResponse)) {
-        const chatUsers: ChatUsersRequest = {
-          users: [userResponse.id],
-          chatId: data.chatId,
-        };
-        const addUserToChatResponse = await ChatsApi.getInstance().addUsersToChat(chatUsers);
-        if (!apiHasError(addUserToChatResponse)) {
-          dispatch({
-            currentChatUsers: [transformUserDTO(userResponse), ...data.currentChatUsers],
-          });
+        const user = userResponse[0];
+        if (user) {
+          const userId: Array<number> = [user.id];
+          const chatUsers: ChatUsersRequest = {
+            users: userId,
+            chatId: data.chatId,
+          };
+          const addUserToChatResponse = await ChatsApi.getInstance().addUsersToChat(chatUsers);
+          if (!apiHasError(addUserToChatResponse)) {
+            dispatch({
+              currentChatUsers: [transformUserDTO(user), ...data.currentChatUsers],
+            });
+          }
         }
       }
     } catch (e) {
@@ -127,15 +131,18 @@ export class ChatsService {
     try {
       const userResponse = await UsersApi.getInstance().searchUserByLogin(data.userLogin);
       if (!apiHasError(userResponse)) {
-        const chatUsers: ChatUsersRequest = {
-          users: [userResponse.id],
-          chatId: data.chatId,
-        };
-        const removeUserFromChatResp = await ChatsApi.getInstance().deleteUsersFromChat(chatUsers);
-        if (!apiHasError(removeUserFromChatResp)) {
-          dispatch({
-            currentChatUsers: data.currentChatUsers.filter((user) => user.id !== userResponse.id),
-          });
+        const foundUser = userResponse[0];
+        if (foundUser) {
+          const chatUsers: ChatUsersRequest = {
+            users: [foundUser.id],
+            chatId: data.chatId,
+          };
+          const removeUserFromChatRes = await ChatsApi.getInstance().deleteUsersFromChat(chatUsers);
+          if (!apiHasError(removeUserFromChatRes)) {
+            dispatch({
+              currentChatUsers: data.currentChatUsers.filter((user) => user.id !== foundUser.id),
+            });
+          }
         }
       }
     } catch (e) {
