@@ -101,3 +101,8 @@ export function transformMessageDTO(messageDTO: MessageDTO): Message {
 export type PongResponse = {
   type: WebSocketMessageType.PONG,
 };
+
+export type UserConnectedResponse = {
+  type: WebSocketMessageType.USER_CONNECTED,
+  content: string,
+};

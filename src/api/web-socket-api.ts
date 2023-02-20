@@ -10,7 +10,7 @@ import {
 } from './websocket-types';
 import { Store } from '../core';
 import { MessagesService } from '../service/messagesService';
-import { isPongResponse } from '../utils/isPongResponse';
+import { isPongResponse, isUserConnectedResponse } from '../utils';
 
 export class WebSocketApi {
   private static instance: WebSocketApi | null = null;
@@ -79,6 +79,24 @@ export class WebSocketApi {
     }
     const store = Store.getInstance();
     let messages = [...store.getState().currentChatMessages];
+    if (isUserConnectedResponse(parsedData)) {
+      const chatId = Store.getInstance().getState().currentChat?.id;
+      const userId = parsedData.content;
+      const user = Store.getInstance().getState().currentChatUsers.find((u) => {
+        return u.id === Number(userId);
+      });
+
+      messages.unshift({
+        id: -1,
+        chatId,
+        time: '',
+        type: 'message',
+        userId,
+        content: `${user?.firstName} ${user?.secondName} присоединился к чату`,
+      } as Message);
+      store.dispatch({ currentChatMessages: messages });
+      return;
+    }
     if (Array.isArray(parsedData)) {
       const currentMessagesSet = new Set(messages);
       const receivedMessages: Array<Message> = parsedData.map((messageDTO) => {
