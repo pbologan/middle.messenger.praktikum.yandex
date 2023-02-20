@@ -1,17 +1,23 @@
 import {
   Message,
   transformMessageDTO,
-  WebSocketCloseCode, WebSocketCloseReason,
+  WebSocketCloseCode,
+  WebSocketCloseReason,
   WebSocketCloseType,
   WebSocketEvent,
+  WebSocketMessage,
+  WebSocketMessageType,
 } from './websocket-types';
 import { Store } from '../core';
 import { MessagesService } from '../service/messagesService';
+import { isPongResponse } from '../utils/isPongResponse';
 
 export class WebSocketApi {
   private static instance: WebSocketApi | null = null;
 
   private webSocket: WebSocket | null = null;
+
+  private intervalId: NodeJS.Timer | null = null;
 
   private constructor() {
     if (WebSocketApi.instance) {
@@ -66,10 +72,13 @@ export class WebSocketApi {
   }
 
   private onMessage(event: MessageEvent) {
-    const store = Store.getInstance();
-    let messages = [...store.getState().currentChatMessages];
     const { data } = event;
     const parsedData = JSON.parse(data);
+    if (isPongResponse(parsedData)) {
+      return;
+    }
+    const store = Store.getInstance();
+    let messages = [...store.getState().currentChatMessages];
     if (Array.isArray(parsedData)) {
       const currentMessagesSet = new Set(messages);
       const receivedMessages: Array<Message> = parsedData.map((messageDTO) => {
@@ -84,7 +93,7 @@ export class WebSocketApi {
       const found = messages.find((message) => message.content === parsedData.content);
       if (!found) {
         const transformed = transformMessageDTO(parsedData);
-        messages.push(transformed);
+        messages.unshift(transformed);
       }
     }
     store.dispatch({ currentChatMessages: messages });
@@ -92,11 +101,19 @@ export class WebSocketApi {
 
   private onOpen() {
     Store.getInstance().dispatch(MessagesService.getInstance().getMessages);
+    this.intervalId = setInterval(() => {
+      this.sendMessage(JSON.stringify({
+        type: WebSocketMessageType.PING,
+      } as WebSocketMessage));
+    }, 5000);
   }
 
   private onClose(event: CloseEvent) {
     if (!event.wasClean || event.code !== WebSocketCloseCode.NORMAL) {
       console.log(event.reason);
+    }
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
     }
   }
 
