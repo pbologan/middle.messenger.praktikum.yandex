@@ -20,7 +20,7 @@ class Message extends Block<MessageProps> {
     const src = `${BASE_URL}/resources${this.props.file}`;
     const time = getFormattedTime(new Date(this.props.time));
     const content = this.props.file
-      ? `<img alt="image message" src="${src}"/>`
+      ? `<img class="message-image" alt="image message" src="${src}"/>`
       : `<span>${this.props.content}</span>`;
 
     return `

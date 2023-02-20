@@ -18,6 +18,7 @@
 }
 
 .message-image {
+  max-height: 200px;
   object-fit: scale-down;
 }
 

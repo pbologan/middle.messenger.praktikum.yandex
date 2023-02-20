@@ -9,12 +9,12 @@ class MessagesList extends Block<MessagesListProps> {
   public static override componentName = 'MessagesList';
 
   private renderMessages() {
-    const messages = this.props.store.getState().currentChatMessages;
+    const messages = [...this.props.store.getState().currentChatMessages].reverse();
     if (messages.length === 0) {
       return '';
     }
     // language=hbs
-    return messages.reverse().reduce((acc: string, message: Message) => {
+    return messages.reduce((acc: string, message: Message) => {
       // language=hbs
       return `${acc}
         {{{Message

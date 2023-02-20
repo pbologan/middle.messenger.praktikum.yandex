@@ -52,3 +52,10 @@
   font-weight: 500;
   color: var(--dark-gray-color);
 }
+
+.messages__file-upload {
+  width: 35px;
+  height: 35px;
+  opacity: 0;
+  position: absolute;
+}

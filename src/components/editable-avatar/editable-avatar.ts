@@ -12,9 +12,9 @@ interface EditableAvatarProps {
 export class EditableAvatar extends Block<EditableAvatarProps> {
   public static override componentName = 'EditableAvatar';
 
+  // language=hbs
   override render() {
     const layoutClass = this.props.className || 'avatar-layout';
-    // language=hbs
     const image = this.props.isStub
       ? '<div class="avatar-stub"></div>'
       : `<img alt="avatar" class="avatar" src="${this.props.avatar}" />`;

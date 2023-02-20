@@ -10,6 +10,7 @@ interface MessageInputProps extends WithStoreProps {
   onInputFocus?: (e: FocusEvent) => void;
   onInputBlur?: (e: FocusEvent) => void;
   onAttachmentClick?: () => void;
+  onFileChosen: () => void;
 }
 
 class MessageInput extends Block<MessageInputProps> {
@@ -33,10 +34,20 @@ class MessageInput extends Block<MessageInputProps> {
         }
       },
       onAttachmentClick: () => {
-        // TODO: handle attachments click
+        const { fileInput } = this.refs;
+        if (fileInput) {
+          (fileInput.getElement() as HTMLInputElement).click();
+        }
       },
-      onInputBlur: () => {},
-      onInputFocus: () => {},
+      onFileChosen: () => {
+        const { fileInput } = this.refs;
+        if (fileInput) {
+          const files = (fileInput.getElement() as HTMLInputElement).files;
+          if (files && files[0]) {
+            this.props.store.dispatch(MessagesService.getInstance().sentFileMessage, files[0]);
+          }
+        }
+      },
     });
   }
 
@@ -44,6 +55,14 @@ class MessageInput extends Block<MessageInputProps> {
     // language=hbs
     return `
       <div class="flex-row-layout messages__message-layout">
+          {{{Input
+              className="messages__file-upload"
+              id="fileInput"
+              name="fileInput"
+              type="file"
+              ref="fileInput"
+              onChange=onFileChosen
+          }}}
           <img
               alt="attachment button icon"
               class="messages__message-attachment-button-icon"

@@ -25,7 +25,6 @@ export enum WebSocketMessageType {
   GET_OLD = 'get old',
   MESSAGE = 'message',
   FILE = 'file',
-  STICKER = 'sticker',
 }
 
 export type WebSocketMessage = {
@@ -98,3 +97,7 @@ export function transformMessageDTO(messageDTO: MessageDTO): Message {
     file: messageDTO.file ? transformFileMessageDTO(messageDTO.file) : null,
   } as Message;
 }
+
+export type PongResponse = {
+  type: WebSocketMessageType.PONG,
+};
