@@ -92,7 +92,6 @@ class ChatDialog extends Block<ChatDialogProps> {
         }
       },
     });
-    console.log(this.props.item);
   }
 
   private renderTitle() {
