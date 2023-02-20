@@ -6,6 +6,7 @@ import { getFormattedTime } from '../../utils';
 
 interface MessageProps extends WithStoreProps {
   userId: string;
+  userAvatar: string
   time: string;
   content: string;
   file: string;
@@ -18,7 +19,7 @@ class Message extends Block<MessageProps> {
   private renderMessage() {
     const currentUserMessage = String(this.props.store.getState().user?.id) === this.props.userId;
     const src = `${BASE_URL}/resources${this.props.file}`;
-    const time = getFormattedTime(new Date(this.props.time));
+    const time = this.props.time ? getFormattedTime(new Date(this.props.time)) : '';
     const content = this.props.file
       ? `<img class="message-image" alt="image message" src="${src}"/>`
       : `<span>${this.props.content}</span>`;
@@ -35,9 +36,18 @@ class Message extends Block<MessageProps> {
 
   override render() {
     const currentUserMessage = String(this.props.store.getState().user?.id) === this.props.userId;
+    let userAvatar = '';
+    if (!currentUserMessage) {
+      userAvatar = this.props.userAvatar
+        ? `<img class="message-user-avatar" alt="user avatar" src="${this.props.userAvatar}"/>`
+        : `<div class="message-user-avatar-stub"></div>`;
+    }
     // language=hbs
     return `
         <div class="flex-row-layout message-layout ${currentUserMessage ? "justify-right" : "justify-left"}">
+          <section class="message-user-avatar-container">
+              ${userAvatar}
+          </section>
           ${this.renderMessage()}
         </div>
     `;

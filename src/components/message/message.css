@@ -43,3 +43,27 @@
   font-weight: 500;
   color: var(--dark-gray-color);
 }
+
+.message-user-avatar {
+  object-fit: scale-down;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.message-user-avatar-stub {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--dark-gray-color);
+  margin-right: 10px;
+}
+
+.message-user-avatar-container {
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: end;
+}
