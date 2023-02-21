@@ -4,10 +4,11 @@
   "description": "Messenger",
   "scripts": {
     "start": "rm -rf ./dist ./.parcel-cache && npm run build && npm run start.server",
+    "start.dev": "rm -rf ./dist ./.parcel-cache && npm run lint && npm run stylelint && npm run build && npm run start.server",
     "start.server": "node server.js",
     "build": "parcel build src/index.html --no-source-maps --no-cache --public-url ./",
     "parcel.watch": "parcel watch src/index.html --no-source-maps --no-cache --public-url ./",
-    "lint": "eslint '**/*.{ts,tsx}'",
+    "lint": "eslint '**/*.{ts,tsx}' --fix",
     "stylelint": "npx stylelint '**/*.css' --fix"
   },
   "repository": {
