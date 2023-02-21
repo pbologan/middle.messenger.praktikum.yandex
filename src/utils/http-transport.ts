@@ -42,6 +42,8 @@ function queryStringify(data?: Record<string, any>) {
     .join('&')}`;
 }
 
+type HTTPMethod<R extends unknown = any> = (url: string, options?: Options) => Promise<R>;
+
 export class HTTPTransport {
   private readonly baseUrl: string;
 
@@ -49,27 +51,27 @@ export class HTTPTransport {
     this.baseUrl = baseUrl;
   }
 
-  get<R extends unknown = any>(url: string, options: Options = {}): Promise<R> {
+  get: HTTPMethod = (url, options: Options = {}) => {
     const { data } = options;
     const queryString = isFormData(data) ? '' : queryStringify(data);
-    return this.request<R>(
+    return this.request(
       url + queryString,
       { ...options, method: Method.GET },
       options.timeout,
     );
-  }
+  };
 
-  put<R extends unknown = any>(url: string, options: Options): Promise<R> {
-    return this.request<R>(url, { ...options, method: Method.PUT }, options.timeout);
-  }
+  put: HTTPMethod = (url, options: Options = {}) => {
+    return this.request(url, { ...options, method: Method.PUT }, options.timeout);
+  };
 
-  post<R extends unknown = any>(url: string, options: Options = {}): Promise<R> {
-    return this.request<R>(url, { ...options, method: Method.POST }, options.timeout);
-  }
+  post: HTTPMethod = (url, options: Options = {}) => {
+    return this.request(url, { ...options, method: Method.POST }, options.timeout);
+  };
 
-  delete<R extends unknown = any>(url: string, options: Options): Promise<R> {
-    return this.request<R>(url, { ...options, method: Method.DELETE }, options.timeout);
-  }
+  delete: HTTPMethod = (url: string, options: Options = {}) => {
+    return this.request(url, { ...options, method: Method.DELETE }, options.timeout);
+  };
 
   private sendData(
     xhr: XMLHttpRequest,
