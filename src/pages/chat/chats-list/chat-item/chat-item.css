@@ -1,4 +1,4 @@
-@import "../../../../variables.css";
+@import url("../../../../variables.css");
 
 .chats-layout {
   min-width: 310px;
