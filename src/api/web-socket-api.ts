@@ -65,10 +65,10 @@ export class WebSocketApi {
   }
 
   private removeEventListeners() {
-    this.webSocket?.removeEventListener(WebSocketEvent.OPEN, this.onOpen.bind(this));
-    this.webSocket?.removeEventListener(WebSocketEvent.CLOSE, this.onClose.bind(this));
-    this.webSocket?.removeEventListener(WebSocketEvent.ERROR, this.onError.bind(this));
-    this.webSocket?.removeEventListener(WebSocketEvent.MESSAGE, this.onMessage.bind(this));
+    this.webSocket?.removeEventListener(WebSocketEvent.OPEN, this.onOpen);
+    this.webSocket?.removeEventListener(WebSocketEvent.CLOSE, this.onClose);
+    this.webSocket?.removeEventListener(WebSocketEvent.ERROR, this.onError);
+    this.webSocket?.removeEventListener(WebSocketEvent.MESSAGE, this.onMessage);
   }
 
   private onMessage(event: MessageEvent) {
