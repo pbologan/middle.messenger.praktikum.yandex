@@ -124,7 +124,7 @@ class SignupPage extends Block<SignupPageProps> {
     return `
       <main class="layout">
         <form>
-          <div class="form-container">
+          <section class="form-container">
             <span class="header">Регистрация</span>
             <div class="form__inputs-container">
                 ${this.renderInputElements(this.props.inputElements)}
@@ -141,7 +141,7 @@ class SignupPage extends Block<SignupPageProps> {
                   onClick=onLoginButtonClick
               }}}
             </div>
-          </div>
+          </section>
         </form>
         ${this.renderLoader()}
       </main>

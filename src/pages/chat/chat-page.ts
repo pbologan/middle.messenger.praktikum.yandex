@@ -53,15 +53,15 @@ class ChatPage extends Block<ChatPageProps> {
   override render() {
     // language=hbs
     return `
-      <div class="flex-row-layout">
-        <div class="flex-column-layout chats-layout">
+      <main class="flex-row-layout">
+        <section class="flex-column-layout chats-layout">
           {{{ChatsList}}}
-        </div>
+        </section>
         ${this.renderMessagesBlock()}
         ${this.renderDialog()}
         ${this.renderChatMenu()}
         ${this.renderLoader()}
-      </div>
+      </main>
     `;
   }
 }

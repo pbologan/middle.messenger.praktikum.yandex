@@ -9,9 +9,9 @@ class Modal extends Block<ModalProps> {
 
   override render() {
     return `
-     <div class="modal-layout">
+     <section class="modal-layout">
       ${this.props.store.getState().dialogContent}
-     </div>
+     </section>
    `;
   }
 }

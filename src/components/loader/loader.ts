@@ -9,9 +9,9 @@ export class Loader extends Block<LoaderProps> {
   override render(): string {
     // language=hbs
     return `
-        <div class="loader-container">
-            <span class="loader-content">Загрузка...</span>
-        </div>
+      <div class="loader-container">
+        <span class="loader-content">Загрузка...</span>
+      </div>
     `;
   }
 }

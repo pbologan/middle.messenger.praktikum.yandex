@@ -22,7 +22,7 @@ export class EditableAvatar extends Block<EditableAvatarProps> {
       ? `overlay small-font-size`
       : 'overlay standard-font-size';
     return `
-      <div class="${layoutClass}">
+      <section class="${layoutClass}">
           <div class="avatar-container">
               ${image}
               <div class="${overlayClass}">
@@ -35,7 +35,7 @@ export class EditableAvatar extends Block<EditableAvatarProps> {
                   onClick=onClick
               }}}
           </div>
-      </div>
+      </section>
     `;
   }
 }

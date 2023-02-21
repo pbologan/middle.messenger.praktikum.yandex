@@ -221,14 +221,14 @@ class ProfilePage extends Block<ProfilePageProps> {
       : stubAvatar;
     // language=hbs
     return `
-      <div class="flex-column-layout profile__info__photo-name-layout">
+      <section class="flex-column-layout profile__info__photo-name-layout">
         {{{EditableAvatar
             isStub=false
             avatar="${avatar}"
             onClick=onAvatarClick
         }}}
         <span class="profile__info__name">${userName}</span>
-      </div>
+      </section>
     `;
   }
 
@@ -335,16 +335,16 @@ class ProfilePage extends Block<ProfilePageProps> {
     }
 
     return `
-      <div class="flex-row-layout profile__info-layout">
+      <section class="flex-row-layout profile__info-layout">
         ${content}
-      </div>
+      </section>
     `;
   }
 
   private renderButtons(): string {
     // language=hbs
     return this.props.mode === ProfilePageMode.VIEWING ? `
-      <div class="flex-column-layout profile__info-layout">
+      <section class="flex-column-layout profile__info-layout">
         {{{Button
             text="Изменить данные"
             className="text-button profile__button"
@@ -360,15 +360,15 @@ class ProfilePage extends Block<ProfilePageProps> {
             className="text-button profile__button red"
             onClick=onLogout
         }}}
-      </div>
+      </section>
     ` : `
-      <div class="flex-row-layout profile__info-save-button-layout">
+      <section class="flex-row-layout profile__info-save-button-layout">
         {{{Button
             text="Сохранить"
             onClick=onSaveButtonClick
             className="profile__info__save-button"
         }}}
-      </div>
+      </section>
     `;
   }
 
@@ -392,9 +392,9 @@ class ProfilePage extends Block<ProfilePageProps> {
   override render(): string {
     // language=hbs
     return `
-      <div class="flex-row-layout profile-layout">
+      <main class="flex-row-layout profile-layout">
         ${this.renderBackButton()}
-        <div class="flex-column-layout profile__main-layout">
+        <section class="flex-column-layout profile__main-layout">
             ${this.renderAvatar()}
             ${this.renderInfoBlock()}
             <div class="profile__error-container">
@@ -404,10 +404,10 @@ class ProfilePage extends Block<ProfilePageProps> {
               }}}
             </div>
             ${this.renderButtons()}
-        </div>
+        </section>
         ${this.renderDialog()}
         ${this.renderLoader()}
-      </div>
+      </main>
     `;
   }
 }
