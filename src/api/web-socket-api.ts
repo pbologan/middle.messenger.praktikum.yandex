@@ -73,48 +73,52 @@ export class WebSocketApi {
 
   private onMessage(event: MessageEvent) {
     const { data } = event;
-    const parsedData = JSON.parse(data);
-    if (isPongResponse(parsedData)) {
-      return;
-    }
-    const store = Store.getInstance();
-    let messages = [...store.getState().currentChatMessages];
-    if (isUserConnectedResponse(parsedData)) {
-      const chatId = Store.getInstance().getState().currentChat?.id;
-      const userId = parsedData.content;
-      const user = Store.getInstance().getState().currentChatUsers.find((u) => {
-        return u.id === Number(userId);
-      });
-
-      messages.unshift({
-        id: -1,
-        chatId,
-        time: '',
-        type: 'message',
-        userId,
-        content: `${user?.firstName} ${user?.secondName} присоединился к чату`,
-      } as Message);
-      store.dispatch({ currentChatMessages: messages });
-      return;
-    }
-    if (Array.isArray(parsedData)) {
-      const currentMessagesSet = new Set(messages);
-      const receivedMessages: Array<Message> = parsedData.map((messageDTO) => {
-        return transformMessageDTO(messageDTO);
-      });
-      const difference = new Set(receivedMessages);
-      currentMessagesSet.forEach((el) => {
-        difference.delete(el);
-      });
-      messages = [...messages, ...difference];
-    } else {
-      const found = messages.find((message) => message.content === parsedData.content);
-      if (!found) {
-        const transformed = transformMessageDTO(parsedData);
-        messages.unshift(transformed);
+    try {
+      const parsedData = JSON.parse(data);
+      if (isPongResponse(parsedData)) {
+        return;
       }
+      const store = Store.getInstance();
+      let messages = [...store.getState().currentChatMessages];
+      if (isUserConnectedResponse(parsedData)) {
+        const chatId = Store.getInstance().getState().currentChat?.id;
+        const userId = parsedData.content;
+        const user = Store.getInstance().getState().currentChatUsers.find((u) => {
+          return u.id === Number(userId);
+        });
+
+        messages.unshift({
+          id: -1,
+          chatId,
+          time: '',
+          type: 'message',
+          userId,
+          content: `${user?.firstName} ${user?.secondName} присоединился к чату`,
+        } as Message);
+        store.dispatch({ currentChatMessages: messages });
+        return;
+      }
+      if (Array.isArray(parsedData)) {
+        const currentMessagesSet = new Set(messages);
+        const receivedMessages: Array<Message> = parsedData.map((messageDTO) => {
+          return transformMessageDTO(messageDTO);
+        });
+        const difference = new Set(receivedMessages);
+        currentMessagesSet.forEach((el) => {
+          difference.delete(el);
+        });
+        messages = [...messages, ...difference];
+      } else {
+        const found = messages.find((message) => message.content === parsedData.content);
+        if (!found) {
+          const transformed = transformMessageDTO(parsedData);
+          messages.unshift(transformed);
+        }
+      }
+      store.dispatch({ currentChatMessages: messages });
+    } catch (e) {
+      console.log(e);
     }
-    store.dispatch({ currentChatMessages: messages });
   }
 
   private onOpen() {
