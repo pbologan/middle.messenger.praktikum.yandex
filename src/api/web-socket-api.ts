@@ -23,6 +23,10 @@ export class WebSocketApi {
     if (WebSocketApi.instance) {
       throw new Error('Singleton. Use getInstance method');
     }
+    this.onOpen = this.onOpen.bind(this);
+    this.onClose = this.onClose.bind(this);
+    this.onError = this.onError.bind(this);
+    this.onMessage = this.onMessage.bind(this);
   }
 
   public static getInstance() {
@@ -58,10 +62,10 @@ export class WebSocketApi {
   }
 
   private addEventListeners() {
-    this.webSocket?.addEventListener(WebSocketEvent.OPEN, this.onOpen.bind(this));
-    this.webSocket?.addEventListener(WebSocketEvent.CLOSE, this.onClose.bind(this));
-    this.webSocket?.addEventListener(WebSocketEvent.ERROR, this.onError.bind(this));
-    this.webSocket?.addEventListener(WebSocketEvent.MESSAGE, this.onMessage.bind(this));
+    this.webSocket?.addEventListener(WebSocketEvent.OPEN, this.onOpen);
+    this.webSocket?.addEventListener(WebSocketEvent.CLOSE, this.onClose);
+    this.webSocket?.addEventListener(WebSocketEvent.ERROR, this.onError);
+    this.webSocket?.addEventListener(WebSocketEvent.MESSAGE, this.onMessage);
   }
 
   private removeEventListeners() {
