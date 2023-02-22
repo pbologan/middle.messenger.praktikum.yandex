@@ -4,7 +4,7 @@
   "description": "Messenger",
   "scripts": {
     "start": "rm -rf ./dist ./.parcel-cache && npm run build && npm run start.server",
-    "start.dev": "rm -rf ./dist ./.parcel-cache && npm run lint && npm run stylelint && npm run build && npm run start.server",
+    "start.dev": "rm -rf ./dist ./.parcel-cache && npm run lint && npm run stylelint && parcel src/index.html",
     "start.server": "node server.js",
     "build": "parcel build src/index.html --no-source-maps --no-cache --public-url ./",
     "parcel.watch": "parcel watch src/index.html --no-source-maps --no-cache --public-url ./",
