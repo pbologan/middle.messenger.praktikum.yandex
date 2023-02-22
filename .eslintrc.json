@@ -14,6 +14,8 @@
     "no-param-reassign": "off",
     "func-names": "off",
     "no-console": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "import/prefer-default-export": "off",
+    "import/no-cycle": "off"
   }
 }

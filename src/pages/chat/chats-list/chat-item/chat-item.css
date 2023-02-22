@@ -1,4 +1,4 @@
-@import "../../../../variables.css";
+@import url("../../../../variables.css");
 
 .chats-layout {
   min-width: 310px;
@@ -20,7 +20,7 @@
 .chats__search-input {
   width: 90%;
   height: 30px;
-  background: var(--input-background-color);
+  background: var(--light-gray-color);
   outline: none;
   border: none;
   border-radius: 5px;
@@ -61,14 +61,12 @@
 }
 
 .chats__chat-item__chat-active {
-  background-color: var(--active-chat-color);
+  background-color: var(--active-item-color);
 }
 
 .chats__chat-item__avatar {
   width: 60px;
   height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
   margin: 15px;
 }
 
@@ -89,7 +87,7 @@
   margin-top: 5px;
 }
 
-.chats__chat-item__username {
+.chats__chat-item__chatname {
   color: var(--black-color);
   font-size: 1.1rem;
   font-weight: 500;

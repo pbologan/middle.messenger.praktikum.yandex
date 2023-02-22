@@ -47,6 +47,10 @@ export const RegularExpressions: Record<ValidationRule | string, RegularExpressi
 export const validateInput = (input: ValidationInput): string => {
   const { rule, value } = input;
 
+  if (!value) {
+    return 'Поле не должно быть пустым';
+  }
+
   const reObject = RegularExpressions[rule];
 
   if (!reObject) return '';

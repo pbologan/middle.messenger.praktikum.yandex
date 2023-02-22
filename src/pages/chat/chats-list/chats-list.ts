@@ -1,70 +1,59 @@
 import "./chats-list.css";
 import { Block } from '../../../core';
+import {
+  withLoading, WithLoadingProps, withStore, WithStoreProps,
+} from '../../../hoc';
+import { Chat } from '../../../models/chats';
+import { ChatsService } from '../../../service';
+import { MessagesService } from '../../../service/messagesService';
 
-type ChatItemObject = {
-  active: boolean;
-  avatar: string;
-  name: string;
-  isYourMessage: boolean;
-  message: string;
-  date: string;
-  unreadCount: number;
-};
-
-interface ChatsListProps {
-  chatItems: ChatItemObject[]
+interface ChatsListProps extends WithStoreProps, WithLoadingProps {
+  onChatItemClick: (chatId: number) => void;
 }
 
-export default class ChatsList extends Block<ChatsListProps> {
+class ChatsList extends Block<ChatsListProps> {
   public static override componentName = 'ChatsList';
 
-  constructor(props) {
+  constructor(props: ChatsListProps) {
     super({
       ...props,
-      chatItems: [
-        {
-          active: false,
-          avatar: '',
-          name: 'Андрей',
-          message: 'Сообщение 1',
-          date: '9:36',
-          isYourMessage: false,
-          unreadCount: 2,
-        },
-        {
-          active: false,
-          avatar: '',
-          name: 'Виктор',
-          message: 'Сообщение 2',
-          date: '19:40',
-          isYourMessage: false,
-          unreadCount: 4,
-        },
-        {
-          active: true,
-          avatar: '',
-          name: 'Сергей',
-          message: 'Сообщение 3',
-          date: '9:36',
-          isYourMessage: true,
-          unreadCount: 0,
-        },
-      ],
+      onChatItemClick: (chatId: number) => {
+        const { currentChat, chatsList } = this.props.store.getState();
+        if (currentChat?.id !== chatId) {
+          const foundChat = chatsList.find((chat) => chat.id === chatId);
+          if (foundChat) {
+            this.props.store.dispatch({ currentChat: foundChat });
+            this.props.store.dispatch(MessagesService.getInstance().openConnection, {
+              userId: this.props.store.getState().user?.id,
+              chatId,
+            });
+            this.props.store.dispatch(
+              ChatsService.getInstance().getCurrentChatUsers,
+              { id: chatId },
+            );
+            this.props.store.dispatch(MessagesService.getInstance().getMessages, chatId);
+          }
+        }
+      },
     });
   }
 
-  private renderChatItems(items: ChatItemObject[]): string {
-    return items.reduce((acc: string, item: ChatItemObject) => {
+  private renderChatItems(): string {
+    const { chatsList, currentChat, user } = this.props.store.getState();
+    return chatsList.reduce((acc: string, chat: Chat) => {
+      const avatar = chat.avatar || '';
       // language=hbs
       return `${acc}
         {{{ChatItem
-            active=${item.active}
-            avatar="${item.avatar}"
-            name="${item.name}"
-            message="${item.message}"
-            date="${item.date}"
-            isYourMessage=${item.isYourMessage}
-            unreadCount=${item.unreadCount}
+            id=${chat.id}
+            active=${chat.id === currentChat?.id}
+            avatar="${avatar}"
+            name="${chat.title}"
+            message="${chat.lastMessage?.content || ''}"
+            date="${chat.lastMessage?.time || ''}"
+            isYourMessage=${chat.createdBy === user?.id}
+            unreadCount="${chat.unreadCount}"
+            onClick=onChatItemClick
         }}}
       `;
     }, '');
@@ -76,9 +65,11 @@ export default class ChatsList extends Block<ChatsListProps> {
       <div class="flex-column-layout chats-layout">
         {{{ChatsListHeader}}}
           <div class="flex-column-layout chats__chats-list__layout">
-              ${this.renderChatItems(this.props.chatItems)}
+              ${this.renderChatItems()}
           </div>
       </div>
     `;
   }
 }
+
+export default withStore(withLoading(ChatsList));

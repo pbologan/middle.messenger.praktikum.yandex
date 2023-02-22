@@ -1,3 +1,1 @@
-import ControlledInput from './controlled-input';
-
-export default ControlledInput;
+export { ControlledInput } from './controlled-input';

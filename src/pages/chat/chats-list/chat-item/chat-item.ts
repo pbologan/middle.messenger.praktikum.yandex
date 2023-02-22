@@ -1,30 +1,52 @@
 import './chat-item.css';
 import { Block } from '../../../../core';
+import { BASE_URL } from '../../../../api/urls';
+import { getFormattedTime } from '../../../../utils';
 
 interface ChatItemProps {
+  id: number;
   active: boolean;
-  avatar: string;
+  avatar: string | null;
   name: string;
   isYourMessage: boolean;
-  message: string;
+  message: string | null;
   date: string;
   unreadCount: number;
+  onClick: (chatId: number) => void;
+  events: {
+    click?: () => void;
+  }
 }
 
-export default class ChatItem extends Block<ChatItemProps> {
+export class ChatItem extends Block<ChatItemProps> {
   public static override componentName = 'ChatItem';
 
-  private renderAvatar(avatar: string) {
-    // language=hbs
-    return avatar ? `<img alt="user avatar" src="{{avatar}}" class="chats__chat-item__avatar"/>`
+  constructor(props: ChatItemProps) {
+    super({
+      ...props,
+      events: {
+        click: () => props.onClick(props.id),
+      },
+    });
+  }
+
+  // language=hbs
+  private renderAvatar(avatar: string | null) {
+    return avatar
+      ? `<img alt="chat avatar" src=${BASE_URL}/resources/${avatar} class="chats__chat-item__avatar"/>`
       : '<div class="chats__chat-item__avatar-stub"></div>';
   }
 
-  private renderMessage(isYourMessage: boolean): string {
-    const yourMessage = isYourMessage ? '<span class="chats__chat-item__is-your-message">Вы:&nbsp</span>' : '';
+  private renderMessage(): string {
+    let message = this.props.message || '';
+    if (message && message.length > 30) {
+      message = `${this.props.message?.substring(0, 30)}...`;
+    }
+    const yourMessage = this.props.isYourMessage
+      ? '<span class="chats__chat-item__is-your-message">Вы:&nbsp</span>' : '';
     // language=hbs
     return `${yourMessage}
-      <span class="chats__chat-item__message">{{message}}</span>
+      <span class="chats__chat-item__message">${message}</span>
     `;
   }
 
@@ -33,22 +55,31 @@ export default class ChatItem extends Block<ChatItemProps> {
     return count > 0 ? `<div class="chats__chat-item__unread-count">{{unreadCount}}</div>` : '';
   }
 
+  // language=hbs
+  private renderDate(date?: string) {
+    if (date) {
+      const time = getFormattedTime(new Date(date));
+      return `<span class="chats__chat-item__message chats__chat-item__date">${time}</span>`;
+    }
+    return '';
+  }
+
   override render(): string {
     const {
-      active, avatar, isYourMessage, unreadCount,
+      active, unreadCount, avatar, date,
     } = this.props;
     // language=hbs
     return `
       <div class="flex-row-layout chats__chat-item__layout ${active ? "chats__chat-item__chat-active" : ""}">
         ${this.renderAvatar(avatar)}
         <div class="flex-column-layout chats__chat-item__username-message-layout">
-          <span class="chats__chat-item__username">{{name}}</span>
+          <span class="chats__chat-item__chatname">{{name}}</span>
           <div class="chats-row-layout chats__chat-item__message-layout">
-              ${this.renderMessage(isYourMessage)}
+              ${this.renderMessage()}
           </div>
         </div>
         <div class="flex-column-layout chats__chat-item__date-count-layout">
-            <span class="chats__chat-item__message chats__chat-item__date">{{date}}</span>
+            ${this.renderDate(date)}
             ${this.renderUnreadCount(unreadCount)}
         </div>
       </div>

@@ -1,16 +1,40 @@
 import './messages-list.css';
 import { Block } from '../../../core';
+import { withStore, WithStoreProps } from '../../../hoc';
+import { Message } from '../../../api/websocket-types';
 
-interface MessagesListProps { }
+interface MessagesListProps extends WithStoreProps { }
 
-export default class MessagesList extends Block<MessagesListProps> {
+class MessagesList extends Block<MessagesListProps> {
   public static override componentName = 'MessagesList';
+
+  private renderMessages() {
+    const messages = [...this.props.store.getState().currentChatMessages].reverse();
+    if (messages.length === 0) {
+      return '';
+    }
+    // language=hbs
+    return messages.reduce((acc: string, message: Message) => {
+      // language=hbs
+      return `${acc}
+        {{{Message
+            userId="${message.userId}"
+            time="${message.time}"
+            content="${message.content}"
+            file="${message.file ? message.file.path : ''}"
+        }}}
+      `;
+    }, '');
+  }
 
   override render(): string {
     // language=hbs
     return `
       <div class="messages__messages-list-layout">
+        ${this.renderMessages()}
       </div>
     `;
   }
 }
+
+export default withStore(MessagesList);

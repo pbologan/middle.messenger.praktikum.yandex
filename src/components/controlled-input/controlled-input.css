@@ -3,5 +3,12 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.controlled-input__full-width {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   width: 100%;
 }

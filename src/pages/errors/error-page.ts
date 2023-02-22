@@ -1,6 +1,5 @@
-import './error-page.css';
-import { Block } from '../../core';
-import { Link, pushPage } from '../../utils/routing/routing';
+import './styles.css';
+import { Block, BrowserRouter } from '../../core';
 
 interface ErrorPageProps {
   code: string;
@@ -8,15 +7,15 @@ interface ErrorPageProps {
   onBackButtonClick?: () => void;
 }
 
-export default class ErrorPage extends Block<ErrorPageProps> {
+export class ErrorPage extends Block<ErrorPageProps> {
   public static override componentName = 'ErrorPage';
 
-  constructor({ code, description }: ErrorPageProps) {
+  constructor() {
     super({
-      code,
-      description,
+      code: '500',
+      description: 'Что-то пошло не так, уже разбираемся...',
       onBackButtonClick: () => {
-        pushPage(Link.CHAT);
+        BrowserRouter.getInstance().back();
       },
     });
   }
@@ -30,7 +29,7 @@ export default class ErrorPage extends Block<ErrorPageProps> {
         {{{Button
             text="Назад"
             onClick=onBackButtonClick
-            className="borderless-button blue cursor-pointer"
+            className="text-button"
         }}}
       </main>
     `;

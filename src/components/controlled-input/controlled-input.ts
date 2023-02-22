@@ -4,10 +4,11 @@ import { InputProps } from '../input/input';
 import { validateInput, ValidationRule } from '../../core/validator';
 
 interface ControlledInputProps extends InputProps {
+  fullWidth?: boolean;
   validationRule: ValidationRule;
 }
 
-export default class ControlledInput extends Block<ControlledInputProps> {
+export class ControlledInput extends Block<ControlledInputProps> {
   public static override componentName = 'ControlledInput';
 
   constructor({ validationRule, ...props }: ControlledInputProps) {
@@ -21,7 +22,7 @@ export default class ControlledInput extends Block<ControlledInputProps> {
           value,
         });
         const { error } = this.refs;
-  error?.setProps({ text: validationResult });
+        error?.setProps({ text: validationResult });
       },
       onFocus: () => {
         const { error } = this.refs;
@@ -29,17 +30,17 @@ export default class ControlledInput extends Block<ControlledInputProps> {
           error.setProps({ text: '' });
         }
       },
-      onInput: (e: InputEvent) => {
-        const { value } = (e.target as HTMLInputElement);
-        console.log(`${this.props.id} input value`, value);
-      },
     });
   }
 
   override render(): string {
+    const containerClass = this.props.fullWidth
+      ? "controlled-input__full-width"
+      : "controlled-input";
+
     // language=hbs
     return `
-      <div class="controlled-input">
+      <div class=${containerClass}>
         {{{Input
             value=value
             className=className

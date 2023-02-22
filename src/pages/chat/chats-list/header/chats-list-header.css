@@ -7,13 +7,13 @@
 .chats__search-input {
   width: 90%;
   height: 30px;
-  background: var(--input-background-color);
+  background: var(--light-gray-color);
   outline: none;
   border: none;
   border-radius: 5px;
   text-align: center;
   font-size: 1rem;
-  margin: 15px;
+  margin-top: 10px;
 }
 
 .chats__search-input::placeholder {
@@ -37,4 +37,13 @@
   font-size: 0.9rem;
   text-align: center;
   color: var(--dark-gray-color);
+}
+
+.chats__buttons-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 10px;
 }

@@ -1,37 +1,59 @@
-import { Block } from '../../core';
+import { Block, BrowserRouter } from '../../core';
 import { RegularExpressions, validateInput, ValidationRule } from '../../core/validator';
-import { Link, pushPage } from '../../utils/routing/routing';
+import { Page } from '../../models/app';
+import {
+  withStore, WithStoreProps, withLoading, WithLoadingProps,
+} from '../../hoc';
+import { AuthService } from '../../service';
 
 type InputObject = {
   id: string;
+  type: string;
   placeholder: string;
   validationRule: string;
 };
 
-interface SignupPageProps {
+interface SignupPageProps extends WithStoreProps, WithLoadingProps {
   inputElements?: InputObject[];
   onLoginButtonClick?: () => void;
   onRegisterClick?: () => void;
 }
 
-export default class SignupPage extends Block<SignupPageProps> {
+class SignupPage extends Block<SignupPageProps> {
+  public static override componentName = 'Sign Up';
+
   constructor(props: SignupPageProps) {
     super({
       ...props,
       inputElements: [
-        { id: 'email', placeholder: 'Почта', validationRule: ValidationRule.EMAIL },
-        { id: 'login', placeholder: 'Логин', validationRule: ValidationRule.LOGIN },
-        { id: 'first_name', placeholder: 'Имя', validationRule: ValidationRule.NAME },
-        { id: 'second_name', placeholder: 'Фамилия', validationRule: ValidationRule.NAME },
-        { id: 'phone', placeholder: 'Телефон', validationRule: ValidationRule.PHONE },
-        { id: 'password', placeholder: 'Пароль', validationRule: ValidationRule.PASSWORD },
-        { id: 'repeat_password', placeholder: 'Пароль (ещё раз)', validationRule: ValidationRule.PASSWORD },
+        {
+          id: 'email', type: 'email', placeholder: 'Почта', validationRule: ValidationRule.EMAIL,
+        },
+        {
+          id: 'login', type: 'text', placeholder: 'Логин', validationRule: ValidationRule.LOGIN,
+        },
+        {
+          id: 'first_name', type: 'text', placeholder: 'Имя', validationRule: ValidationRule.NAME,
+        },
+        {
+          id: 'second_name', type: 'text', placeholder: 'Фамилия', validationRule: ValidationRule.NAME,
+        },
+        {
+          id: 'phone', type: 'text', placeholder: 'Телефон', validationRule: ValidationRule.PHONE,
+        },
+        {
+          id: 'password', type: 'password', placeholder: 'Пароль', validationRule: ValidationRule.PASSWORD,
+        },
+        {
+          id: 'repeat_password', type: 'password', placeholder: 'Пароль (ещё раз)', validationRule: ValidationRule.PASSWORD,
+        },
       ],
       onLoginButtonClick: () => {
-        pushPage(Link.LOGIN);
+        BrowserRouter.getInstance().go(Page.LOGIN);
       },
       onRegisterClick: () => {
         const registerObject = {} as any;
+        let hasError = false;
 
         Object.keys(this.refs).forEach((key: string) => {
           const component = this.refs[key] as Block<any>;
@@ -42,25 +64,28 @@ export default class SignupPage extends Block<SignupPageProps> {
           }
         });
 
-        const errors: string[] = [];
-
-        Object.keys(RegularExpressions).forEach((key) => {
-          const value = String(key).toLowerCase();
-          const formValue = registerObject[value];
-          const error = validateInput({
-            rule: key,
-            value: formValue,
-          });
-          if (error) {
-            errors.push(error);
+        this.props.inputElements?.forEach((inputElement) => {
+          const formValue = registerObject[inputElement.id];
+          const rule = String(RegularExpressions[inputElement.validationRule]);
+          if (rule) {
+            const validateError = validateInput({
+              rule,
+              value: formValue,
+            });
+            if (validateError) {
+              hasError = true;
+              this.refs[inputElement.id]?.refs['error']?.setProps({ text: validateError });
+            }
+          }
+          if (inputElement.id === 'repeat_password' && registerObject.password !== formValue) {
+            this.refs['repeat_password']?.refs['error']?.setProps({ text: 'Пароли не совпадают' });
+            hasError = true;
           }
         });
 
-        if (errors.length > 0) {
-          console.log('Validation Failed:', errors.join(','));
-        } else {
-          console.log('errors', errors);
-          console.log('Register Data', registerObject);
+        if (!hasError) {
+          delete registerObject.repeat_password;
+          this.props.store.dispatch(AuthService.getInstance().signUp, registerObject);
         }
       },
     });
@@ -73,14 +98,25 @@ export default class SignupPage extends Block<SignupPageProps> {
       // language=hbs
       return `${acc}
         {{{ControlledInput
+            fullWidth=true
             className="input"
             id="${inputElement.id}"
             ref="${inputElement.id}"
             validationRule="${inputElement.validationRule}"
-            type="${inputElement.id}"
+            type="${inputElement.type}"
             placeholder="${inputElement.placeholder}"
         }}}`;
     }, '');
+  }
+
+  private renderLoader() {
+    if (this.props.isLoading()) {
+      // language=hbs
+      return `
+        {{{Loader}}}
+      `;
+    }
+    return '';
   }
 
   override render(): string {
@@ -88,26 +124,29 @@ export default class SignupPage extends Block<SignupPageProps> {
     return `
       <main class="layout">
         <form>
-          <div class="form-container">
+          <section class="form-container">
             <span class="header">Регистрация</span>
             <div class="form__inputs-container">
                 ${this.renderInputElements(this.props.inputElements)}
             </div>
             <div class="form__buttons-container">
               {{{Button
-                  className="form__submit-button"
+                  className="contained-button full-width"
                   text="Зарегистрироваться"
                   onClick=onRegisterClick
               }}}
               {{{Button
-                  className="form__register-button"
+                  className="text-button full-width"
                   text="Войти"
                   onClick=onLoginButtonClick
               }}}
             </div>
-          </div>
+          </section>
         </form>
+        ${this.renderLoader()}
       </main>
     `;
   }
 }
+
+export default withStore(withLoading(SignupPage));

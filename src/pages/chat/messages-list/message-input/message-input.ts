@@ -2,19 +2,21 @@ import './message-input.css';
 import attachmentIcon from '../../../../../public/images/paper-clip.svg';
 import { Block } from '../../../../core';
 import { validateInput, ValidationRule } from '../../../../core/validator';
-import { Link, pushPage } from '../../../../utils/routing/routing';
+import { MessagesService } from '../../../../service/messagesService';
+import { withStore, WithStoreProps } from '../../../../hoc';
 
-interface MessageInputProps {
+interface MessageInputProps extends WithStoreProps {
   onSendMessage?: () => void;
   onInputFocus?: (e: FocusEvent) => void;
   onInputBlur?: (e: FocusEvent) => void;
   onAttachmentClick?: () => void;
+  onFileChosen: () => void;
 }
 
-export default class MessageInput extends Block<MessageInputProps> {
+class MessageInput extends Block<MessageInputProps> {
   public static override componentName = 'MessageInput';
 
-  constructor({ ...props }) {
+  constructor(props: MessageInputProps) {
     super({
       ...props,
       onSendMessage: () => {
@@ -26,18 +28,26 @@ export default class MessageInput extends Block<MessageInputProps> {
             value,
           });
 
-          if (validationError) {
-            console.log('Validation Failed:', validationError);
-          } else {
-            console.log('Message:', value);
+          if (!validationError) {
+            this.props.store.dispatch(MessagesService.getInstance().sendTextMessage, value);
           }
         }
       },
       onAttachmentClick: () => {
-        pushPage(Link.ERROR_500);
+        const { fileInput } = this.refs;
+        if (fileInput) {
+          (fileInput.getElement() as HTMLInputElement).click();
+        }
       },
-      onInputBlur: () => {},
-      onInputFocus: () => {},
+      onFileChosen: () => {
+        const { fileInput } = this.refs;
+        if (fileInput) {
+          const files = (fileInput.getElement() as HTMLInputElement).files;
+          if (files && files[0]) {
+            this.props.store.dispatch(MessagesService.getInstance().sentFileMessage, files[0]);
+          }
+        }
+      },
     });
   }
 
@@ -45,13 +55,21 @@ export default class MessageInput extends Block<MessageInputProps> {
     // language=hbs
     return `
       <div class="flex-row-layout messages__message-layout">
+          {{{Input
+              className="messages__file-upload"
+              id="fileInput"
+              name="fileInput"
+              type="file"
+              ref="fileInput"
+              onChange=onFileChosen
+          }}}
           <img
               alt="attachment button icon"
-              class="messages__message-attachment-button"
+              class="messages__message-attachment-button-icon"
               src="${attachmentIcon}" />
           {{{Button
               onClick=onAttachmentClick
-              className="messages__message-attachment-button position-absolute invisible cursor-pointer"
+              className="messages__message-attachment-button"
           }}}
           {{{Input
               className="messages__message-input"
@@ -71,3 +89,5 @@ export default class MessageInput extends Block<MessageInputProps> {
     `;
   }
 }
+
+export default withStore(MessageInput);

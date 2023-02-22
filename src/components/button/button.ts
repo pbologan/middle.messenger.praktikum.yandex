@@ -6,16 +6,24 @@ interface ButtonProps {
   onClick: () => void;
   className: string;
   events: {
-    click: () => void,
+    click: (e: Event) => void,
   }
 }
 
-export default class Button extends Block<ButtonProps> {
+export class Button extends Block<ButtonProps> {
   public static override componentName = 'Button';
 
   constructor({ className, text, onClick } : ButtonProps) {
     super({
-      className, text, onClick, events: { click: onClick },
+      className,
+      text,
+      onClick,
+      events: {
+        click: (e) => {
+          e.stopPropagation();
+          onClick();
+        },
+      },
     });
   }
 

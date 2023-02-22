@@ -1,5 +1,6 @@
 .input_error_container {
-  width: 80%;
   font-size: 0.8em;
   font-weight: 300;
+  text-align: center;
+  color: red;
 }

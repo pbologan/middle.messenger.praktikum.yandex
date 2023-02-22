@@ -1,18 +1,27 @@
-import { Block } from '../../core';
+import { Block, BrowserRouter } from '../../core';
 import './login.css';
 import { validateInput, ValidationRule } from '../../core/validator';
-import { Link, pushPage } from '../../utils/routing/routing';
+import { Page } from '../../models/app';
+import {
+  withStore, WithStoreProps, withLoading, WithLoadingProps,
+} from '../../hoc';
+import { AuthService } from '../../service';
 
-interface LoginPageProps {}
+interface LoginPageProps extends WithStoreProps, WithLoadingProps {
+  onLoginInput: (e: InputEvent) => void;
+  onLoginFocus: () => void;
+  onPasswordInput: (e: InputEvent) => void;
+  onPasswordFocus: () => void;
+  onLoginButtonClick: () => void;
+  onRegisterClick: () => void;
+}
 
-export default class LoginPage extends Block<LoginPageProps> {
+class LoginPage extends Block<LoginPageProps> {
+  public static override componentName = 'Login';
+
   constructor(props: LoginPageProps) {
     super({
       ...props,
-      onLoginInput: (e: InputEvent) => {
-        const { value } = (e.target as HTMLInputElement);
-        console.log('Login Input Value', value);
-      },
       onLoginFocus: () => {
         const { login } = this.refs;
         if (login) {
@@ -21,10 +30,6 @@ export default class LoginPage extends Block<LoginPageProps> {
             error.setProps({ text: '' });
           }
         }
-      },
-      onPasswordInput: (e: InputEvent) => {
-        const { value } = (e.target as HTMLInputElement);
-        console.log('Password Input Value', value);
       },
       onPasswordFocus: () => {
         const { password } = this.refs;
@@ -36,37 +41,51 @@ export default class LoginPage extends Block<LoginPageProps> {
         }
       },
       onLoginButtonClick: () => {
-        const loginValue = (this.element?.querySelector('[name=login]') as HTMLInputElement).value;
-        const passwordValue = (this.element?.querySelector('[name=password]') as HTMLInputElement).value;
+        this.props.store.dispatch({ loginFormError: null });
+        const login = (this.element?.querySelector('[name=login]') as HTMLInputElement).value;
+        const password = (this.element?.querySelector('[name=password]') as HTMLInputElement).value;
 
         const loginError = validateInput({
           rule: ValidationRule.LOGIN,
-          value: loginValue,
+          value: login,
         });
 
         const passwordError = validateInput({
           rule: ValidationRule.PASSWORD,
-          value: passwordValue,
+          value: password,
         });
 
-        if (loginError || passwordError) {
-          console.log('Validation Failed:', loginError, passwordError);
-        } else {
-          const loginData = {
-            login: loginValue,
-            password: passwordValue,
-          };
-          console.log('Login Data', loginData);
-          pushPage(Link.CHAT);
+        if (loginError) {
+          this.refs['login']?.refs['error']?.setProps({ text: loginError });
+        }
+
+        if (passwordError) {
+          this.refs['password']?.refs['error']?.setProps({ text: passwordError });
+        }
+
+        if (!loginError && !passwordError) {
+          const loginData = { login, password };
+          this.props.store.dispatch(AuthService.getInstance().login, loginData);
         }
       },
       onRegisterClick: () => {
-        pushPage(Link.SIGN_UP);
+        BrowserRouter.getInstance().go(Page.SIGN_UP);
       },
     });
   }
 
+  private renderLoader() {
+    if (this.props.isLoading()) {
+      // language=hbs
+      return `
+        {{{Loader}}}
+      `;
+    }
+    return '';
+  }
+
   override render(): string {
+    const loginError = this.props.store.getState().loginFormError || '';
     // language=hbs
     return `
       <main class="layout">
@@ -75,6 +94,7 @@ export default class LoginPage extends Block<LoginPageProps> {
             <span class="header">Вход</span>
             <div class="form__inputs-container">
               {{{ControlledInput
+                  fullWidth=true
                   className="input"
                   id="login"
                   ref="login"
@@ -83,6 +103,7 @@ export default class LoginPage extends Block<LoginPageProps> {
                   placeholder="Логин"
               }}}
               {{{ControlledInput
+                  fullWidth=true
                   className="input"
                   id="password"
                   ref="password"
@@ -91,21 +112,27 @@ export default class LoginPage extends Block<LoginPageProps> {
                   placeholder="Пароль"
               }}}
             </div>
+            <div>
+                <span class="form__login-error">${loginError}</span>
+            </div>
             <div class="form__buttons-container">
               {{{Button
-                  className="form__submit-button"
+                  className="contained-button full-width"
                   text="Войти"
                   onClick=onLoginButtonClick
               }}}
               {{{Button 
-                  className="form__register-button" 
+                  className="text-button full-width" 
                   text="Регистрация" 
                   onClick=onRegisterClick
               }}}
             </div>
           </div>
         </form>
+        ${this.renderLoader()}
       </main>
     `;
   }
 }
+
+export default withStore(withLoading(LoginPage));
