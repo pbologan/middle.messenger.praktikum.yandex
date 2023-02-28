@@ -10,14 +10,8 @@
     "parcel.watch": "parcel watch src/index.html --no-source-maps --no-cache --public-url ./",
     "lint": "eslint '**/*.{ts,tsx}' --fix",
     "stylelint": "npx stylelint '**/*.css' --fix",
-    "test": "",
-    "validate": "npm-run-all --parallel test lint stylelint"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run validate",
-      "pre-push": "npm run validate"
-    }
+    "validate": "npm-run-all --parallel lint stylelint",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
