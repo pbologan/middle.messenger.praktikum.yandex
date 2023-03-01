@@ -4,6 +4,7 @@
   "description": "Messenger",
   "scripts": {
     "start": "npm run start.server",
+    "start.local": "npm run build && npm run start.server",
     "start.dev": "webpack serve --open",
     "start.server": "node server.js",
     "build": "webpack --mode=production --node-env=production",
