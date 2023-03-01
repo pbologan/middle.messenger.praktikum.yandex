@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Messenger",
   "scripts": {
-    "start": "rm -rf ./dist ./.parcel-cache && npm run build && npm run start.server",
+    "start": "npm run start.server",
     "start.dev": "webpack serve --open",
     "start.server": "node server.js",
     "build": "webpack --mode=production --node-env=production",
