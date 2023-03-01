@@ -39,11 +39,11 @@
 }
 
 .justify-right {
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .justify-left {
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .full-width {

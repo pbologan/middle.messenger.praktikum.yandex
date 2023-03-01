@@ -6,7 +6,7 @@
 .message-container {
   display: flex;
   flex-flow: column wrap;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   min-width: 100px;
   max-width: 300px;
@@ -33,7 +33,7 @@
   margin-top: 5px;
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -64,5 +64,5 @@
   display: flex;
   justify-content: center;
   height: 100%;
-  align-items: end;
+  align-items: flex-end;
 }
