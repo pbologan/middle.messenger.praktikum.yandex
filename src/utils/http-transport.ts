@@ -42,7 +42,7 @@ function queryStringify(data?: Record<string, any>) {
     .join('&')}`;
 }
 
-type HTTPMethod<R extends unknown = any> = (url: string, options?: Options) => Promise<R>;
+type HTTPMethod = <R extends unknown = any>(url: string, options?: Options) => Promise<R>;
 
 export class HTTPTransport {
   private readonly baseUrl: string;
