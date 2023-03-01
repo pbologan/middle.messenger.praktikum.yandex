@@ -7,9 +7,9 @@
     "start.dev": "webpack serve --open",
     "start.server": "node server.js",
     "build": "webpack --mode=production --node-env=production",
-    "lint": "eslint '**/*.{ts,tsx}' --fix",
-    "stylelint": "npx stylelint '**/*.css' --fix",
-    "validate": "npm-run-all --parallel lint stylelint",
+    "lint": "eslint '**/*.{ts,tsx}'",
+    "stylelint": "npx stylelint '**/*.css'",
+    "validate": "npm-run-all lint stylelint",
     "prepare": "husky install"
   },
   "repository": {
