@@ -2,7 +2,7 @@ import { Input } from './input';
 import { renderDOM } from '../../core';
 
 describe('Input component', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     document.body.innerHTML = '<div id="root"></div>';
   });
 
