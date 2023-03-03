@@ -49,7 +49,7 @@ export function initRouter(router: BrowserRouter, store: Store) {
       const currentPage = Boolean(store.getState().page);
 
       localStorageUtils.storeCurrentPage(route.page);
-      if (!currentPage || (!isAuthorized && route.page === Page.ANY_PATH)) {
+      if (!currentPage || !isAuthorized) {
         store.dispatch({ page: Page.LOGIN });
       } else if (isAuthorized && route.page === Page.ANY_PATH) {
         store.dispatch({ page: Page.CHAT });
