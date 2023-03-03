@@ -1,4 +1,3 @@
-import { ContentType, Header, HTTPTransport } from '../utils';
 import {
   BASE_URL,
   CHATS, CHATS_TOKEN, CHATS_USERS,
@@ -19,6 +18,7 @@ import {
 } from './api-types';
 import { APIError } from '../models/error';
 import { ChatDTO, ChatToken } from '../models/chats';
+import { ContentType, Header, HTTPTransport } from './http-transport';
 
 export class ChatsApi {
   private static instance: ChatsApi | null = null;

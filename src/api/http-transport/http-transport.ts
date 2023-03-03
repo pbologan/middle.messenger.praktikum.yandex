@@ -1,4 +1,4 @@
-import { isFormData } from './isFormData';
+import { isFormData } from '../../utils';
 
 enum Method {
   GET = 'GET',
