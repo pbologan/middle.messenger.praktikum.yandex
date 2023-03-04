@@ -63,4 +63,9 @@ export class BrowserRouter {
   forward() {
     this.history.forward();
   }
+
+  clear() {
+    this.routes = {};
+    this.isStarted = false;
+  }
 }

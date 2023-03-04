@@ -84,7 +84,7 @@
 }
 
 .profile__editable-row {
-  justify-content: end;
+  justify-content: flex-end;
   text-align: right;
   color: var(--dark-gray-color);
   border: none;

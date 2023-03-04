@@ -5,7 +5,7 @@ interface ButtonProps {
   text: string;
   onClick: () => void;
   className: string;
-  events: {
+  events?: {
     click: (e: Event) => void,
   }
 }

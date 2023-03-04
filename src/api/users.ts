@@ -1,4 +1,4 @@
-import { ContentType, Header, HTTPTransport } from '../utils';
+import { ContentType, Header, HTTPTransport } from './http-transport';
 import {
   BASE_URL,
   USER_PASSWORD,

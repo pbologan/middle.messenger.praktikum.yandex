@@ -3,7 +3,7 @@ import { Block } from '../../core';
 
 export interface InputProps {
   value?: string;
-  className: string;
+  className?: string;
   id?: string;
   type?: 'text' | 'password' | 'email' | 'file';
   placeholder?: string;
@@ -13,7 +13,7 @@ export interface InputProps {
   onInput?: (e: InputEvent) => void;
   ref?: Block<object>;
   accept?: string,
-  events: {
+  events?: {
     input?: ((e: InputEvent) => void) | undefined,
     blur?: ((e: FocusEvent) => void) | undefined,
     focus?: ((e: FocusEvent) => void) | undefined,

@@ -1,6 +1,6 @@
 import { EventBus } from './EventBus';
 import { Action, AppState } from '../models/app';
-import { initialState } from '../utils/initialState';
+import { initialState } from '../utils';
 
 export class Store extends EventBus {
   public static readonly STATE_CHANGED = 'state changed';
@@ -40,5 +40,9 @@ export class Store extends EventBus {
     } else {
       this.setState({ ...this.state, ...nextStateOrAction });
     }
+  }
+
+  public resetState() {
+    this.state = initialState;
   }
 }
